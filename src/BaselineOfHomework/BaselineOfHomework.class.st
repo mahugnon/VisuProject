@@ -23,7 +23,7 @@ BaselineOfHomework >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Homework'
-				with: [ spec requires: #('Roassal2' 'ClassNamesAnalyzer' 'ColorsExtensions') ] ]
+				with: [ spec requires: #('Roassal2' 'ClassNamesAnalyzer') ] ]
 ]
 
 { #category : #baselines }
