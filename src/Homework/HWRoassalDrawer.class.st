@@ -16,11 +16,6 @@ Class {
 }
 
 { #category : #drawing }
-HWRoassalDrawer class >> isApplicableOn: aType [
-	self subclassResponsibility
-]
-
-{ #category : #drawing }
 HWRoassalDrawer >> drawOnRoassalView: aView [
 	self subclassResponsibility
 ]

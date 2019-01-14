@@ -7,11 +7,6 @@ Class {
 	#category : #'Homework-version1'
 }
 
-{ #category : #drawing }
-HWDrawerClassNameSufix class >> isApplicableOn: aType [
-	^aType className = 'ClassScanReport'
-]
-
 { #category : #Visualisation }
 HWDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierarchies using: dicoOfColors and: dicoOfVisualElementsIndices on: aView [
 	| allHierarchieClasses aDicoOfSuffixesAndClasses layers |

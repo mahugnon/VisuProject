@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #drawing }
-HWDrawerSubclassesWithForceLayout class >> isApplicableOn: aType [
-	^ aType isClass & ((aType className = 'ClassScanReport') not)
-]
-
-{ #category : #drawing }
 HWDrawerSubclassesWithForceLayout >> drawOnRoassalView: roassalView [
 	| es |
 	roassalView @ RTDraggableView.

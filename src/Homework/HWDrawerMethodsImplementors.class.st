@@ -8,11 +8,6 @@ Class {
 }
 
 { #category : #drawing }
-HWDrawerMethodsImplementors class >> isApplicableOn: aType [
-	^ aType isSymbol & ((aType className = 'ClassScanReport') not)
-]
-
-{ #category : #drawing }
 HWDrawerMethodsImplementors >> drawOnRoassalView: aView [
 	| shape |
 	shape := RTBox new

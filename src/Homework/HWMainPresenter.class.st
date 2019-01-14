@@ -182,7 +182,7 @@ HWMainPresenter >> initializeWidgets [
 
 { #category : #initialization }
 HWMainPresenter >> loadImportedModel [
-	self eltList: MSELoader new loadMSE allModelNamespaces vocabularyScanner allHierarchies 
+	self eltList: MSELoader new loadMSE 
 ]
 
 { #category : #initialization }

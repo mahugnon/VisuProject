@@ -38,12 +38,9 @@ ListWidget >> eltList: aCollection [
 
 { #category : #overrides }
 ListWidget >> filter: aCollection with: aText [
-
-	^aCollection
-		select: [ :cl | 
-			(cl name matchesRegex: aText , '.*')
-				 ].
-	
+	| items |
+	items := aCollection collect: [ :cl | cl name matchesRegex: aText , '.*' ].
+	^items
 ]
 
 { #category : #accessing }

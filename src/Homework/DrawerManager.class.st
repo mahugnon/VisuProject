@@ -9,5 +9,9 @@ Class {
 
 { #category : #utility }
 DrawerManager >> drawersFor: aType [
-	^ HWRoassalDrawer selectSubclasses: [ :drawerClass | drawerClass isApplicableOn: aType ]
+	aType
+		isNotNil
+		ifTrue:
+			[ ^ aType
+				drawers ]
 ]

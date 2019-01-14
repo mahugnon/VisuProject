@@ -1,11 +1,11 @@
 Class {
-	#name : #HWMooseQueryHandler,
+	#name : #FilterManager,
 	#superclass : #Object,
 	#category : #'Homework-version2'
 }
 
 { #category : #'as yet unclassified' }
-HWMooseQueryHandler >> buildQueryBlockFrom: aText [
+FilterManager >> buildQueryBlockFrom: aText [
 	^ OpalCompiler new
 		source: '[:each |',aText,']';
 		logged: false;
@@ -13,11 +13,11 @@ HWMooseQueryHandler >> buildQueryBlockFrom: aText [
 ]
 
 { #category : #'as yet unclassified' }
-HWMooseQueryHandler >> executeQueryBlock: aBlock on: aFamixClassGroup [
+FilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
 	^aFamixClassGroup collect: aBlock 
 ]
 
 { #category : #'as yet unclassified' }
-HWMooseQueryHandler >> executeQueryWith: aText on: aFamixClassGroup [
+FilterManager >> executeQueryWith: aText on: aFamixClassGroup [
 	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
 ]

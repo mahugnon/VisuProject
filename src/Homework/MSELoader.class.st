@@ -28,6 +28,18 @@ MSELoader >> loadMSE [
 		ifTrue: [  ^ MooseModel new importFromMSEStream: fileRef asFileReference readStream ]
 ]
 
+{ #category : #utilities }
+MSELoader >> loadMSEIn:aPresenter [
+	| fileRef |
+	fileRef := UIManager default
+		chooseExistingFileReference: 'Import model from MSE file'
+		extensions: #('mse')
+		path: ''
+		preview: ''.
+	fileRef isNotNil
+		ifTrue: [ ^ MooseModel new importFromMSEStream: fileRef asFileReference readStream ]
+]
+
 { #category : #accessing }
 MSELoader >> model [
 	^ model
