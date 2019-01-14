@@ -142,6 +142,7 @@ HWMainPresenter >> eltList [
 
 { #category : #api }
 HWMainPresenter >> eltList: aCollection [
+	self eltsWidget model:aCollection .
 	self eltsWidget eltList: aCollection
 ]
 

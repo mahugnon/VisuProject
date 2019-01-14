@@ -6,7 +6,8 @@ Class {
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'eltList',
-		'filtre'
+		'filtre',
+		'model'
 	],
 	#category : #'Homework-version1'
 }
@@ -38,9 +39,8 @@ ListWidget >> eltList: aCollection [
 
 { #category : #overrides }
 ListWidget >> filter: aCollection with: aText [
-	| items |
-	items := aCollection collect: [ :cl | cl name matchesRegex: aText , '.*' ].
-	^items
+	^ aCollection select: [ :cl | cl name matchesRegex: aText , '.*' ].
+	
 ]
 
 { #category : #accessing }
@@ -52,9 +52,10 @@ ListWidget >> filtre [
 ListWidget >> initializePresenter [
 	filtre
 		whenTextChanged: [ :text | 
+	
 			text = ''
 				ifFalse: [ eltList items: (self filter: self eltList listItems with: text , '.*') ]
-				ifTrue: [ eltList items: (Object allSubclasses sort: [ :a :b | a name < b name ]) ] ]
+				ifTrue: [ eltList items: (self model sort: [ :a :b | a name < b name ]) ] ]
 ]
 
 { #category : #overrides }
@@ -70,6 +71,16 @@ ListWidget >> initializeWidgets [
 	self focusOrder
 		add: eltList;
 		add: filtre
+]
+
+{ #category : #accessing }
+ListWidget >> model [
+	^ model
+]
+
+{ #category : #accessing }
+ListWidget >> model: anObject [
+	model := anObject
 ]
 
 { #category : #api }

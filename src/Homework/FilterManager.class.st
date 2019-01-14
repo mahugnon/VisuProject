@@ -14,7 +14,7 @@ FilterManager >> buildQueryBlockFrom: aText [
 
 { #category : #'as yet unclassified' }
 FilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
-	^aFamixClassGroup collect: aBlock 
+	^ aFamixClassGroup select: aBlock
 ]
 
 { #category : #'as yet unclassified' }
