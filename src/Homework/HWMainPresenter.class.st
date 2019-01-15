@@ -71,7 +71,7 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: #()) openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: Object withAllSubclasses ) openWithSpec
 ]
 
 { #category : #example }

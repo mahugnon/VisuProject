@@ -60,12 +60,12 @@ ListWidget >> initializePresenter [
 { #category : #overrides }
 ListWidget >> initializeWidgets [
 	eltList := self newList.
-	
 	filtre := self newTextInput.
 	"listClass items: (Object allSubclasses sort: [ :a :b | a name < b name ])."
 	filtre
 		ghostText: 'Enter a class name';
 		autoAccept: true;
+		enabled: eltList listItems isNotEmpty;
 		removeEntryCompletion.
 	self focusOrder
 		add: eltList;
