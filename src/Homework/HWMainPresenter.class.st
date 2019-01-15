@@ -21,7 +21,7 @@ Class {
 		'drawer',
 		'menu',
 		'drawerOptions',
-		'buttonOk'
+		'queryWidget'
 	],
 	#category : #'Homework-version1'
 }
@@ -34,7 +34,11 @@ HWMainPresenter class >> defaultSpec [
 			[ :r | 
 			r
 				newColumn: [ :c | c add: #eltsWidget ] left: 0 right: 0.7;
-				newColumn: [ :c | c add: #diagram ] right: 0 ] yourself
+				newColumn: [ :c | 
+					c
+						add: #queryWidget origin: 0 @ 0 corner: 1 @ 0.09;
+						add: #diagram ]
+					right: 0 ] yourself
 ]
 
 { #category : #specs }
@@ -50,7 +54,11 @@ HWMainPresenter class >> drawSpec [
 								add: #menu height: self toolbarHeight;
 								add: #eltsWidget left: 0 right: 0.6 ]
 						width: 400.
-					trow newColumn: [ :right | right add: #diagram ] ] ];
+					trow
+						newColumn: [ :right | 
+							right
+								add: #queryWidget origin: 0 @ 0 corner: 1 @ 0.09;
+								add: #diagram ] ] ];
 		yourself
 ]
 
@@ -63,8 +71,7 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: Object withAllSubclasses)
-		openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: #()) openWithSpec
 ]
 
 { #category : #example }
@@ -96,6 +103,21 @@ HWMainPresenter >> actionButtonOkClick [
 	self eltsWidget eltList setSelectedItem: elt.
 	
 	self drawerOptions window close
+]
+
+{ #category : #adding }
+HWMainPresenter >> addVizuMenu [
+	^self eltList
+		menu: [ :aMenu | 
+			MenuPresenter new
+				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
+				buildWithSpecAsPopup ]
+]
+
+{ #category : #initialization }
+HWMainPresenter >> createQueryWidget [
+	queryWidget := self instantiate: QueryWidget.
+	queryWidget textField disable
 ]
 
 { #category : #accessing }
@@ -131,6 +153,11 @@ HWMainPresenter >> drawOnViewWith: aDrawerInstance [
 ]
 
 { #category : #accessing }
+HWMainPresenter >> drawer [
+	^ drawer
+]
+
+{ #category : #accessing }
 HWMainPresenter >> drawerOptions [
 	^ drawerOptions
 ]
@@ -142,13 +169,22 @@ HWMainPresenter >> eltList [
 
 { #category : #api }
 HWMainPresenter >> eltList: aCollection [
-	self eltsWidget model:aCollection .
+	
 	self eltsWidget eltList: aCollection
 ]
 
 { #category : #accessing }
 HWMainPresenter >> eltsWidget [
 	^ eltsWidget
+]
+
+{ #category : #'as yet unclassified' }
+HWMainPresenter >> executeTextQueryOnCR [
+	self queryWidget textField
+		autoAccept: true;
+		beForCode;
+		ghostText: 'Write an each query please';
+		bindKeyCombination: 13 toAction: [self eltList:  self queryWidget performFilter ]
 ]
 
 { #category : #api }
@@ -158,19 +194,16 @@ HWMainPresenter >> extent [
 
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
-	
-	self drawerOptions buttonOk action: [ self actionButtonOkClick ]
+	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
+	self executeTextQueryOnCR
 ]
 
 { #category : #initialization }
 HWMainPresenter >> initializeWidgets [
-	eltsWidget:= self instantiate: ListWidget.
+	eltsWidget := self instantiate: ListWidget.
 	drawerOptions := DrawerOptions new.
-	self eltList
-		menu: [ :aMenu | 
-			MenuPresenter new
-				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
-				buildWithSpecAsPopup ].
+	self addVizuMenu.
+	self createQueryWidget.
 	menu := self mainMenu.
 	menu applyTo: self.
 	self eltList: #().
@@ -183,7 +216,11 @@ HWMainPresenter >> initializeWidgets [
 
 { #category : #initialization }
 HWMainPresenter >> loadImportedModel [
-	self eltList: MSELoader new loadMSE 
+	self queryWidget loadMSE.
+	self queryWidget modelHolder current: self queryWidget modelHolder model allModelClasses.
+	self eltList: self queryWidget modelHolder current.
+	self eltsWidget model: self queryWidget modelHolder current.
+	self queryWidget textField enable
 ]
 
 { #category : #initialization }
@@ -313,6 +350,11 @@ HWMainPresenter >> menu [
 { #category : #accessing }
 HWMainPresenter >> menu: anObject [
 	menu := anObject
+]
+
+{ #category : #accessing }
+HWMainPresenter >> queryWidget [
+	^ queryWidget
 ]
 
 { #category : #utilities }

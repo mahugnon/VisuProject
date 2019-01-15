@@ -52,9 +52,8 @@ ListWidget >> filtre [
 ListWidget >> initializePresenter [
 	filtre
 		whenTextChanged: [ :text | 
-	
 			text = ''
-				ifFalse: [ eltList items: (self filter: self eltList listItems with: text , '.*') ]
+				ifFalse: [ eltList items: (self filter: self eltList listItems with: '.*',text , '.*') ]
 				ifTrue: [ eltList items: (self model sort: [ :a :b | a name < b name ]) ] ]
 ]
 
