@@ -48,3 +48,9 @@ HWDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
 	aDico := selected classesGroupedBySuffixesAndSubhierarchies.
 	^ self buildHierarchyBlueprintOf: aDico using: dicoOfColors and: dicoOfVisualElementsIndices on: aView
 ]
+
+{ #category : #accessing }
+HWDrawerClassNameSufix >> selected [
+super selected .
+self selected: self selected vocabularyScanner allHierarchies .
+]

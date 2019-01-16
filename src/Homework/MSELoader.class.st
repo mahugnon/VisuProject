@@ -18,14 +18,17 @@ model:=MooseModel new.
 
 { #category : #utilities }
 MSELoader >> loadMSE [
-	| fileRef |
+	| fileRef mooseModel |
 	fileRef := UIManager default
 		chooseExistingFileReference: 'Import model from MSE file'
 		extensions: #('mse')
 		path: ''
 		preview: ''.
 	fileRef isNotNil
-		ifTrue: [  ^ MooseModel new importFromMSEStream: fileRef asFileReference readStream ]
+		ifFalse: [ ^ self ].
+	mooseModel := MooseModel new
+		importFromMSEStream: fileRef asFileReference readStream.
+	^ mooseModel cacheMooseGroups entityCache
 ]
 
 { #category : #utilities }

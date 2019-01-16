@@ -71,7 +71,7 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: Object withAllSubclasses ) openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: #()) openWithSpec
 ]
 
 { #category : #example }
@@ -106,11 +106,12 @@ HWMainPresenter >> actionButtonOkClick [
 ]
 
 { #category : #adding }
-HWMainPresenter >> addVizuMenu [
-	^self eltList
+HWMainPresenter >> addMenus [
+	^ self eltList
 		menu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
+addGroup: [ :group | group addMenuItem: self openMenuItem  ];
 				buildWithSpecAsPopup ]
 ]
 
@@ -202,7 +203,7 @@ HWMainPresenter >> initializePresenter [
 HWMainPresenter >> initializeWidgets [
 	eltsWidget := self instantiate: ListWidget.
 	drawerOptions := DrawerOptions new.
-	self addVizuMenu.
+	self addMenus.
 	self createQueryWidget.
 	menu := self mainMenu.
 	menu applyTo: self.
@@ -217,128 +218,57 @@ HWMainPresenter >> initializeWidgets [
 { #category : #initialization }
 HWMainPresenter >> loadImportedModel [
 	self queryWidget loadMSE.
-	self queryWidget modelHolder current: self queryWidget modelHolder model allModelClasses.
-	self eltList: self queryWidget modelHolder current.
-	self eltsWidget model: self queryWidget modelHolder current.
+	self eltList: self updateListViewListWithCurrent .
+	self eltsWidget model: self updateListViewListWithCurrent.
 	self queryWidget textField enable
 ]
 
 { #category : #initialization }
 HWMainPresenter >> mainMenu [
 	| aMenu |
-	aMenu := MenuPresenter
-		new
-		
-			addGroup:
-				[ :group | 
+	aMenu := MenuPresenter new
+		addGroup: [ :group | 
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name:
-							'File';
-						
-							icon:
-							(self
-								iconNamed:
-									#openIcon) ].
+						name: 'File';
+						icon: (self iconNamed: #openIcon) ].
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name: nil;
-						
-							description:
-							'Open file';
-						
-							icon:
-							(self
-								iconNamed:
-									#openIcon);
-						
-							action:
-								[ self loadImportedModel ] ].
+						name: nil;
+						description: 'Open file';
+						icon: (self iconNamed: #openIcon);
+						action: [ self loadImportedModel ] ].
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name: nil;
-						
-							description:
-							'Save File';
-						
-							icon:
-							(self
-								iconNamed:
-									#smallSaveIcon);
-						
-							action:
-								[ self
-								inform:
-									'Save File' ] ].
+						name: nil;
+						description: 'Save File';
+						icon: (self iconNamed: #smallSaveIcon);
+						action: [ self inform: 'Save File' ] ].
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name: nil;
-						
-							description:
-							'Print file';
-						
-							icon:
-							(self
-								iconNamed:
-									#smallPrintIcon);
-						
-							action:
-								[ self
-								inform:
-									'Print file' ] ] ];
-		
-			addGroup:
-				[ :group | 
+						name: nil;
+						description: 'Print file';
+						icon: (self iconNamed: #smallPrintIcon);
+						action: [ self inform: 'Print file' ] ] ];
+		addGroup: [ :group | 
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name: nil;
-						
-							description:
-							'Undo';
-						
-							icon:
-							(self
-								iconNamed:
-									#smallUndoIcon);
-						
-							action:
-								[ self
-								inform:
-									'Undo' ] ].
+						name: nil;
+						description: 'Undo';
+						icon: (self iconNamed: #smallUndoIcon);
+						action: [ self prev ] ].
 			group
-				addItem:
-					[ :item | 
+				addItem: [ :item | 
 					item
-						
-							name: nil;
-						
-							description:
-							'Redo';
-						
-							icon:
-							(self
-								iconNamed:
-									#smallRedoIcon);
-						
-							action:
-								[ self
-								inform:
-									'Redo' ] ] ].
+						name: nil;
+						description: 'Redo';
+						icon: (self iconNamed: #smallRedoIcon);
+						action: [ self next] ] ].
 	^ aMenu
 ]
 
@@ -353,33 +283,55 @@ HWMainPresenter >> menu: anObject [
 ]
 
 { #category : #accessing }
+HWMainPresenter >> next [
+
+	self queryWidget modelHolder model size = 1
+		ifTrue: [ ^ self ].
+	
+	self queryWidget modelHolder current push: self queryWidget modelHolder model top.
+	self queryWidget modelHolder model pop.
+	self eltList: self updateListViewListWithModel
+]
+
+{ #category : #utilities }
+HWMainPresenter >> openMenuItem [
+	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
+
+	^ MenuItemPresenter new
+		name: 'Open';
+		action: [ self queryWidget modelHolder current
+				push: self eltsWidget eltList selectedItem.
+			self eltsWidget eltList: self updateListViewListWithCurrent ];
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+HWMainPresenter >> prev [
+self queryWidget modelHolder current size = 1
+								ifTrue: [ ^ self ].
+							self queryWidget modelHolder model push: self queryWidget modelHolder current top.
+							self queryWidget modelHolder current pop.
+							self eltList: self updateListViewListWithCurrent 
+]
+
+{ #category : #accessing }
 HWMainPresenter >> queryWidget [
 	^ queryWidget
 ]
 
 { #category : #utilities }
-HWMainPresenter >> runMeWithClass [
-	<script>
-	| col |
-	col := OrderedCollection new.
-	col add: #put.
-	col
-		add: IceTipMergePatchMorph;
-		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: col)
-		openWithSpec
-]
-
-{ #category : #utilities }
-HWMainPresenter >> runMeWithSelectors [
-	<script>
-	(self withDrawer: HWDrawerMethodsImplementors elements: Object allSelectors)
-		openWithSpec
-]
-
-{ #category : #utilities }
 HWMainPresenter >> title [ 
 ^'Visualization'.
+]
+
+{ #category : #utilities }
+HWMainPresenter >> updateListViewListWithCurrent [
+	^ self queryWidget modelHolder current top
+]
+
+{ #category : #utilities }
+HWMainPresenter >> updateListViewListWithModel [
+	^ self queryWidget modelHolder model top
 ]
 
 { #category : #utilities }

@@ -61,7 +61,8 @@ QueryWidget >> label [
 
 { #category : #utilities }
 QueryWidget >> loadMSE [
-	self modelHolder  model: MSELoader new loadMSE
+	self modelHolder model push: MSELoader new loadMSE.
+	self modelHolder current push: self modelHolder model top
 ]
 
 { #category : #accessing }
@@ -76,7 +77,15 @@ QueryWidget >> modelHolder: anObject [
 
 { #category : #'as yet unclassified' }
 QueryWidget >> performFilter [
-	^self filtre executeQueryWith: textField text on: modelHolder current
+1halt.
+	^ self
+		filtre
+		executeQueryWith:
+			textField
+				text
+		on:
+			modelHolder
+				current top
 ]
 
 { #category : #accessing }
