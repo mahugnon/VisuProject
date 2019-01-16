@@ -61,7 +61,8 @@ QueryWidget >> label [
 
 { #category : #utilities }
 QueryWidget >> loadMSE [
-	self modelHolder  model: MSELoader new loadMSE
+	self modelHolder model: MSELoader new loadMSE.
+	self modelHolder current:self modelHolder model
 ]
 
 { #category : #accessing }

@@ -8,21 +8,6 @@ Class {
 	#category : #'Homework-version2'
 }
 
-{ #category : #navigation }
-ModelHolder >> allModelClasses [ 
-^model allModelClasses 
-]
-
-{ #category : #navigation }
-ModelHolder >> allNameSpaces [ 
-^model allNameSpaces 
-]
-
-{ #category : #navigation }
-ModelHolder >> allPackages [ 
-^model allPackages 
-]
-
 { #category : #accessing }
 ModelHolder >> current [
 	^ current

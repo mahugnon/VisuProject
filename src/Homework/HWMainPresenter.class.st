@@ -71,7 +71,7 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: Object withAllSubclasses ) openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: #()) openWithSpec
 ]
 
 { #category : #example }
@@ -106,11 +106,12 @@ HWMainPresenter >> actionButtonOkClick [
 ]
 
 { #category : #adding }
-HWMainPresenter >> addVizuMenu [
-	^self eltList
+HWMainPresenter >> addMenus [
+	^ self eltList
 		menu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
+addGroup: [ :group | group addMenuItem: self openMenuItem  ];
 				buildWithSpecAsPopup ]
 ]
 
@@ -202,7 +203,7 @@ HWMainPresenter >> initializePresenter [
 HWMainPresenter >> initializeWidgets [
 	eltsWidget := self instantiate: ListWidget.
 	drawerOptions := DrawerOptions new.
-	self addVizuMenu.
+	self addMenus.
 	self createQueryWidget.
 	menu := self mainMenu.
 	menu applyTo: self.
@@ -217,7 +218,6 @@ HWMainPresenter >> initializeWidgets [
 { #category : #initialization }
 HWMainPresenter >> loadImportedModel [
 	self queryWidget loadMSE.
-	self queryWidget modelHolder current: self queryWidget modelHolder model allModelClasses.
 	self eltList: self queryWidget modelHolder current.
 	self eltsWidget model: self queryWidget modelHolder current.
 	self queryWidget textField enable
@@ -352,29 +352,20 @@ HWMainPresenter >> menu: anObject [
 	menu := anObject
 ]
 
+{ #category : #utilities }
+HWMainPresenter >> openMenuItem [
+	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
+
+	^ MenuItemPresenter new
+		name: 'Open';
+		action: [self queryWidget modelHolder  current: self eltsWidget eltList selectedItem.
+			 self eltsWidget eltList: self eltsWidget eltList selectedItem ];
+		yourself
+]
+
 { #category : #accessing }
 HWMainPresenter >> queryWidget [
 	^ queryWidget
-]
-
-{ #category : #utilities }
-HWMainPresenter >> runMeWithClass [
-	<script>
-	| col |
-	col := OrderedCollection new.
-	col add: #put.
-	col
-		add: IceTipMergePatchMorph;
-		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: col)
-		openWithSpec
-]
-
-{ #category : #utilities }
-HWMainPresenter >> runMeWithSelectors [
-	<script>
-	(self withDrawer: HWDrawerMethodsImplementors elements: Object allSelectors)
-		openWithSpec
 ]
 
 { #category : #utilities }
