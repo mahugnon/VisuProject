@@ -22,7 +22,7 @@ Class {
 		'queryWidget',
 		'drawerOptions'
 	],
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #specs }
@@ -70,7 +70,8 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: MooseModel root allModels) openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: col)
+		openWithSpec
 ]
 
 { #category : #example }

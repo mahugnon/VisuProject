@@ -4,7 +4,7 @@ I am in charge of drawing a selector implemetors
 Class {
 	#name : #HWDrawerMethodsImplementors,
 	#superclass : #HWRoassalDrawer,
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #drawing }

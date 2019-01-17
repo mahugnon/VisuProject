@@ -9,7 +9,7 @@ Class {
 		'filtre',
 		'model'
 	],
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #overrides }

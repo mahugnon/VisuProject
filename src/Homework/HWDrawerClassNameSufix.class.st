@@ -4,7 +4,7 @@ I draw class name suffix dependecies graph
 Class {
 	#name : #HWDrawerClassNameSufix,
 	#superclass : #HWRoassalDrawer,
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #Visualisation }

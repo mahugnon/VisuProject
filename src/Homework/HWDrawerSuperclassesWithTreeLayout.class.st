@@ -1,7 +1,7 @@
 Class {
 	#name : #HWDrawerSuperclassesWithTreeLayout,
 	#superclass : #HWRoassalDrawer,
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #drawing }

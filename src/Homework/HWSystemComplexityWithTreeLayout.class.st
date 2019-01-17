@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'fxmTypeGroupe'
 	],
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #drawing }

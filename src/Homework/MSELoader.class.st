@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'Homework-version2'
+	#category : #'Homework-core'
 }
 
 { #category : #initialization }

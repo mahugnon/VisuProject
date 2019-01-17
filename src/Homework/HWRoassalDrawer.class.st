@@ -12,7 +12,7 @@ Class {
 		'selected',
 		'name'
 	],
-	#category : #'Homework-version1'
+	#category : #'Homework-core'
 }
 
 { #category : #drawing }

@@ -5,7 +5,7 @@ Class {
 		'model',
 		'current'
 	],
-	#category : #'Homework-version2'
+	#category : #'Homework-core'
 }
 
 { #category : #accessing }

@@ -11,7 +11,7 @@ Class {
 		'config',
 		'buttonOk'
 	],
-	#category : #'Homework-version2'
+	#category : #'Homework-core'
 }
 
 { #category : #specs }

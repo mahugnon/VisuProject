@@ -1,7 +1,7 @@
 Class {
 	#name : #FilterManager,
 	#superclass : #Object,
-	#category : #'Homework-version2'
+	#category : #'Homework-core'
 }
 
 { #category : #'as yet unclassified' }
