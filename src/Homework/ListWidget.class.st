@@ -37,7 +37,7 @@ ListWidget >> eltList: aCollection [
 		items: aCollection.
 ]
 
-{ #category : #overrides }
+{ #category : #'as yet unclassified' }
 ListWidget >> filter: aCollection with: aText [
 	^ aCollection select: [ :cl | cl name matchesRegex: aText , '.*' ].
 	
@@ -48,7 +48,7 @@ ListWidget >> filtre [
 	^ filtre
 ]
 
-{ #category : #overrides }
+{ #category : #initialization }
 ListWidget >> initializePresenter [
 	filtre
 		whenTextChanged: [ :text | 
@@ -57,7 +57,7 @@ ListWidget >> initializePresenter [
 				ifTrue: [ eltList items: (self model sort: [ :a :b | a name < b name ]) ] ]
 ]
 
-{ #category : #overrides }
+{ #category : #initialization }
 ListWidget >> initializeWidgets [
 	eltList := self newList.
 	filtre := self newTextInput.
@@ -87,7 +87,7 @@ ListWidget >> onEltSelected: aBlock [
 	self eltList whenSelectedItemChanged: aBlock
 ]
 
-{ #category : #overrides }
+{ #category : #api }
 ListWidget >> title [
 ^'Listes des classes'
 ]

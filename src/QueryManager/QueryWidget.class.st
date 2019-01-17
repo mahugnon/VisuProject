@@ -77,7 +77,6 @@ QueryWidget >> modelHolder: anObject [
 
 { #category : #'as yet unclassified' }
 QueryWidget >> performFilter [
-1halt.
 	^ self
 		filtre
 		executeQueryWith:

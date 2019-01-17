@@ -20,19 +20,21 @@ BaselineOfHomework >> baseline: spec [
 			self
 				baselineForRoassal2Spec: spec;
 				baselineForClassNamesAnalyzer: spec.
+
 			"Packages"
 			spec
+				package: 'QueryManager';
 				package: 'Homework'
-				with: [ spec requires: #('Roassal2' 'ClassNamesAnalyzer') ] ]
+					with: [ spec requires: #('Roassal2' 'QueryManager' 'ClassNamesAnalyzer') ] ].
+	"Groups"
+	spec group: 'All' with: #('QueryManager' 'Homework')
 ]
 
 { #category : #baselines }
 BaselineOfHomework >> baselineForClassNamesAnalyzer: spec [
-	spec
+	spec 
 		baseline: 'ClassNamesAnalyzer'
-		with: [ spec
-				repository:
-					'https://github.com/MoussaSak/BluePrintVisualization.git' ]
+		with: [ spec repository: 'github://MoussaSak/BluePrintVisualization:master/repository' ]
 ]
 
 { #category : #baselines }

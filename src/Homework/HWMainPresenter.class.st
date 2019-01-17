@@ -18,10 +18,9 @@ Class {
 	#instVars : [
 		'eltsWidget',
 		'diagram',
-		'drawer',
 		'menu',
-		'drawerOptions',
-		'queryWidget'
+		'queryWidget',
+		'drawerOptions'
 	],
 	#category : #'Homework-version1'
 }
@@ -71,7 +70,7 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: #()) openWithSpec
+	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: MooseModel root allModels) openWithSpec
 ]
 
 { #category : #example }
@@ -89,9 +88,9 @@ HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 HWMainPresenter >> actionButtonOkClick [
-	| elt |
+	| elt drawer |
 	drawer := self currentConfig selectedDrawer.
 	elt := self eltsWidget eltList selectedItem.
 	drawer isNotNil
@@ -101,17 +100,17 @@ HWMainPresenter >> actionButtonOkClick [
 	self drawOnViewWith: drawer.
 	self buildWithSpecLayout: self class drawSpec.
 	self eltsWidget eltList setSelectedItem: elt.
-	
 	self drawerOptions window close
 ]
 
-{ #category : #adding }
-HWMainPresenter >> addMenus [
+{ #category : #initialization }
+HWMainPresenter >> contextMenu [
+	self flag: 'TODO: should depend on the item selected => double-dispatch somewhere'.
 	^ self eltList
 		menu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
-addGroup: [ :group | group addMenuItem: self openMenuItem  ];
+				addGroup: [ :group | group addMenuItem: self openMenuItem ];
 				buildWithSpecAsPopup ]
 ]
 
@@ -144,18 +143,13 @@ HWMainPresenter >> diagram: anObject [
 	diagram := anObject
 ]
 
-{ #category : #utilities }
+{ #category : #actions }
 HWMainPresenter >> drawOnViewWith: aDrawerInstance [
 	diagram := self instantiate: RoassalModel.
 	diagram
 		script: [ :view :canvas | 
 			aDrawerInstance drawOnRoassalView: view.
 			 ]
-]
-
-{ #category : #accessing }
-HWMainPresenter >> drawer [
-	^ drawer
 ]
 
 { #category : #accessing }
@@ -179,7 +173,7 @@ HWMainPresenter >> eltsWidget [
 	^ eltsWidget
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 HWMainPresenter >> executeTextQueryOnCR [
 	self queryWidget textField
 		autoAccept: true;
@@ -203,10 +197,9 @@ HWMainPresenter >> initializePresenter [
 HWMainPresenter >> initializeWidgets [
 	eltsWidget := self instantiate: ListWidget.
 	drawerOptions := DrawerOptions new.
-	self addMenus.
+	self contextMenu.
 	self createQueryWidget.
-	menu := self mainMenu.
-	menu applyTo: self.
+	menu := self menuBarFor: self.
 	self eltList: #().
 	diagram := self defaultView.
 	self focusOrder
@@ -215,7 +208,7 @@ HWMainPresenter >> initializeWidgets [
 		add: diagram
 ]
 
-{ #category : #initialization }
+{ #category : #actions }
 HWMainPresenter >> loadImportedModel [
 	self queryWidget loadMSE.
 	self eltList: self updateListViewListWithCurrent .
@@ -223,8 +216,18 @@ HWMainPresenter >> loadImportedModel [
 	self queryWidget textField enable
 ]
 
+{ #category : #accessing }
+HWMainPresenter >> menu [
+	^ menu
+]
+
+{ #category : #accessing }
+HWMainPresenter >> menu: anObject [
+	menu := anObject
+]
+
 { #category : #initialization }
-HWMainPresenter >> mainMenu [
+HWMainPresenter >> menuBarFor: aPresenter [
 	| aMenu |
 	aMenu := MenuPresenter new
 		addGroup: [ :group | 
@@ -268,32 +271,29 @@ HWMainPresenter >> mainMenu [
 						name: nil;
 						description: 'Redo';
 						icon: (self iconNamed: #smallRedoIcon);
-						action: [ self next] ] ].
+						action: [ self next ] ] ].
+				
+	
+	aMenu applyTo: aPresenter.
 	^ aMenu
 ]
 
-{ #category : #accessing }
-HWMainPresenter >> menu [
-	^ menu
-]
-
-{ #category : #accessing }
-HWMainPresenter >> menu: anObject [
-	menu := anObject
-]
-
-{ #category : #accessing }
+{ #category : #navigation }
 HWMainPresenter >> next [
-
 	self queryWidget modelHolder model size = 1
 		ifTrue: [ ^ self ].
-	
 	self queryWidget modelHolder current push: self queryWidget modelHolder model top.
 	self queryWidget modelHolder model pop.
-	self eltList: self updateListViewListWithModel
+	self eltList: self updateListViewListWithModel.
+	
+"
+self history hasFuture ifFalse: [^ self].
+self history next.
+self eltList: self history currentList
+"
 ]
 
-{ #category : #utilities }
+{ #category : #actions }
 HWMainPresenter >> openMenuItem [
 	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
 
@@ -305,13 +305,13 @@ HWMainPresenter >> openMenuItem [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #navigation }
 HWMainPresenter >> prev [
-self queryWidget modelHolder current size = 1
-								ifTrue: [ ^ self ].
-							self queryWidget modelHolder model push: self queryWidget modelHolder current top.
-							self queryWidget modelHolder current pop.
-							self eltList: self updateListViewListWithCurrent 
+	self queryWidget modelHolder current size = 1
+		ifTrue:  [ ^ self ].
+	self queryWidget modelHolder model push: self queryWidget modelHolder current top.
+	self queryWidget modelHolder current pop.
+	self eltList: self updateListViewListWithCurrent
 ]
 
 { #category : #accessing }
@@ -319,7 +319,7 @@ HWMainPresenter >> queryWidget [
 	^ queryWidget
 ]
 
-{ #category : #utilities }
+{ #category : #api }
 HWMainPresenter >> title [ 
 ^'Visualization'.
 ]
@@ -334,7 +334,7 @@ HWMainPresenter >> updateListViewListWithModel [
 	^ self queryWidget modelHolder model top
 ]
 
-{ #category : #utilities }
+{ #category : #initialization }
 HWMainPresenter >> visualizationMenuItem [
 	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
 
@@ -345,7 +345,7 @@ HWMainPresenter >> visualizationMenuItem [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : #actions }
 HWMainPresenter >> visualizeOptionsOn: item [
 	self drawerOptions
 		initConfigWith: item;
@@ -355,7 +355,7 @@ HWMainPresenter >> visualizeOptionsOn: item [
 	self drawerOptions window modalRelativeTo: World
 ]
 
-{ #category : #utilities }
+{ #category : #initialization }
 HWMainPresenter >> withDrawer: aDrawerClass [
 	^self basicNew
 		withDrawer: aDrawerClass new;
@@ -363,7 +363,7 @@ HWMainPresenter >> withDrawer: aDrawerClass [
 		yourself
 ]
 
-{ #category : #utilities }
+{ #category : #initialization }
 HWMainPresenter >> withDrawer: aDrawerClass elements: aCollection [
 	^ self basicNew
 		initialize;
