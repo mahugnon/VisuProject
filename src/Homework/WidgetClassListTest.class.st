@@ -8,5 +8,12 @@ Class {
 WidgetClassListTest >> testFilter [
 	"Je permet de test filtre d'une liste "
 
-	self assert: ((ListWidget new filter: OrderedCollection allSubclasses with: 'GL') at: 1) equals: GLMMultiValue
+	| testModel filterManager |
+	filterManager := FilterManager new.
+	testModel := (MooseModel root at: 2) allModelClasses.
+	self
+		assert:
+			(filterManager executeQueryWith: 'each isAnnotatedWith: ''Deprecated''' on: testModel)
+				size
+		equals: 25
 ]

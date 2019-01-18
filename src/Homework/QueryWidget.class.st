@@ -5,12 +5,11 @@ Class {
 	#name : #QueryWidget,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'modelHolder',
 		'filtre',
 		'textField',
 		'label'
 	],
-	#category : #QueryManager
+	#category : #'Homework-core'
 }
 
 { #category : #specs }
@@ -49,7 +48,6 @@ QueryWidget >> initializeWidgets [
 	filtre := FilterManager new.
 	textField := self newTextInput.
 	self createLabel.
-	modelHolder := ModelHolder new.
 	
 	self focusOrder add: textField
 ]
@@ -59,32 +57,9 @@ QueryWidget >> label [
 	^ label
 ]
 
-{ #category : #utilities }
-QueryWidget >> loadMSE [
-	self modelHolder model push: MSELoader new loadMSE.
-	self modelHolder current push: self modelHolder model top
-]
-
-{ #category : #accessing }
-QueryWidget >> modelHolder [
-	^ modelHolder 
-]
-
-{ #category : #accessing }
-QueryWidget >> modelHolder: anObject [
-	modelHolder  := anObject
-]
-
 { #category : #'as yet unclassified' }
-QueryWidget >> performFilter [
-	^ self
-		filtre
-		executeQueryWith:
-			textField
-				text
-		on:
-			modelHolder
-				current top
+QueryWidget >> performFilterOn: aListView [
+	^aListView items: (self filtre executeQueryWith: textField text on: aListView listItems )
 ]
 
 { #category : #accessing }

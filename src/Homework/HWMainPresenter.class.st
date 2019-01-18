@@ -16,11 +16,13 @@ Class {
 	#name : #HWMainPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'eltsWidget',
+		'listView',
 		'diagram',
 		'menu',
 		'queryWidget',
-		'drawerOptions'
+		'drawerOptions',
+		'history',
+		'labelNumberListElt'
 	],
 	#category : #'Homework-core'
 }
@@ -32,7 +34,7 @@ HWMainPresenter class >> defaultSpec [
 		newRow:
 			[ :r | 
 			r
-				newColumn: [ :c | c add: #eltsWidget ] left: 0 right: 0.7;
+				newColumn: [ :c | c add: #listView ] left: 0 right: 0.7;
 				newColumn: [ :c | 
 					c
 						add: #queryWidget origin: 0 @ 0 corner: 1 @ 0.09;
@@ -51,7 +53,8 @@ HWMainPresenter class >> drawSpec [
 						newColumn: [ :left | 
 							left
 								add: #menu height: self toolbarHeight;
-								add: #eltsWidget left: 0 right: 0.6 ]
+								add: #labelNumberListElt height: 30;
+								add: #listView ]
 						width: 400.
 					trow
 						newColumn: [ :right | 
@@ -70,8 +73,9 @@ HWMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withDrawer: HWDrawerSubclassesWithForceLayout elements: col)
-		openWithSpec
+	(self
+		withDrawer: HWDrawerSubclassesWithForceLayout
+		elements: (MooseModel root at: 2) cacheMooseGroups entityCache) openWithSpec
 ]
 
 { #category : #example }
@@ -85,7 +89,7 @@ HWMainPresenter class >> runMeWithSelectors [
 HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 	^ self basicNew
 		initialize;
-		eltList: aCollection;
+		initListViewItems: aCollection;
 		yourself
 ]
 
@@ -93,21 +97,21 @@ HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 HWMainPresenter >> actionButtonOkClick [
 	| elt drawer |
 	drawer := self currentConfig selectedDrawer.
-	elt := self eltsWidget eltList selectedItem.
+	elt := listView  selectedItem.
 	drawer isNotNil
 		ifFalse: [ ^ self ].
 	drawer selected: elt.
 	self needRebuild: false.
 	self drawOnViewWith: drawer.
 	self buildWithSpecLayout: self class drawSpec.
-	self eltsWidget eltList setSelectedItem: elt.
+	self listView  setSelectedItem: elt.
 	self drawerOptions window close
 ]
 
 { #category : #initialization }
 HWMainPresenter >> contextMenu [
 	self flag: 'TODO: should depend on the item selected => double-dispatch somewhere'.
-	^ self eltList
+	^ self listView 
 		menu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
@@ -158,20 +162,9 @@ HWMainPresenter >> drawerOptions [
 	^ drawerOptions
 ]
 
-{ #category : #api }
-HWMainPresenter >> eltList [
-	^self eltsWidget eltList
-]
-
-{ #category : #api }
-HWMainPresenter >> eltList: aCollection [
-	
-	self eltsWidget eltList: aCollection
-]
-
 { #category : #accessing }
-HWMainPresenter >> eltsWidget [
-	^ eltsWidget
+HWMainPresenter >> drawerOptions: anObject [
+	drawerOptions := anObject
 ]
 
 { #category : #actions }
@@ -180,7 +173,7 @@ HWMainPresenter >> executeTextQueryOnCR [
 		autoAccept: true;
 		beForCode;
 		ghostText: 'Write an each query please';
-		bindKeyCombination: 13 toAction: [self eltList:  self queryWidget performFilter ]
+		bindKeyCombination: 13 toAction: [ self updateListViewItems:  queryWidget performFilter ]
 ]
 
 { #category : #api }
@@ -188,33 +181,60 @@ HWMainPresenter >> extent [
 	^ 800 @ 650
 ]
 
+{ #category : #accessing }
+HWMainPresenter >> history [
+	^ history
+]
+
+{ #category : #initialization }
+HWMainPresenter >> initHistory:aCollection [
+history := History create: aCollection .
+]
+
+{ #category : #initialization }
+HWMainPresenter >> initListViewItems: aCollection [
+	listView items: aCollection.
+	self initHistory: aCollection.
+	self updateNumberOfModelElt
+]
+
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
 	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
+	listView doubleClickAction: [ listView items: listView selectedItem ].
 	self executeTextQueryOnCR
 ]
 
 { #category : #initialization }
 HWMainPresenter >> initializeWidgets [
-	eltsWidget := self instantiate: ListWidget.
+	listView := self instantiate: FastTablePresenter.
 	drawerOptions := DrawerOptions new.
 	self contextMenu.
 	self createQueryWidget.
 	menu := self menuBarFor: self.
-	self eltList: #().
+	labelNumberListElt := self newLabel.
+	self initListViewItems: #().
 	diagram := self defaultView.
 	self focusOrder
 		add: menu;
-		add: eltsWidget;
+		add: listView;
 		add: diagram
+]
+
+{ #category : #accessing }
+HWMainPresenter >> labelNumberListElt [
+	^ labelNumberListElt
+]
+
+{ #category : #accessing }
+HWMainPresenter >> listView [
+	^ listView
 ]
 
 { #category : #actions }
 HWMainPresenter >> loadImportedModel [
-	self queryWidget loadMSE.
-	self eltList: self updateListViewListWithCurrent .
-	self eltsWidget model: self updateListViewListWithCurrent.
-	self queryWidget textField enable
+	
+	self initListViewItems: MSELoader loadMSE
 ]
 
 { #category : #accessing }
@@ -235,29 +255,17 @@ HWMainPresenter >> menuBarFor: aPresenter [
 			group
 				addItem: [ :item | 
 					item
-						name: 'File';
-						icon: (self iconNamed: #openIcon) ].
-			group
-				addItem: [ :item | 
-					item
 						name: nil;
-						description: 'Open file';
-						icon: (self iconNamed: #openIcon);
+						description: 'Import model from MSE file';
+						icon: MooseIcons mooseImportMse;
 						action: [ self loadImportedModel ] ].
 			group
 				addItem: [ :item | 
 					item
 						name: nil;
-						description: 'Save File';
-						icon: (self iconNamed: #smallSaveIcon);
-						action: [ self inform: 'Save File' ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Print file';
-						icon: (self iconNamed: #smallPrintIcon);
-						action: [ self inform: 'Print file' ] ] ];
+						description: 'Import Smalltalk';
+						icon: MooseIcons mooseImportSmalltalk;
+						action: [ self inform: 'Import Smalltalk' ] ] ];
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -273,21 +281,18 @@ HWMainPresenter >> menuBarFor: aPresenter [
 						description: 'Redo';
 						icon: (self iconNamed: #smallRedoIcon);
 						action: [ self next ] ] ].
-				
-	
 	aMenu applyTo: aPresenter.
 	^ aMenu
 ]
 
 { #category : #navigation }
 HWMainPresenter >> next [
-	self queryWidget modelHolder model size = 1
-		ifTrue: [ ^ self ].
-	self queryWidget modelHolder current push: self queryWidget modelHolder model top.
-	self queryWidget modelHolder model pop.
-	self eltList: self updateListViewListWithModel.
-	
-"
+	history hasPast
+		ifFalse: [ ^ self ].
+	listView items: self history next.
+	self updateNumberOfModelElt
+
+	"
 self history hasFuture ifFalse: [^ self].
 self history next.
 self eltList: self history currentList
@@ -300,19 +305,17 @@ HWMainPresenter >> openMenuItem [
 
 	^ MenuItemPresenter new
 		name: 'Open';
-		action: [ self queryWidget modelHolder current
-				push: self eltsWidget eltList selectedItem.
-			self eltsWidget eltList: self updateListViewListWithCurrent ];
+		action: [ history addToPast: listView selectedItem.
+		self updateListViewItems: listView selectedItem ];
 		yourself
 ]
 
 { #category : #navigation }
 HWMainPresenter >> prev [
-	self queryWidget modelHolder current size = 1
-		ifTrue:  [ ^ self ].
-	self queryWidget modelHolder model push: self queryWidget modelHolder current top.
-	self queryWidget modelHolder current pop.
-	self eltList: self updateListViewListWithCurrent
+	history hasPast
+		ifFalse: [ ^ self ].
+	self listView items: history previous.
+	self updateNumberOfModelElt
 ]
 
 { #category : #accessing }
@@ -325,14 +328,16 @@ HWMainPresenter >> title [
 ^'Visualization'.
 ]
 
-{ #category : #utilities }
-HWMainPresenter >> updateListViewListWithCurrent [
-	^ self queryWidget modelHolder current top
+{ #category : #'model - updating' }
+HWMainPresenter >> updateListViewItems: aCollection [
+	listView items: aCollection.
+	history addToPast: aCollection.
+	self updateNumberOfModelElt
 ]
 
-{ #category : #utilities }
-HWMainPresenter >> updateListViewListWithModel [
-	^ self queryWidget modelHolder model top
+{ #category : #'model - updating' }
+HWMainPresenter >> updateNumberOfModelElt [
+labelNumberListElt label: 'Number of items: ' , listView listItems size asString
 ]
 
 { #category : #initialization }
@@ -342,7 +347,7 @@ HWMainPresenter >> visualizationMenuItem [
 	^ MenuItemPresenter new
 		name: 'Visualize';
 		action: [ 
-			self visualizeOptionsOn: (self eltsWidget eltList  selectedItem)];
+			self visualizeOptionsOn: (self listView   selectedItem)];
 		yourself
 ]
 
@@ -354,20 +359,4 @@ HWMainPresenter >> visualizeOptionsOn: item [
 	self drawerOptions typeLabel label: item printString.
 	self drawerOptions openWithSpec.
 	self drawerOptions window modalRelativeTo: World
-]
-
-{ #category : #initialization }
-HWMainPresenter >> withDrawer: aDrawerClass [
-	^self basicNew
-		withDrawer: aDrawerClass new;
-		initialize ;
-		yourself
-]
-
-{ #category : #initialization }
-HWMainPresenter >> withDrawer: aDrawerClass elements: aCollection [
-	^ self basicNew
-		initialize;
-		eltList: aCollection;
-		yourself
 ]
