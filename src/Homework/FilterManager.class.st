@@ -4,7 +4,7 @@ Class {
 	#category : #'Homework-core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 FilterManager >> buildQueryBlockFrom: aText [
 	^ OpalCompiler new
 		source: '[:each |',aText,']';
@@ -12,12 +12,12 @@ FilterManager >> buildQueryBlockFrom: aText [
 		evaluate
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 FilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
 	^ aFamixClassGroup select: aBlock
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 FilterManager >> executeQueryWith: aText on: aFamixClassGroup [
 	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
 ]

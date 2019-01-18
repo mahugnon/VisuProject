@@ -48,9 +48,9 @@ History >> initialize [
 ]
 
 { #category : #initialization }
-History >> initializeHistory:aCollection [
-future push: aCollection .
-past push: aCollection .
+History >> initializeHistory: aCollection [
+	
+	past push: aCollection
 ]
 
 { #category : #accessing }

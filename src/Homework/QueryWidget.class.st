@@ -15,9 +15,8 @@ Class {
 { #category : #specs }
 QueryWidget class >> defaultSpec [
 	^ SpecRowLayout composed
-	
-				add: #label origin: 0 @ 0 corner: 0.1 @ 0.1;
-				add: #textField origin: 0.1 @ 0 corner: 1 @ 0.01 ;
+		add: #label origin: 0 @ 0 corner: 0.1 @ 0.1;
+		add: #textField origin: 0.1 @ 1 corner: 1 @ 0.07;
 		yourself
 ]
 
@@ -58,8 +57,8 @@ QueryWidget >> label [
 ]
 
 { #category : #'as yet unclassified' }
-QueryWidget >> performFilterOn: aListView [
-	^aListView items: (self filtre executeQueryWith: textField text on: aListView listItems )
+QueryWidget >> performFilterOn: aCollection [
+	^ (self filtre executeQueryWith: textField text on: aCollection )
 ]
 
 { #category : #accessing }

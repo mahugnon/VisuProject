@@ -59,7 +59,7 @@ HWMainPresenter class >> drawSpec [
 					trow
 						newColumn: [ :right | 
 							right
-								add: #queryWidget origin: 0 @ 0 corner: 1 @ 0.09;
+								add: #queryWidget height: self toolbarHeight;
 								add: #diagram ] ] ];
 		yourself
 ]
@@ -75,7 +75,7 @@ HWMainPresenter class >> runMeWithClass [
 		add: OrderedCollection.
 	(self
 		withDrawer: HWDrawerSubclassesWithForceLayout
-		elements: (MooseModel root at: 2) cacheMooseGroups entityCache) openWithSpec
+		elements: (MooseModel root at: 1) cacheMooseGroups entityCache) openWithSpec
 ]
 
 { #category : #example }
@@ -122,7 +122,7 @@ HWMainPresenter >> contextMenu [
 { #category : #initialization }
 HWMainPresenter >> createQueryWidget [
 	queryWidget := self instantiate: QueryWidget.
-	queryWidget textField disable
+	
 ]
 
 { #category : #accessing }
@@ -173,7 +173,8 @@ HWMainPresenter >> executeTextQueryOnCR [
 		autoAccept: true;
 		beForCode;
 		ghostText: 'Write an each query please';
-		bindKeyCombination: 13 toAction: [ self updateListViewItems:  queryWidget performFilter ]
+		bindKeyCombination: 13
+			toAction: [ self updateListViewItems: (queryWidget performFilterOn: listView listItems ) ]
 ]
 
 { #category : #api }
@@ -193,7 +194,11 @@ history := History create: aCollection .
 
 { #category : #initialization }
 HWMainPresenter >> initListViewItems: aCollection [
-	listView items: aCollection.
+	listView
+		items: aCollection;
+		displayBlock: [ :item | item displayString ];
+		icons: [ :item | item mooseIcon ];
+		sortingBlock: [ :a :b | a asString < b asString ].
 	self initHistory: aCollection.
 	self updateNumberOfModelElt
 ]
@@ -201,7 +206,7 @@ HWMainPresenter >> initListViewItems: aCollection [
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
 	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
-	listView doubleClickAction: [ listView items: listView selectedItem ].
+"	listView doubleClickAction: [ listView items: listView selectedItem ]."
 	self executeTextQueryOnCR
 ]
 
@@ -271,14 +276,14 @@ HWMainPresenter >> menuBarFor: aPresenter [
 				addItem: [ :item | 
 					item
 						name: nil;
-						description: 'Undo';
+						description: 'Previous';
 						icon: (self iconNamed: #smallUndoIcon);
 						action: [ self prev ] ].
 			group
 				addItem: [ :item | 
 					item
 						name: nil;
-						description: 'Redo';
+						description: 'Next';
 						icon: (self iconNamed: #smallRedoIcon);
 						action: [ self next ] ] ].
 	aMenu applyTo: aPresenter.
@@ -287,7 +292,7 @@ HWMainPresenter >> menuBarFor: aPresenter [
 
 { #category : #navigation }
 HWMainPresenter >> next [
-	history hasPast
+	history hasNext 
 		ifFalse: [ ^ self ].
 	listView items: self history next.
 	self updateNumberOfModelElt
