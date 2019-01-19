@@ -2,5 +2,5 @@ Extension { #name : #FAMIXTypeGroup }
 
 { #category : #'*Homework' }
 FAMIXTypeGroup >> drawers [
-	^ OrderedCollection new add: HWSystemComplexityWithTreeLayout;yourself 
+	^ OrderedCollection new add: HWDeprecatedClassRelationWithForceLayout;yourself 
 ]
