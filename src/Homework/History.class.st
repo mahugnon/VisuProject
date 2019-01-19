@@ -33,7 +33,7 @@ History >> future [
 
 { #category : #'action - testing' }
 History >> hasNext [
-	^ future isNotEmpty 
+	^ future size>1
 ]
 
 { #category : #'action - testing' }
@@ -49,8 +49,8 @@ History >> initialize [
 
 { #category : #initialization }
 History >> initializeHistory: aCollection [
-	
-	past push: aCollection
+	past push: aCollection.
+	future push: aCollection
 ]
 
 { #category : #accessing }

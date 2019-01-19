@@ -75,7 +75,7 @@ HWMainPresenter class >> runMeWithClass [
 		add: OrderedCollection.
 	(self
 		withDrawer: HWDrawerSubclassesWithForceLayout
-		elements: (MooseModel root at: 1) cacheMooseGroups entityCache) openWithSpec
+		elements: MooseModel root) openWithSpec
 ]
 
 { #category : #example }
@@ -106,17 +106,6 @@ HWMainPresenter >> actionButtonOkClick [
 	self buildWithSpecLayout: self class drawSpec.
 	self listView  setSelectedItem: elt.
 	self drawerOptions window close
-]
-
-{ #category : #initialization }
-HWMainPresenter >> contextMenu [
-	self flag: 'TODO: should depend on the item selected => double-dispatch somewhere'.
-	^ self listView 
-		menu: [ :aMenu | 
-			MenuPresenter new
-				addGroup: [ :group | group addMenuItem: self visualizationMenuItem ];
-				addGroup: [ :group | group addMenuItem: self openMenuItem ];
-				buildWithSpecAsPopup ]
 ]
 
 { #category : #initialization }
@@ -206,7 +195,11 @@ HWMainPresenter >> initListViewItems: aCollection [
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
 	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
-"	listView doubleClickAction: [ listView items: listView selectedItem ]."
+	listView whenSelectedItemChanged: [ :item |
+		item isNil 
+		ifFalse: [ 
+		 item contextMenuOn: self] ].
+	"	listView doubleClickAction: [ listView items: listView selectedItem ]."
 	self executeTextQueryOnCR
 ]
 
@@ -214,7 +207,7 @@ HWMainPresenter >> initializePresenter [
 HWMainPresenter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
 	drawerOptions := DrawerOptions new.
-	self contextMenu.
+	
 	self createQueryWidget.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
@@ -308,11 +301,21 @@ self eltList: self history currentList
 HWMainPresenter >> openMenuItem [
 	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
 
-	^ MenuItemPresenter new
-		name: 'Open';
-		action: [ history addToPast: listView selectedItem.
-		self updateListViewItems: listView selectedItem ];
-		yourself
+	^ MenuItemPresenter
+		new
+		
+			name:
+			'Open';
+		
+			action:
+				[ self
+				updatePastWith:self selected .
+			self
+				updateListViewItems:
+					self
+						selected ];
+		
+			yourself
 ]
 
 { #category : #navigation }
@@ -326,6 +329,11 @@ HWMainPresenter >> prev [
 { #category : #accessing }
 HWMainPresenter >> queryWidget [
 	^ queryWidget
+]
+
+{ #category : #actions }
+HWMainPresenter >> selected [
+	^ listView selectedItem
 ]
 
 { #category : #api }
@@ -343,6 +351,11 @@ HWMainPresenter >> updateListViewItems: aCollection [
 { #category : #'model - updating' }
 HWMainPresenter >> updateNumberOfModelElt [
 labelNumberListElt label: 'Number of items: ' , listView listItems size asString
+]
+
+{ #category : #actions }
+HWMainPresenter >> updatePastWith:item [
+	history addToPast: item
 ]
 
 { #category : #initialization }
