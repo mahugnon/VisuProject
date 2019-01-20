@@ -204,10 +204,7 @@ HWMainPresenter >> initListViewItems: aCollection [
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
 	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
-	listView
-		whenSelectedItemChanged: [ :item | 
-			item notNil
-				ifTrue: [ item contextMenuWith:self isNewWindow  On: self ] ].
+	self itemSelectedEventOn: listView .
 	"	listView doubleClickAction: [ listView items: listView selectedItem ]."
 	self executeTextQueryOnCR
 ]
@@ -231,6 +228,14 @@ HWMainPresenter >> initializeWidgets [
 { #category : #testing }
 HWMainPresenter >> isNewWindow [
 ^windowOptionCheckBox state
+]
+
+{ #category : #initialization }
+HWMainPresenter >> itemSelectedEventOn: aListView [
+	^ aListView
+		whenSelectedItemChanged: [ :item | 
+			item notNil
+				ifTrue: [ item contextMenuWith: self isNewWindow On: self ] ]
 ]
 
 { #category : #accessing }
@@ -318,11 +323,12 @@ self eltList: self history currentList
 
 { #category : #actions }
 HWMainPresenter >> openResultInNewWindow [
-	| mylist |
-	mylist := self newList.
-	mylist items: listView listItems.
-	
-	^ mylist openWithSpec
+	| myList |
+	"Option 1 : myList := self newList.
+	myList items: listView listItems.
+	Option 2: continious interaction "
+	myList := self class withDrawer: nil elements: listView listItems.
+	^ myList openWithSpec
 ]
 
 { #category : #navigation }
