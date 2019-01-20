@@ -241,6 +241,11 @@ HWMainPresenter >> listView [
 	^ listView
 ]
 
+{ #category : #'model - updating' }
+HWMainPresenter >> listViewMenu: aBlock [
+	^ self listView menu: aBlock 
+]
+
 { #category : #actions }
 HWMainPresenter >> loadImportedModel [
 	

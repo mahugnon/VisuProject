@@ -2,8 +2,7 @@ Extension { #name : #MooseGroup }
 
 { #category : #'*Homework' }
 MooseGroup >> contextMenuOn: aPresenter [
-	^ aPresenter listView
-		menu: [ :aMenu | 
+	^ aPresenter listViewMenu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | 
 					group

@@ -2,8 +2,7 @@ Extension { #name : #FAMIXClassGroup }
 
 { #category : #'*Homework' }
 FAMIXClassGroup >> contextMenuOn: aPresenter [
-	^ aPresenter listView
-		menu: [ :aMenu | 
+	^ aPresenter listViewMenu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | 
 					group
@@ -15,8 +14,7 @@ FAMIXClassGroup >> contextMenuOn: aPresenter [
 						addItem: [ :item | 
 							item
 								name: 'Visualize';
-								action: [ 
-									aPresenter visualizeOptionsOn:  aPresenter selected  ] ] ];
+								action: [ aPresenter visualizeOptionsOn: aPresenter selected ] ] ];
 				buildWithSpecAsPopup ]
 ]
 
