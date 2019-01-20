@@ -22,7 +22,8 @@ Class {
 		'queryWidget',
 		'drawerOptions',
 		'history',
-		'labelNumberListElt'
+		'labelNumberListElt',
+		'windowOptionCheckBox'
 	],
 	#category : #'Homework-core'
 }
@@ -54,6 +55,7 @@ HWMainPresenter class >> drawSpec [
 							left
 								add: #menu height: self toolbarHeight;
 								add: #labelNumberListElt height: 30;
+								newRow: [ :r | r add: #windowOptionCheckBox ] height: 30;
 								add: #listView ]
 						width: 400.
 					trow
@@ -91,6 +93,12 @@ HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 		initialize;
 		initListViewItems: aCollection;
 		yourself
+]
+
+{ #category : #initialization }
+HWMainPresenter >> CreateWindowOptionCheckBox [
+	windowOptionCheckBox := self newCheckBox.
+	windowOptionCheckBox label: 'Result open in window'
 ]
 
 { #category : #actions }
@@ -195,32 +203,21 @@ HWMainPresenter >> initListViewItems: aCollection [
 
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
-	self
-		drawerOptions
-		buttonOk
-		action:
-			[ self
-				actionButtonOkClick ].
+	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
 	listView
-		whenSelectedItemChanged:
-			[ :item | 
-			item
-				notNil
-				ifTrue:
-					[ item
-						contextMenuOn: self.
-					 ] ].
+		whenSelectedItemChanged: [ :item | 
+			item notNil
+				ifTrue: [ item contextMenuWith:self isNewWindow  On: self ] ].
 	"	listView doubleClickAction: [ listView items: listView selectedItem ]."
-	self
-		executeTextQueryOnCR
+	self executeTextQueryOnCR
 ]
 
 { #category : #initialization }
 HWMainPresenter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
 	drawerOptions := DrawerOptions new.
-	
 	self createQueryWidget.
+	self CreateWindowOptionCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
 	self initListViewItems: #().
@@ -229,6 +226,11 @@ HWMainPresenter >> initializeWidgets [
 		add: menu;
 		add: listView;
 		add: diagram
+]
+
+{ #category : #testing }
+HWMainPresenter >> isNewWindow [
+^windowOptionCheckBox state
 ]
 
 { #category : #accessing }
@@ -314,6 +316,11 @@ self eltList: self history currentList
 "
 ]
 
+{ #category : #actions }
+HWMainPresenter >> openResultInNewWindow [
+^self listView openWithSpec .
+]
+
 { #category : #navigation }
 HWMainPresenter >> prev [
 	history hasPast
@@ -362,4 +369,9 @@ HWMainPresenter >> visualizeOptionsOn: item [
 	self drawerOptions typeLabel label: item printString.
 	self drawerOptions openWithSpec.
 	self drawerOptions window modalRelativeTo: World
+]
+
+{ #category : #accessing }
+HWMainPresenter >> windowOptionCheckBox [
+^windowOptionCheckBox
 ]
