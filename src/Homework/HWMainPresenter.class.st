@@ -318,7 +318,11 @@ self eltList: self history currentList
 
 { #category : #actions }
 HWMainPresenter >> openResultInNewWindow [
-^self listView openWithSpec .
+	| mylist |
+	mylist := self newList.
+	mylist items: listView listItems.
+	
+	^ mylist openWithSpec
 ]
 
 { #category : #navigation }
