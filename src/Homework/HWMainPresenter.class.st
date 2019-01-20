@@ -97,14 +97,15 @@ HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 HWMainPresenter >> actionButtonOkClick [
 	| elt drawer |
 	drawer := self currentConfig selectedDrawer.
-	elt := listView  selectedItem.
+	elt := listView selectedItem.
 	drawer isNotNil
 		ifFalse: [ ^ self ].
+		self drawerOptions window close.
 	drawer selected: elt.
 	self needRebuild: false.
 	self drawOnViewWith: drawer.
 	self buildWithSpecLayout: self class drawSpec.
-	self listView  setSelectedItem: elt.
+	self listView setSelectedItem: elt.
 	self drawerOptions window close
 ]
 
@@ -194,13 +195,24 @@ HWMainPresenter >> initListViewItems: aCollection [
 
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
-	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
-	listView whenSelectedItemChanged: [ :item |
-		item isNil 
-		ifFalse: [ 
-		 item contextMenuOn: self] ].
+	self
+		drawerOptions
+		buttonOk
+		action:
+			[ self
+				actionButtonOkClick ].
+	listView
+		whenSelectedItemChanged:
+			[ :item | 
+			item
+				notNil
+				ifTrue:
+					[ item
+						contextMenuOn: self.
+					 ] ].
 	"	listView doubleClickAction: [ listView items: listView selectedItem ]."
-	self executeTextQueryOnCR
+	self
+		executeTextQueryOnCR
 ]
 
 { #category : #initialization }
@@ -297,27 +309,6 @@ self eltList: self history currentList
 "
 ]
 
-{ #category : #actions }
-HWMainPresenter >> openMenuItem [
-	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
-
-	^ MenuItemPresenter
-		new
-		
-			name:
-			'Open';
-		
-			action:
-				[ self
-				updatePastWith:self selected .
-			self
-				updateListViewItems:
-					self
-						selected ];
-		
-			yourself
-]
-
 { #category : #navigation }
 HWMainPresenter >> prev [
 	history hasPast
@@ -356,17 +347,6 @@ labelNumberListElt label: 'Number of items: ' , listView listItems size asString
 { #category : #actions }
 HWMainPresenter >> updatePastWith:item [
 	history addToPast: item
-]
-
-{ #category : #initialization }
-HWMainPresenter >> visualizationMenuItem [
-	"Serve to refactor adding an item to my context menu. Goal: avoid having brain method. Thus I reduce the LOC of initializeWidgets  "
-
-	^ MenuItemPresenter new
-		name: 'Visualize';
-		action: [ 
-			self visualizeOptionsOn: (self listView   selectedItem)];
-		yourself
 ]
 
 { #category : #actions }

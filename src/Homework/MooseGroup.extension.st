@@ -11,6 +11,6 @@ MooseGroup >> contextMenuOn: aPresenter [
 							item
 								name: 'Open';
 								action: [ aPresenter updatePastWith: aPresenter selected.
-									aPresenter updateListViewItems: aPresenter selected cacheMooseGroups entityCache ] ] ];
+									aPresenter updateListViewItems: aPresenter selected ] ] ];
 				buildWithSpecAsPopup ]
 ]
