@@ -1,6 +1,6 @@
 Extension { #name : #ClassScanReport }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 ClassScanReport >> drawers [
 	^ OrderedCollection new add: HWDrawerClassNameSufix;yourself 
 ]

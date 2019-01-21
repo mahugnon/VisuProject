@@ -1,7 +1,7 @@
 Class {
 	#name : #WidgetClassListTest,
 	#superclass : #TestCase,
-	#category : #'Homework-tests'
+	#category : #'MooseVisuOnSpec-tests'
 }
 
 { #category : #'event testing' }

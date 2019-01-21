@@ -1,6 +1,6 @@
 Extension { #name : #Object }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 Object >> contextMenuWith:aBoolean On: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu |  ];

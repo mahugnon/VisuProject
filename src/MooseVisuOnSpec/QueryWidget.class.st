@@ -9,7 +9,7 @@ Class {
 		'textField',
 		'label'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #specs }
@@ -29,7 +29,8 @@ QueryWidget new openWithSpec
 { #category : #initialization }
 QueryWidget >> createLabel [
 	label := self newLabel.
-	label label: 'Query :'
+	label label: 'Query :';
+	emphasis: #bold
 ]
 
 { #category : #accessing }
@@ -56,7 +57,7 @@ QueryWidget >> label [
 	^ label
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api actions' }
 QueryWidget >> performFilterOn: aCollection [
 	^ (self filtre executeQueryWith: textField text on: aCollection )
 ]

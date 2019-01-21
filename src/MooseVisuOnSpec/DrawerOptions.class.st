@@ -11,7 +11,7 @@ Class {
 		'config',
 		'buttonOk'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #specs }

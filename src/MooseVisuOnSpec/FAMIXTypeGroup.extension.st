@@ -1,6 +1,6 @@
 Extension { #name : #FAMIXTypeGroup }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 FAMIXTypeGroup >> drawers [
 	^ OrderedCollection new add: HWDeprecatedClassRelationWithForceLayout;yourself 
 ]

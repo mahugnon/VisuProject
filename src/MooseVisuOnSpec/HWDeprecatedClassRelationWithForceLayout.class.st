@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'fxmTypeGroupe'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #drawing }

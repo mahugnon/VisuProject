@@ -1,6 +1,6 @@
 Extension { #name : #MooseGroup }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 MooseGroup >> contextMenuWith: aBoolean On: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu | 

@@ -11,7 +11,7 @@ Class {
 		'zoom',
 		'center'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Extension { #name : #MorphicRoassalAdapter }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 MorphicRoassalAdapter >> basicApplyScript [
 	self model script cull: view cull: canvas.
 	self view canvas camera adjust.

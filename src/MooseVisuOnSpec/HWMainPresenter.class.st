@@ -23,9 +23,10 @@ Class {
 		'drawerOptions',
 		'history',
 		'labelNumberListElt',
-		'windowOptionCheckBox'
+		'windowOptionCheckBox',
+		'typeOfIteractionCheckBox'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #specs }
@@ -55,7 +56,8 @@ HWMainPresenter class >> drawSpec [
 							left
 								add: #menu height: self toolbarHeight;
 								add: #labelNumberListElt height: 30;
-								newRow: [ :r | r add: #windowOptionCheckBox ] height: 30;
+								newRow: [ :r | r add: #windowOptionCheckBox;
+									add:#typeOfIteractionCheckBox  ] height: 30;
 								add: #listView ]
 						width: 400.
 					trow
@@ -98,7 +100,8 @@ HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 { #category : #initialization }
 HWMainPresenter >> CreateWindowOptionCheckBox [
 	windowOptionCheckBox := self newCheckBox.
-	windowOptionCheckBox label: 'Result open in window'
+	windowOptionCheckBox label: 'Result open in window';
+	help:'If checked the result is displayed in an extenal window'
 ]
 
 { #category : #actions }
@@ -108,19 +111,28 @@ HWMainPresenter >> actionButtonOkClick [
 	elt := listView selectedItem.
 	drawer isNotNil
 		ifFalse: [ ^ self ].
-		self drawerOptions window close.
+	self drawerOptions window close.
 	drawer selected: elt.
 	self needRebuild: false.
 	self drawOnViewWith: drawer.
 	self buildWithSpecLayout: self class drawSpec.
 	self listView setSelectedItem: elt.
-	self drawerOptions window close
+	
 ]
 
 { #category : #initialization }
 HWMainPresenter >> createQueryWidget [
 	queryWidget := self instantiate: QueryWidget.
 	
+]
+
+{ #category : #initialization }
+HWMainPresenter >> createTypeOfIteractionCheckBox [
+	typeOfIteractionCheckBox := self newCheckBox.
+	typeOfIteractionCheckBox enabled: false.
+	typeOfIteractionCheckBox
+		label: 'Continious interaction';
+		help: 'If checked the window is duplicated'
 ]
 
 { #category : #accessing }
@@ -132,7 +144,8 @@ HWMainPresenter >> currentConfig [
 HWMainPresenter >> defaultView [
 	| cm |
 	cm := self newLabel.
-	cm label: 'Right click on an element from the list and choose visualization please.'.
+	cm label: 'Right click on an element from the list and choose visualization please.';
+	emphasis: #bold.
 	^ cm
 ]
 
@@ -144,6 +157,11 @@ HWMainPresenter >> diagram [
 { #category : #accessing }
 HWMainPresenter >> diagram: anObject [
 	diagram := anObject
+]
+
+{ #category : #actions }
+HWMainPresenter >> disableTypeOfIteractionCheckBox [
+	typeOfIteractionCheckBox enabled: false
 ]
 
 { #category : #actions }
@@ -163,6 +181,11 @@ HWMainPresenter >> drawerOptions [
 { #category : #accessing }
 HWMainPresenter >> drawerOptions: anObject [
 	drawerOptions := anObject
+]
+
+{ #category : #actions }
+HWMainPresenter >> enableTypeOfIteractionCheckBox [
+	typeOfIteractionCheckBox enabled: true
 ]
 
 { #category : #actions }
@@ -204,9 +227,9 @@ HWMainPresenter >> initListViewItems: aCollection [
 { #category : #initialization }
 HWMainPresenter >> initializePresenter [
 	self drawerOptions buttonOk action: [ self actionButtonOkClick ].
-	self itemSelectedEventOn: listView .
-	"	listView doubleClickAction: [ listView items: listView selectedItem ]."
-	self executeTextQueryOnCR
+	self itemSelectedEventOn: listView.
+	self executeTextQueryOnCR.
+	self windowOptionCheckBoxChangeColor
 ]
 
 { #category : #initialization }
@@ -215,14 +238,21 @@ HWMainPresenter >> initializeWidgets [
 	drawerOptions := DrawerOptions new.
 	self createQueryWidget.
 	self CreateWindowOptionCheckBox.
+	self createTypeOfIteractionCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
 	self initListViewItems: #().
 	diagram := self defaultView.
 	self focusOrder
 		add: menu;
+		add: windowOptionCheckBox;
 		add: listView;
 		add: diagram
+]
+
+{ #category : #testing }
+HWMainPresenter >> isContiniousInteraction [
+	^ typeOfIteractionCheckBox  state
 ]
 
 { #category : #testing }
@@ -324,10 +354,11 @@ self eltList: self history currentList
 { #category : #actions }
 HWMainPresenter >> openResultInNewWindow [
 	| myList |
-	"Option 1 : myList := self newList.
-	myList items: listView listItems.
-	Option 2: continious interaction "
-	myList := self class withDrawer: nil elements: listView listItems.
+
+	self isContiniousInteraction
+		ifTrue: [ myList := self class withDrawer: nil elements: listView listItems ]
+		ifFalse: [ myList := self newList.
+			myList items: listView listItems ].
 	^ myList openWithSpec
 ]
 
@@ -344,7 +375,7 @@ HWMainPresenter >> queryWidget [
 	^ queryWidget
 ]
 
-{ #category : #actions }
+{ #category : #accessing }
 HWMainPresenter >> selected [
 	^ listView selectedItem
 ]
@@ -352,6 +383,11 @@ HWMainPresenter >> selected [
 { #category : #api }
 HWMainPresenter >> title [ 
 ^'Visualization'.
+]
+
+{ #category : #accessing }
+HWMainPresenter >> typeOfIteractionCheckBox [
+^typeOfIteractionCheckBox
 ]
 
 { #category : #'model - updating' }
@@ -363,7 +399,9 @@ HWMainPresenter >> updateListViewItems: aCollection [
 
 { #category : #'model - updating' }
 HWMainPresenter >> updateNumberOfModelElt [
-labelNumberListElt label: 'Number of items: ' , listView listItems size asString
+	labelNumberListElt
+		label: 'Number of items ' , ' :  ' , listView listItems size asString;
+		emphasis: #bold
 ]
 
 { #category : #actions }
@@ -384,4 +422,14 @@ HWMainPresenter >> visualizeOptionsOn: item [
 { #category : #accessing }
 HWMainPresenter >> windowOptionCheckBox [
 ^windowOptionCheckBox
+]
+
+{ #category : #actions }
+HWMainPresenter >> windowOptionCheckBoxChangeColor [
+	windowOptionCheckBox
+		whenActivatedDo: [ windowOptionCheckBox color: Color green.
+			self enableTypeOfIteractionCheckBox  ].
+	windowOptionCheckBox
+		whenDeactivatedDo: [ windowOptionCheckBox color: Color veryVeryLightGray.
+			self disableTypeOfIteractionCheckBox  ]
 ]

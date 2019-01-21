@@ -1,6 +1,6 @@
 Extension { #name : #Symbol }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 Symbol >> drawers [
 	^ OrderedCollection new
 		add: HWDrawerMethodsImplementors;

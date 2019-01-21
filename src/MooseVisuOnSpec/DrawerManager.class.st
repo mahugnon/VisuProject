@@ -4,7 +4,7 @@ I collect Roassal drawers applicable on a specific type of object.
 Class {
 	#name : #DrawerManager,
 	#superclass : #Object,
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #utility }

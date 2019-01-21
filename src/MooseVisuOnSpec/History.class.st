@@ -9,7 +9,7 @@ Class {
 		'past',
 		'future'
 	],
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #'as yet unclassified' }

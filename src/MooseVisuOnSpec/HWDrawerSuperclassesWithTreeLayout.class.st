@@ -1,7 +1,7 @@
 Class {
 	#name : #HWDrawerSuperclassesWithTreeLayout,
 	#superclass : #HWRoassalDrawer,
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #drawing }

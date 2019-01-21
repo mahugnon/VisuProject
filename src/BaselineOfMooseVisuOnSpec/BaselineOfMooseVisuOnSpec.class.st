@@ -2,13 +2,13 @@
 I specify the project dependencies and packages 
 "
 Class {
-	#name : #BaselineOfHomework,
+	#name : #BaselineOfMooseVisuOnSpec,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfHomework
+	#category : #BaselineOfMooseVisuOnSpec
 }
 
 { #category : #baselines }
-BaselineOfHomework >> baseline: spec [
+BaselineOfMooseVisuOnSpec >> baseline: spec [
 	"baselines"
 
 	<baseline>
@@ -22,23 +22,20 @@ BaselineOfHomework >> baseline: spec [
 				baselineForClassNamesAnalyzer: spec.
 
 			"Packages"
-			spec
-				package: 'QueryManager';
-				package: 'Homework'
-					with: [ spec requires: #('Roassal2' 'QueryManager' 'ClassNamesAnalyzer') ] ].
+			spec package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2' 'ClassNamesAnalyzer') ] ].
 	"Groups"
-	spec group: 'All' with: #('QueryManager' 'Homework')
+	spec group: 'All' with: #('MooseVisuOnSpec')
 ]
 
 { #category : #baselines }
-BaselineOfHomework >> baselineForClassNamesAnalyzer: spec [
+BaselineOfMooseVisuOnSpec >> baselineForClassNamesAnalyzer: spec [
 	spec 
 		baseline: 'ClassNamesAnalyzer'
 		with: [ spec repository: 'github://MoussaSak/BluePrintVisualization:master/repository' ]
 ]
 
 { #category : #baselines }
-BaselineOfHomework >> baselineForRoassal2Spec: spec [
+BaselineOfMooseVisuOnSpec >> baselineForRoassal2Spec: spec [
 	spec
 		project: 'Roassal2'
 		with: [ spec
@@ -49,12 +46,12 @@ BaselineOfHomework >> baselineForRoassal2Spec: spec [
 ]
 
 { #category : #baselines }
-BaselineOfHomework >> postload: loader package: packageSpec [
+BaselineOfMooseVisuOnSpec >> postload: loader package: packageSpec [
 
   Transcript crLog: 'Project loaded!'
 ]
 
 { #category : #baselines }
-BaselineOfHomework >> preload: aloader package: packageSpec [
+BaselineOfMooseVisuOnSpec >> preload: aloader package: packageSpec [
 	Transcript crLog: 'The fetching is finish. wait until loading finish'
 ]

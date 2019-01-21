@@ -1,6 +1,6 @@
 Extension { #name : #Class }
 
-{ #category : #'*Homework' }
+{ #category : #'*MooseVisuOnSpec' }
 Class >> drawers [
 	^ OrderedCollection new
 		add: HWDrawerSubclassesWithForceLayout;

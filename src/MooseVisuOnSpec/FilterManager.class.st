@@ -1,7 +1,7 @@
 Class {
 	#name : #FilterManager,
 	#superclass : #Object,
-	#category : #'Homework-core'
+	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #actions }
