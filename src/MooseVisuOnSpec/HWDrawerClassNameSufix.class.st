@@ -4,7 +4,7 @@ I draw class name suffix dependecies graph
 Class {
 	#name : #HWDrawerClassNameSufix,
 	#superclass : #HWRoassalDrawer,
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-drawers'
 }
 
 { #category : #Visualisation }

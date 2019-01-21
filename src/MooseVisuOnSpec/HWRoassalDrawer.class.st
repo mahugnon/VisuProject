@@ -12,7 +12,7 @@ Class {
 		'selected',
 		'name'
 	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-drawers'
 }
 
 { #category : #drawing }

@@ -25,5 +25,7 @@ FAMIXClassGroup >> contextMenuWith: aBoolean On: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClassGroup >> drawers [
-	^ OrderedCollection new add: HWDeprecatedClassRelationWithForceLayout;yourself 
+	^ OrderedCollection new
+		add: HWDeprecatedClassRelationWithForceLayout;
+		add: HWSystemComplexity; yourself
 ]

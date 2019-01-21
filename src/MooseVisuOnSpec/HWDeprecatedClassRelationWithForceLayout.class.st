@@ -1,10 +1,7 @@
 Class {
 	#name : #HWDeprecatedClassRelationWithForceLayout,
 	#superclass : #HWRoassalDrawer,
-	#instVars : [
-		'fxmTypeGroupe'
-	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-drawers'
 }
 
 { #category : #drawing }
