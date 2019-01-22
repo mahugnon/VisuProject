@@ -10,16 +10,16 @@ FAMIXClassGroup >> contextMenuWith: aBoolean On: aPresenter [
 						addItem: [ :item | 
 							item
 								name: 'Open';
-								action: [ aPresenter updatePastWith: aPresenter selected.
+								action: [ 
 									aPresenter updateListViewItems: aPresenter selected.
 									aBoolean
 										ifTrue: [ aPresenter openResultInNewWindow ] ] ];
 						addItem: [ :item | 
 							item
 								name: 'Visualize';
-								action: [ aPresenter visualizeOptionsOn: aPresenter selected .
+								action: [ aPresenter visualizeOptionsOn: aPresenter selected.
 									aBoolean
-										ifTrue: [ aPresenter openResultInNewWindow ]] ] ];
+										ifTrue: [ aPresenter openResultInNewWindow ] ] ] ];
 				buildWithSpecAsPopup ]
 ]
 

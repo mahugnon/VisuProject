@@ -10,8 +10,9 @@ MooseGroup >> contextMenuWith: aBoolean On: aPresenter [
 						addItem: [ :item | 
 							item
 								name: 'Open';
-								action: [ aPresenter updatePastWith: aPresenter selected.
-									aPresenter updateListViewItems: aPresenter selected .
-									aBoolean ifTrue: [aPresenter openResultInNewWindow]] ] ];
+								action: [ 
+									aPresenter updateListViewItems: aPresenter selected.
+									aBoolean
+										ifTrue: [ aPresenter openResultInNewWindow ] ] ] ];
 				buildWithSpecAsPopup ]
 ]

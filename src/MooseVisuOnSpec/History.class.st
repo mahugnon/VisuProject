@@ -13,12 +13,22 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+History class >> create [
+	^ self new
+]
+
+{ #category : #'as yet unclassified' }
 History class >> create: aCollection [
 	|history|
 	history:= self
 		new.
 		^history initializeHistory: aCollection;
 		yourself
+]
+
+{ #category : #adding }
+History >> addToFuture:anObject [
+future push:anObject.
 ]
 
 { #category : #adding }
@@ -33,12 +43,12 @@ History >> future [
 
 { #category : #'action - testing' }
 History >> hasNext [
-	^ future size>1
+	^ future isNotEmpty 
 ]
 
 { #category : #'action - testing' }
 History >> hasPast [
-^past size>1 
+	^ past isNotEmpty 
 ]
 
 { #category : #initialization }
@@ -55,10 +65,10 @@ History >> initializeHistory: aCollection [
 
 { #category : #accessing }
 History >> next [
-	
-	self addToPast: future top.
+	| next |
+	next := future top.
 	future pop.
-	^ future top
+	^ next
 ]
 
 { #category : #accessing }
@@ -68,8 +78,9 @@ History >> past [
 
 { #category : #accessing }
 History >> previous [
+	| previous |
+	previous := past top.
 	
-	future push: past top.
 	past pop.
-	^ past top
+	^ previous
 ]

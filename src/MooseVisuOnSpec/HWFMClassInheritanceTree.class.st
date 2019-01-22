@@ -10,28 +10,28 @@ Class {
 { #category : #drawing }
 HWFMClassInheritanceTree >> drawOnRoassalView: aView [
 	| es col |
-	col:=OrderedCollection new.
-	col add: selected ;
-	addAll: selected directSubclasses;
-	addAll: selected directSuperclasses.
+	col := OrderedCollection new.
+	col
+		add: selected;
+		addAll: selected subclassHierarchy;
+		addAll: selected superclassHierarchy.
 	aView @ RTDraggableView @ RTDraggableView.
-	es := (RTBox new
+	es := (RTEllipse new
 		size: 15;
 		color: [ :c | 
 			c = selected
 				ifTrue: [ Color green ]
-				ifFalse: [ Color black alpha: 0.5 ] ])
-		elementsOn: col.
+				ifFalse: [ Color black alpha: 0.5 ] ]) elementsOn: col.
 	aView addAll: es.
 	RTMetricNormalizer new
 		elements: es;
-		normalizeHeight: #numberOfMethods min: 15 max: 50;
-		normalizeWidth: #numberOfAttributes min: 15 max: 50.
+		normalizeSize: #numberOfMethods min: 15 max: 50;
+		normalizeColorAsGray: #numberOfAttributes.
 	es @ RTDraggable @ RTPopup.
 	RTEdgeBuilder new
 		view: aView;
 		elements: es;
-		connectFrom: #superclass.
+		connectFromAll: #directSuperclasses.
 	RTTreeLayout new on: es.
 	aView
 ]

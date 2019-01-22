@@ -121,6 +121,11 @@ HWMainPresenter >> actionButtonOkClick [
 ]
 
 { #category : #initialization }
+HWMainPresenter >> createHistory [
+	history := History create
+]
+
+{ #category : #initialization }
 HWMainPresenter >> createQueryWidget [
 	queryWidget := self instantiate: QueryWidget.
 	
@@ -209,8 +214,8 @@ HWMainPresenter >> history [
 ]
 
 { #category : #initialization }
-HWMainPresenter >> initHistory:aCollection [
-history := History create: aCollection .
+HWMainPresenter >> initHistory: aCollection [
+	history := History create
 ]
 
 { #category : #initialization }
@@ -220,7 +225,7 @@ HWMainPresenter >> initListViewItems: aCollection [
 		displayBlock: [ :item | item displayString ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
-	self initHistory: aCollection.
+	self createHistory .
 	self updateNumberOfModelElt
 ]
 
@@ -339,8 +344,10 @@ HWMainPresenter >> menuBarFor: aPresenter [
 
 { #category : #navigation }
 HWMainPresenter >> next [
-	history hasNext 
+	
+	history hasNext
 		ifFalse: [ ^ self ].
+	history addToPast: listView listItems.
 	listView items: self history next.
 	self updateNumberOfModelElt
 
@@ -364,8 +371,10 @@ HWMainPresenter >> openResultInNewWindow [
 
 { #category : #navigation }
 HWMainPresenter >> prev [
+	
 	history hasPast
 		ifFalse: [ ^ self ].
+	history addToFuture: listView listItems.
 	self listView items: history previous.
 	self updateNumberOfModelElt
 ]
@@ -392,8 +401,9 @@ HWMainPresenter >> typeOfIteractionCheckBox [
 
 { #category : #'model - updating' }
 HWMainPresenter >> updateListViewItems: aCollection [
+	
+	history addToPast: listView listItems.
 	listView items: aCollection.
-	history addToPast: aCollection.
 	self updateNumberOfModelElt
 ]
 
