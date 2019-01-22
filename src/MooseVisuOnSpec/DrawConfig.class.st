@@ -32,11 +32,6 @@ DrawConfig >> center: anObject [
 ]
 
 { #category : #utilities }
-DrawConfig >> drawers [
-applicableDrawers drawersFor: type.
-]
-
-{ #category : #utilities }
 DrawConfig >> getDrawers [
 	^DrawerManager
 		new

@@ -72,28 +72,27 @@ DrawerOptions >> initConfigWith: aType [
 
 { #category : #initialization }
 DrawerOptions >> initDrawerList [
-	drawerList := self
-		newDropList.
+	drawerList := self newDropList.
 	"Select a drawer for ' , config type printString."
-	self
-		drawerList
-		
-			items:
-			self
-				config
-				applicableDrawers
-				asOrderedCollection;
-		
-			whenSelectedItemChanged:
-				[ :item | 
-			config selectedDrawer: item
-				new ]
+	self drawerList
+		items: self config getDrawers asOrderedCollection;
+		whenSelectedItemChanged: [ :item | config selectedDrawer: item ]
 ]
 
 { #category : #initialization }
 DrawerOptions >> initTypeLabel [
 	typeLabel := self newLabel.
 	"typeLabel label: text"
+]
+
+{ #category : #initialization }
+DrawerOptions >> initializePresenter [
+	buttonOk
+		action: [ self window close.
+			self config selectedDrawer
+				new
+				selected: config type;
+				openWithSpec ]
 ]
 
 { #category : #initialization }

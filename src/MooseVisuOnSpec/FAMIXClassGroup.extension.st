@@ -1,7 +1,7 @@
 Extension { #name : #FAMIXClassGroup }
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClassGroup >> contextMenuWith: aBoolean On: aPresenter [
+FAMIXClassGroup >> contextMenuOn: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu | 
 			MenuPresenter new
@@ -10,16 +10,13 @@ FAMIXClassGroup >> contextMenuWith: aBoolean On: aPresenter [
 						addItem: [ :item | 
 							item
 								name: 'Open';
-								action: [ 
-									aPresenter updateListViewItems: aPresenter selected.
-									aBoolean
-										ifTrue: [ aPresenter openResultInNewWindow ] ] ];
+								action: [ aPresenter updateListViewItems: aPresenter selected.
+									aPresenter openResultInNewWindow ] ];
 						addItem: [ :item | 
 							item
 								name: 'Visualize';
-								action: [ aPresenter visualizeOptionsOn: aPresenter selected.
-									aBoolean
-										ifTrue: [ aPresenter openResultInNewWindow ] ] ] ];
+								action: [ aPresenter drawerOptionsOn: aPresenter selected.
+									 ] ] ];
 				buildWithSpecAsPopup ]
 ]
 

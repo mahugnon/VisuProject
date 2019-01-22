@@ -1,19 +1,17 @@
 Extension { #name : #FAMIXClass }
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClass >> contextMenuWith: aBoolean On: aPresenter [
+FAMIXClass >> contextMenuOn: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu | 
 			MenuPresenter new
 				addGroup: [ :group | 
 					group
-						
 						addItem: [ :item | 
 							item
 								name: 'Visualize';
-								action: [ aPresenter visualizeOptionsOn: aPresenter selected.
-									aBoolean
-										ifTrue: [ aPresenter openResultInNewWindow ] ] ] ];
+								action: [ aPresenter drawerOptionsOn: aPresenter selected.
+									aPresenter openResultInNewWindow ] ] ];
 				buildWithSpecAsPopup ]
 ]
 

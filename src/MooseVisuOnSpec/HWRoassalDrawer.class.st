@@ -6,7 +6,7 @@ It is responsible to show this element in some way
 "
 Class {
 	#name : #HWRoassalDrawer,
-	#superclass : #Object,
+	#superclass : #RoassalModel,
 	#instVars : [
 		'elements',
 		'selected',
@@ -30,6 +30,18 @@ HWRoassalDrawer >> elements: anObject [
 	elements := anObject
 ]
 
+{ #category : #api }
+HWRoassalDrawer >> extent [
+	^ 800 @ 800
+]
+
+{ #category : #initialize }
+HWRoassalDrawer >> initialize [ 
+super initialize .
+self script: [ :view :canvas | self drawOnRoassalView: view ]
+
+]
+
 { #category : #accessing }
 HWRoassalDrawer >> selected [
 	^ selected
@@ -38,4 +50,9 @@ HWRoassalDrawer >> selected [
 { #category : #accessing }
 HWRoassalDrawer >> selected: anObject [
 	selected := anObject
+]
+
+{ #category : #api }
+HWRoassalDrawer >> title [
+	^ self className,' with ', selected asString 
 ]

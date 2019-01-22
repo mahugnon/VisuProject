@@ -1,7 +1,7 @@
 Extension { #name : #MooseGroup }
 
 { #category : #'*MooseVisuOnSpec' }
-MooseGroup >> contextMenuWith: aBoolean On: aPresenter [
+MooseGroup >> contextMenuOn: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu | 
 			MenuPresenter new
@@ -10,9 +10,7 @@ MooseGroup >> contextMenuWith: aBoolean On: aPresenter [
 						addItem: [ :item | 
 							item
 								name: 'Open';
-								action: [ 
-									aPresenter updateListViewItems: aPresenter selected.
-									aBoolean
-										ifTrue: [ aPresenter openResultInNewWindow ] ] ] ];
+								action: [ aPresenter updateListViewItems: aPresenter selected.
+									aPresenter openResultInNewWindow  ] ] ];
 				buildWithSpecAsPopup ]
 ]
