@@ -76,18 +76,19 @@ MVSMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 
 { #category : #'build items' }
 MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
+	| tempPresenter |
 	menuItemPresenters isEmpty
 		ifTrue: [ ^ self ].
-	self isOpenResultNewWindow
-		ifTrue: [ newSelf listView 	menu: [ :aMenu | 
-					MenuPresenter new
-						addGroup: [ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
-						buildWithSpecAsPopup ]]
-		ifFalse: [ self listView 
-				menu: [ :aMenu | 
-					MenuPresenter new
-						addGroup: [ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
-						buildWithSpecAsPopup ] ]
+	tempPresenter := self isOpenResultNewWindow
+		ifTrue: [ newSelf ]
+		ifFalse: [ self ].
+	tempPresenter listView
+		menu: [ :aMenu | 
+			MenuPresenter new
+				addGroup:
+						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+				buildWithSpecAsPopup ].
+	^ tempPresenter
 ]
 
 { #category : #initialization }
