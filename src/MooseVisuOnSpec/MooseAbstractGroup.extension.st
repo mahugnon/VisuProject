@@ -3,6 +3,6 @@ Extension { #name : #MooseAbstractGroup }
 { #category : #'*MooseVisuOnSpec' }
 MooseAbstractGroup >> drawers [
 	^ OrderedCollection new
-		add: HWDrawerClassNameSufix;
+		add: MVSDrawerClassNameSufix;
 		yourself
 ]

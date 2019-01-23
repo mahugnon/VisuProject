@@ -2,27 +2,25 @@ Extension { #name : #FAMIXClassGroup }
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClassGroup >> contextMenuOn: aPresenter [
-	^ aPresenter
-		listViewMenu: [ :aMenu | 
-			MenuPresenter new
-				addGroup: [ :group | 
-					group
-						addItem: [ :item | 
-							item
-								name: 'Open';
-								action: [ aPresenter updateListViewItems: aPresenter selected.
-									aPresenter openResultInNewWindow ] ];
-						addItem: [ :item | 
-							item
-								name: 'Visualize';
-								action: [ aPresenter drawerOptionsOn: aPresenter selected.
-									 ] ] ];
-				buildWithSpecAsPopup ]
+	| col |
+	col := OrderedCollection new.
+	col
+		add:
+			(MenuItemPresenter new
+				name: 'Open';
+				action: [ aPresenter isOpenResultNewWindow
+						ifTrue: [ aPresenter openResultInNewWindow: self ]
+						ifFalse: [ aPresenter updateListViewItems: self ] ]);
+		add:
+			(MenuItemPresenter new
+				name: 'Visualize';
+				action: [ aPresenter drawerOptionsOn: self ]).
+		aPresenter buildContextMenuWith: col
 ]
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClassGroup >> drawers [
 	^ OrderedCollection new
-		add: HWDeprecatedClassRelationWithForceLayout;
-		add: HWSystemComplexity; yourself
+		add: MVSDeprecatedClassRelationWithForceLayout;
+		add: MVSSystemComplexity; yourself
 ]

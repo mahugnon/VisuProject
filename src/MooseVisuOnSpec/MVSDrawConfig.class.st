@@ -2,7 +2,7 @@
 My I store user config 
 "
 Class {
-	#name : #DrawConfig,
+	#name : #MVSDrawConfig,
 	#superclass : #Object,
 	#instVars : [
 		'type',
@@ -15,55 +15,55 @@ Class {
 }
 
 { #category : #accessing }
-DrawConfig >> applicableDrawers [
+MVSDrawConfig >> applicableDrawers [
 	^self
 		getDrawers.
 	
 ]
 
 { #category : #accessing }
-DrawConfig >> center [
+MVSDrawConfig >> center [
 	^ center
 ]
 
 { #category : #accessing }
-DrawConfig >> center: anObject [
+MVSDrawConfig >> center: anObject [
 	center := anObject
 ]
 
 { #category : #utilities }
-DrawConfig >> getDrawers [
-	^DrawerManager
+MVSDrawConfig >> getDrawers [
+	^MVSDrawerManager
 		new
 		drawersFor: type
 ]
 
 { #category : #accessing }
-DrawConfig >> selectedDrawer [
+MVSDrawConfig >> selectedDrawer [
 	^ selectedDrawer
 ]
 
 { #category : #accessing }
-DrawConfig >> selectedDrawer: anObject [
+MVSDrawConfig >> selectedDrawer: anObject [
 	selectedDrawer := anObject
 ]
 
 { #category : #accessing }
-DrawConfig >> type [
+MVSDrawConfig >> type [
 	^ type
 ]
 
 { #category : #accessing }
-DrawConfig >> type: anObject [
+MVSDrawConfig >> type: anObject [
 	type := anObject
 ]
 
 { #category : #accessing }
-DrawConfig >> zoom [
+MVSDrawConfig >> zoom [
 	^ zoom
 ]
 
 { #category : #accessing }
-DrawConfig >> zoom: anObject [
+MVSDrawConfig >> zoom: anObject [
 	zoom := anObject
 ]

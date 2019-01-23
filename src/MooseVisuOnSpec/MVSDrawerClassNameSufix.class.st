@@ -2,13 +2,13 @@
 I draw class name suffix dependecies graph
 "
 Class {
-	#name : #HWDrawerClassNameSufix,
-	#superclass : #HWRoassalDrawer,
+	#name : #MVSDrawerClassNameSufix,
+	#superclass : #MVSRoassalDrawer,
 	#category : #'MooseVisuOnSpec-drawers'
 }
 
 { #category : #Visualisation }
-HWDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierarchies using: dicoOfColors and: dicoOfVisualElementsIndices on: aView [
+MVSDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierarchies using: dicoOfColors and: dicoOfVisualElementsIndices on: aView [
 	| allHierarchieClasses aDicoOfSuffixesAndClasses layers |
 	aView @ RTDraggableView.
 	aView @ RTZoomableView.
@@ -21,12 +21,12 @@ HWDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierar
 ]
 
 { #category : #drawing }
-HWDrawerClassNameSufix >> drawOnRoassalView: aView [
+MVSDrawerClassNameSufix >> drawOnRoassalView: aView [
 self hierarchieBlueprintOn: aView 
 ]
 
 { #category : #Visualisation }
-HWDrawerClassNameSufix >> hierarchieBlueprint [
+MVSDrawerClassNameSufix >> hierarchieBlueprint [
 	| allHierarchieClasses subRootClasses aDico dicoOfVisualElementsIndices dicoOfColors |
 	allHierarchieClasses := selected hierarchieSuffixesAndClasses values flatCollect: #yourself.
 	subRootClasses := allHierarchieClasses select: [ :aScanReport | aScanReport indiceOfTheClassInSubHierarchy = 1 ].
@@ -38,7 +38,7 @@ HWDrawerClassNameSufix >> hierarchieBlueprint [
 ]
 
 { #category : #Visualisation }
-HWDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
+MVSDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
 	| allHierarchieClasses subRootClasses aDico dicoOfVisualElementsIndices dicoOfColors |
 	allHierarchieClasses := selected hierarchieSuffixesAndClasses values flatCollect: #yourself.
 	subRootClasses := allHierarchieClasses select: [ :aScanReport | aScanReport indiceOfTheClassInSubHierarchy = 1 ].
@@ -50,7 +50,7 @@ HWDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
 ]
 
 { #category : #accessing }
-HWDrawerClassNameSufix >> selected [
+MVSDrawerClassNameSufix >> selected [
 super selected .
 self selected: self selected vocabularyScanner allHierarchies .
 ]

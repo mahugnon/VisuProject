@@ -1,11 +1,11 @@
 Class {
-	#name : #FilterManager,
+	#name : #MVSFilterManager,
 	#superclass : #Object,
 	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #actions }
-FilterManager >> buildQueryBlockFrom: aText [
+MVSFilterManager >> buildQueryBlockFrom: aText [
 	^ OpalCompiler new
 		source: '[:each |',aText,']';
 		logged: false;
@@ -13,11 +13,11 @@ FilterManager >> buildQueryBlockFrom: aText [
 ]
 
 { #category : #actions }
-FilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
+MVSFilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
 	^ aFamixClassGroup select: aBlock
 ]
 
 { #category : #actions }
-FilterManager >> executeQueryWith: aText on: aFamixClassGroup [
+MVSFilterManager >> executeQueryWith: aText on: aFamixClassGroup [
 	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
 ]

@@ -2,7 +2,7 @@
 I am a Modal to allow user to select a draw beyond different options
 "
 Class {
-	#name : #DrawerOptions,
+	#name : #MVSDrawerOptions,
 	#superclass : #DynamicComposablePresenter,
 	#instVars : [
 		'typeLabel',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #specs }
-DrawerOptions class >> defaultSpec [
+MVSDrawerOptions class >> defaultSpec [
 	^ SpecColumnLayout composed
 		newRow: [ :r1 | r1 add: #typeLabel ] origin: 0 @ 0 corner: 1 @ 0.2;
 		newRow: [ :r2 | r2 add: #drawerList ] origin: 0 @ 0.2 corner: 1 @ 0.4;
@@ -24,54 +24,54 @@ DrawerOptions class >> defaultSpec [
 ]
 
 { #category : #specs }
-DrawerOptions class >> runMe [
+MVSDrawerOptions class >> runMe [
 <script>
-DrawerOptions new openWithSpec 
+MVSDrawerOptions new openWithSpec 
 ]
 
 { #category : #accessing }
-DrawerOptions >> buttonOk [
+MVSDrawerOptions >> buttonOk [
 	^ buttonOk
 ]
 
 { #category : #accessing }
-DrawerOptions >> config [
+MVSDrawerOptions >> config [
 	^ config
 ]
 
 { #category : #accessing }
-DrawerOptions >> config: anObject [
+MVSDrawerOptions >> config: anObject [
 	config := anObject
 ]
 
 { #category : #api }
-DrawerOptions >> drawerList [
+MVSDrawerOptions >> drawerList [
 	^ drawerList
 ]
 
 { #category : #accessing }
-DrawerOptions >> drawerList: anObject [
+MVSDrawerOptions >> drawerList: anObject [
 	drawerList := anObject
 ]
 
 { #category : #initialization }
-DrawerOptions >> initButtonOk [
+MVSDrawerOptions >> initButtonOk [
 	buttonOk := self newButton.
 	buttonOk label: 'Draw'
 ]
 
 { #category : #initialization }
-DrawerOptions >> initConfig [
+MVSDrawerOptions >> initConfig [
 	config := self instantiateDrawConfig
 ]
 
 { #category : #initialization }
-DrawerOptions >> initConfigWith: aType [
+MVSDrawerOptions >> initConfigWith: aType [
 	config := self instantiateDrawConfigWith: aType
 ]
 
 { #category : #initialization }
-DrawerOptions >> initDrawerList [
+MVSDrawerOptions >> initDrawerList [
 	drawerList := self newDropList.
 	"Select a drawer for ' , config type printString."
 	self drawerList
@@ -80,13 +80,13 @@ DrawerOptions >> initDrawerList [
 ]
 
 { #category : #initialization }
-DrawerOptions >> initTypeLabel [
+MVSDrawerOptions >> initTypeLabel [
 	typeLabel := self newLabel.
 	"typeLabel label: text"
 ]
 
 { #category : #initialization }
-DrawerOptions >> initializePresenter [
+MVSDrawerOptions >> initializePresenter [
 	buttonOk
 		action: [ self window close.
 			self config selectedDrawer
@@ -96,7 +96,7 @@ DrawerOptions >> initializePresenter [
 ]
 
 { #category : #initialization }
-DrawerOptions >> initializeWidgets [
+MVSDrawerOptions >> initializeWidgets [
 	self initConfig.
 	self initDrawerList.
 	self initTypeLabel.
@@ -108,31 +108,31 @@ DrawerOptions >> initializeWidgets [
 ]
 
 { #category : #initialization }
-DrawerOptions >> instantiateDrawConfig [
-	^ DrawConfig new 
+MVSDrawerOptions >> instantiateDrawConfig [
+	^ MVSDrawConfig new 
 ]
 
 { #category : #initialization }
-DrawerOptions >> instantiateDrawConfigWith: aType [
-	^ DrawConfig new type: aType
+MVSDrawerOptions >> instantiateDrawConfigWith: aType [
+	^ MVSDrawConfig new type: aType
 ]
 
 { #category : #accessing }
-DrawerOptions >> selectedDrawer [
+MVSDrawerOptions >> selectedDrawer [
 	^ selectedDrawer
 ]
 
 { #category : #api }
-DrawerOptions >> title [ 
+MVSDrawerOptions >> title [ 
 ^'Drawing options'
 ]
 
 { #category : #accessing }
-DrawerOptions >> typeLabel [
+MVSDrawerOptions >> typeLabel [
 	^ typeLabel
 ]
 
 { #category : #accessing }
-DrawerOptions >> typeLabel: anObject [
+MVSDrawerOptions >> typeLabel: anObject [
 	typeLabel := anObject
 ]

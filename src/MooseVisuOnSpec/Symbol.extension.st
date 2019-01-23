@@ -3,6 +3,6 @@ Extension { #name : #Symbol }
 { #category : #'*MooseVisuOnSpec' }
 Symbol >> drawers [
 	^ OrderedCollection new
-		add: HWDrawerMethodsImplementors;
+		add: MVSDrawerMethodsImplementors;
 		yourself
 ]

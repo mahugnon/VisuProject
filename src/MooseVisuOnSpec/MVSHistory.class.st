@@ -3,7 +3,7 @@ I hold the history of the model during user interaction.
 - When asked I can give the pass state and the next state 
 "
 Class {
-	#name : #History,
+	#name : #MVSHistory,
 	#superclass : #Object,
 	#instVars : [
 		'past',
@@ -13,12 +13,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-History class >> create [
+MVSHistory class >> create [
 	^ self new
 ]
 
 { #category : #'as yet unclassified' }
-History class >> create: aCollection [
+MVSHistory class >> create: aCollection [
 	|history|
 	history:= self
 		new.
@@ -27,44 +27,44 @@ History class >> create: aCollection [
 ]
 
 { #category : #adding }
-History >> addToFuture:anObject [
+MVSHistory >> addToFuture:anObject [
 future push:anObject.
 ]
 
 { #category : #adding }
-History >> addToPast:anObject [
+MVSHistory >> addToPast:anObject [
 past push: anObject .
 ]
 
 { #category : #accessing }
-History >> future [
+MVSHistory >> future [
 	^ future
 ]
 
 { #category : #'action - testing' }
-History >> hasNext [
+MVSHistory >> hasNext [
 	^ future isNotEmpty 
 ]
 
 { #category : #'action - testing' }
-History >> hasPast [
+MVSHistory >> hasPast [
 	^ past isNotEmpty 
 ]
 
 { #category : #initialization }
-History >> initialize [
+MVSHistory >> initialize [
 	past := Stack new.
 	future := Stack new
 ]
 
 { #category : #initialization }
-History >> initializeHistory: aCollection [
+MVSHistory >> initializeHistory: aCollection [
 	past push: aCollection.
 	future push: aCollection
 ]
 
 { #category : #accessing }
-History >> next [
+MVSHistory >> next [
 	| next |
 	next := future top.
 	future pop.
@@ -72,12 +72,12 @@ History >> next [
 ]
 
 { #category : #accessing }
-History >> past [
+MVSHistory >> past [
 	^ past
 ]
 
 { #category : #accessing }
-History >> previous [
+MVSHistory >> previous [
 	| previous |
 	previous := past top.
 	

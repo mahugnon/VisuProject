@@ -2,15 +2,14 @@ Extension { #name : #MooseModel }
 
 { #category : #'*MooseVisuOnSpec' }
 MooseModel >> contextMenuOn: aPresenter [
-	^ aPresenter
-		listViewMenu: [ :aMenu | 
-			MenuPresenter new
-				addGroup: [ :group | 
-					group
-						addItem: [ :item | 
-							item
-								name: 'Open';
-								action: [ aPresenter updateListViewItems: aPresenter selected cacheMooseGroups entityCache.
-									aPresenter openResultInNewWindow ] ] ];
-				buildWithSpecAsPopup ]
+	| col  |
+	col := OrderedCollection new.
+	col
+		add:
+			(MenuItemPresenter new
+				name: 'Open';
+				action: [ aPresenter isOpenResultNewWindow
+						ifTrue: [  aPresenter openResultInNewWindow: self cacheMooseGroups entityCache ]
+						ifFalse: [ aPresenter updateListViewItems: self cacheMooseGroups entityCache ] ]).
+		aPresenter buildContextMenuWith: col
 ]

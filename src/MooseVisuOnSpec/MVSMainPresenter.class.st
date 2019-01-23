@@ -13,7 +13,7 @@ Exemple:
 	.if entity is a method the only methods visualisation are enabled.
 "
 Class {
-	#name : #HWMainPresenter,
+	#name : #MVSMainPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'listView',
@@ -21,13 +21,15 @@ Class {
 		'queryWidget',
 		'drawerOptions',
 		'history',
-		'labelNumberListElt'
+		'labelNumberListElt',
+		'openResultNewWindowCheckBox',
+		'newSelf'
 	],
 	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #specs }
-HWMainPresenter class >> defaultSpec [ 
+MVSMainPresenter class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :tcol | 
 			tcol
@@ -38,12 +40,13 @@ HWMainPresenter class >> defaultSpec [
 								add: #menu height: self toolbarHeight;
 								add: #labelNumberListElt height: 30;
 								add: #queryWidget height: self toolbarHeight;
+								add: #openResultNewWindowCheckBox height: 30;
 								add: #listView ] ] ];
 		yourself
 ]
 
 { #category : #example }
-HWMainPresenter class >> runMeWithClass [
+MVSMainPresenter class >> runMeWithClass [
 	<script>
 	| col |
 	col := OrderedCollection new.
@@ -52,68 +55,76 @@ HWMainPresenter class >> runMeWithClass [
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
 	(self
-		withDrawer: HWDrawerSubclassesWithForceLayout
+		withDrawer: MVSDrawerSubclassesWithForceLayout
 		elements: MooseModel root) openWithSpec
 ]
 
 { #category : #example }
-HWMainPresenter class >> runMeWithSelectors [
+MVSMainPresenter class >> runMeWithSelectors [
 	<script>
-	(HWMainPresenter withDrawer: HWDrawerMethodsImplementors elements: Object allSelectors)
+	(MVSMainPresenter withDrawer: MVSDrawerMethodsImplementors elements: Object allSelectors)
 		openWithSpec
 ]
 
 { #category : #'instance creation' }
-HWMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
+MVSMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 	^ self basicNew
 		initialize;
 		initListViewItems: aCollection;
 		yourself
 ]
 
-{ #category : #actions }
-HWMainPresenter >> actionButtonOkClick [
-	"| elt drawer |
-	drawer := self currentConfig selectedDrawer.
-	elt := listView selectedItem.
-	drawer isNotNil
-		ifFalse: [ ^ self ].
-	self drawerOptions window close.
-	drawer selected: elt
-	self needRebuild: false.
-	self drawOnViewWith: drawer.
-	self buildWithSpecLayout: self class drawSpec.
-	self listView setSelectedItem: elt"
+{ #category : #'build items' }
+MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
+	menuItemPresenters isEmpty
+		ifTrue: [ ^ self ].
+	self isOpenResultNewWindow
+		ifTrue: [ newSelf listView 	menu: [ :aMenu | 
+					MenuPresenter new
+						addGroup: [ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+						buildWithSpecAsPopup ]]
+		ifFalse: [ self listView 
+				menu: [ :aMenu | 
+					MenuPresenter new
+						addGroup: [ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+						buildWithSpecAsPopup ] ]
 ]
 
 { #category : #initialization }
-HWMainPresenter >> createHistory [
-	history := History create
+MVSMainPresenter >> createHistory [
+	history := MVSHistory create
 ]
 
 { #category : #initialization }
-HWMainPresenter >> createQueryWidget [
-	queryWidget := self instantiate: QueryWidget.
+MVSMainPresenter >> createOpenResultNewWindowCheckBox [
+	openResultNewWindowCheckBox := self newCheckBox
+	label: 'Open result in new window'
+	
+]
+
+{ #category : #initialization }
+MVSMainPresenter >> createQueryWidget [
+	queryWidget := self instantiate: MVSQueryWidget.
 	
 ]
 
 { #category : #accessing }
-HWMainPresenter >> currentConfig [
+MVSMainPresenter >> currentConfig [
 	^ self drawerOptions config
 ]
 
 { #category : #accessing }
-HWMainPresenter >> drawerOptions [
+MVSMainPresenter >> drawerOptions [
 	^ drawerOptions
 ]
 
 { #category : #accessing }
-HWMainPresenter >> drawerOptions: anObject [
+MVSMainPresenter >> drawerOptions: anObject [
 	drawerOptions := anObject
 ]
 
 { #category : #actions }
-HWMainPresenter >> drawerOptionsOn: item [
+MVSMainPresenter >> drawerOptionsOn: item [
 	self drawerOptions
 		initConfigWith: item;
 		initDrawerList.
@@ -123,7 +134,7 @@ HWMainPresenter >> drawerOptionsOn: item [
 ]
 
 { #category : #actions }
-HWMainPresenter >> executeTextQueryOnCR [
+MVSMainPresenter >> executeTextQueryOnCR [
 	self queryWidget textField
 		autoAccept: true;
 		beForCode;
@@ -133,55 +144,61 @@ HWMainPresenter >> executeTextQueryOnCR [
 ]
 
 { #category : #api }
-HWMainPresenter >> extent [
+MVSMainPresenter >> extent [
 	^ 800 @ 650
 ]
 
 { #category : #accessing }
-HWMainPresenter >> history [
+MVSMainPresenter >> history [
 	^ history
 ]
 
 { #category : #initialization }
-HWMainPresenter >> initHistory: aCollection [
-	history := History create
+MVSMainPresenter >> initHistory: aCollection [
+	history := MVSHistory create
 ]
 
 { #category : #initialization }
-HWMainPresenter >> initListViewItems: aCollection [
+MVSMainPresenter >> initListViewItems: aCollection [
 	listView
 		items: aCollection;
-		displayBlock: [ :item | item displayString ];
+		displayBlock: [ :item | 
+			item asString
+				copyReplaceAll: 'famixt' with: 'famix' ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
-	self createHistory .
+	self createHistory.
 	self updateNumberOfModelElt
 ]
 
 { #category : #initialization }
-HWMainPresenter >> initializePresenter [
-	"self drawerOptions buttonOk action: [ self actionButtonOkClick ]."
+MVSMainPresenter >> initializePresenter [
 	self itemSelectedEventOn: listView.
-	self executeTextQueryOnCR
+	self executeTextQueryOnCR.
+	self openResultNewWindowCheckBoxEvent.
 ]
 
 { #category : #initialization }
-HWMainPresenter >> initializeWidgets [
+MVSMainPresenter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
-	drawerOptions := DrawerOptions new.
+	drawerOptions := MVSDrawerOptions new.
 	self createQueryWidget.
+	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
 	self initListViewItems: #().
 	self focusOrder
 		add: menu;
-		
 		add: listView
-		
+]
+
+{ #category : #testing }
+MVSMainPresenter >> isOpenResultNewWindow [
+^openResultNewWindowCheckBox state
 ]
 
 { #category : #initialization }
-HWMainPresenter >> itemSelectedEventOn: aListView [
+MVSMainPresenter >> itemSelectedEventOn: aListView [
 	^ aListView
 		whenSelectedItemChanged:
 			[ :item | 
@@ -193,38 +210,38 @@ HWMainPresenter >> itemSelectedEventOn: aListView [
 ]
 
 { #category : #accessing }
-HWMainPresenter >> labelNumberListElt [
+MVSMainPresenter >> labelNumberListElt [
 	^ labelNumberListElt
 ]
 
 { #category : #accessing }
-HWMainPresenter >> listView [
+MVSMainPresenter >> listView [
 	^ listView
 ]
 
 { #category : #'model - updating' }
-HWMainPresenter >> listViewMenu: aBlock [
+MVSMainPresenter >> listViewMenu: aBlock [
 	^ self listView menu: aBlock 
 ]
 
 { #category : #actions }
-HWMainPresenter >> loadImportedModel [
+MVSMainPresenter >> loadImportedModel [
 	
 	self initListViewItems: MSELoader loadMSE
 ]
 
 { #category : #accessing }
-HWMainPresenter >> menu [
+MVSMainPresenter >> menu [
 	^ menu
 ]
 
 { #category : #accessing }
-HWMainPresenter >> menu: anObject [
+MVSMainPresenter >> menu: anObject [
 	menu := anObject
 ]
 
 { #category : #initialization }
-HWMainPresenter >> menuBarFor: aPresenter [
+MVSMainPresenter >> menuBarFor: aPresenter [
 	| aMenu |
 	aMenu := MenuPresenter new
 		addGroup: [ :group | 
@@ -262,7 +279,7 @@ HWMainPresenter >> menuBarFor: aPresenter [
 ]
 
 { #category : #navigation }
-HWMainPresenter >> next [
+MVSMainPresenter >> next [
 	history hasNext
 		ifFalse: [ ^ self ].
 	self updatePastWith:  listView listItems.
@@ -277,13 +294,32 @@ self eltList: self history currentList
 ]
 
 { #category : #actions }
-HWMainPresenter >> openResultInNewWindow [
+MVSMainPresenter >> openResultInNewWindow [
 	^ (self class withDrawer: nil elements: listView listItems) openWithSpec .
 	
 ]
 
+{ #category : #actions }
+MVSMainPresenter >> openResultInNewWindow: aCollection [
+	newSelf initListViewItems: aCollection .
+
+	newSelf 	openWithSpec.
+	
+]
+
+{ #category : #accessing }
+MVSMainPresenter >> openResultNewWindowCheckBox [
+^openResultNewWindowCheckBox
+]
+
+{ #category : #'as yet unclassified' }
+MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
+ openResultNewWindowCheckBox activationAction:  [
+	newSelf :=self class withDrawer:nil  elements:#()   ]
+]
+
 { #category : #navigation }
-HWMainPresenter >> prev [
+MVSMainPresenter >> prev [
 	history hasPast
 		ifFalse: [ ^ self ].
 	self updateFutureWith:  listView listItems.
@@ -292,27 +328,27 @@ HWMainPresenter >> prev [
 ]
 
 { #category : #accessing }
-HWMainPresenter >> queryWidget [
+MVSMainPresenter >> queryWidget [
 	^ queryWidget
 ]
 
 { #category : #accessing }
-HWMainPresenter >> selected [
+MVSMainPresenter >> selected [
 	^ listView selectedItem
 ]
 
 { #category : #api }
-HWMainPresenter >> title [ 
+MVSMainPresenter >> title [ 
 ^'Visualization'.
 ]
 
 { #category : #actions }
-HWMainPresenter >> updateFutureWith: item [
+MVSMainPresenter >> updateFutureWith: item [
 	history addToFuture: item
 ]
 
 { #category : #'model - updating' }
-HWMainPresenter >> updateListViewItems: aCollection [
+MVSMainPresenter >> updateListViewItems: aCollection [
 	
 	history addToPast: listView listItems.
 	listView items: aCollection.
@@ -320,13 +356,13 @@ HWMainPresenter >> updateListViewItems: aCollection [
 ]
 
 { #category : #'model - updating' }
-HWMainPresenter >> updateNumberOfModelElt [
+MVSMainPresenter >> updateNumberOfModelElt [
 	labelNumberListElt
 		label: 'Number of items ' , ' :  ' , listView listItems size asString;
 		emphasis: #bold
 ]
 
 { #category : #actions }
-HWMainPresenter >> updatePastWith:item [
+MVSMainPresenter >> updatePastWith:item [
 	history addToPast: item
 ]

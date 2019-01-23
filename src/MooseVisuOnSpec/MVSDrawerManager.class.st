@@ -2,13 +2,13 @@
 I collect Roassal drawers applicable on a specific type of object.
 "
 Class {
-	#name : #DrawerManager,
+	#name : #MVSDrawerManager,
 	#superclass : #Object,
 	#category : #'MooseVisuOnSpec-core'
 }
 
 { #category : #utility }
-DrawerManager >> drawersFor: aType [
+MVSDrawerManager >> drawersFor: aType [
 	aType
 		isNotNil
 		ifTrue:

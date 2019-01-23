@@ -2,23 +2,20 @@ Extension { #name : #FAMIXClass }
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> contextMenuOn: aPresenter [
-	^ aPresenter
-		listViewMenu: [ :aMenu | 
-			MenuPresenter new
-				addGroup: [ :group | 
-					group
-						addItem: [ :item | 
-							item
-								name: 'Visualize';
-								action: [ aPresenter drawerOptionsOn: aPresenter selected.
-									aPresenter openResultInNewWindow ] ] ];
-				buildWithSpecAsPopup ]
+	| col |
+	col := OrderedCollection new.
+	col
+		add:
+			(MenuItemPresenter new
+				name: 'Visualize';
+				action: [ aPresenter drawerOptionsOn: self ]).
+	aPresenter buildContextMenuWith: col
 ]
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> drawers [
 	^ OrderedCollection new
-		add: HWFMClassInheritanceTree ;
+		add: MVSFMClassInheritanceTree ;
 	
 		yourself
 ]

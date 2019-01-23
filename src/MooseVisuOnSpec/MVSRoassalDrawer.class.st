@@ -5,7 +5,7 @@ It knows the list of elements that the HWMainPresenter is showing, and the eleme
 It is responsible to show this element in some way
 "
 Class {
-	#name : #HWRoassalDrawer,
+	#name : #MVSRoassalDrawer,
 	#superclass : #RoassalModel,
 	#instVars : [
 		'elements',
@@ -16,43 +16,43 @@ Class {
 }
 
 { #category : #drawing }
-HWRoassalDrawer >> drawOnRoassalView: aView [
+MVSRoassalDrawer >> drawOnRoassalView: aView [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-HWRoassalDrawer >> elements [
+MVSRoassalDrawer >> elements [
 	^ elements
 ]
 
 { #category : #accessing }
-HWRoassalDrawer >> elements: anObject [
+MVSRoassalDrawer >> elements: anObject [
 	elements := anObject
 ]
 
 { #category : #api }
-HWRoassalDrawer >> extent [
+MVSRoassalDrawer >> extent [
 	^ 800 @ 800
 ]
 
 { #category : #initialize }
-HWRoassalDrawer >> initialize [ 
+MVSRoassalDrawer >> initialize [ 
 super initialize .
 self script: [ :view :canvas | self drawOnRoassalView: view ]
 
 ]
 
 { #category : #accessing }
-HWRoassalDrawer >> selected [
+MVSRoassalDrawer >> selected [
 	^ selected
 ]
 
 { #category : #accessing }
-HWRoassalDrawer >> selected: anObject [
+MVSRoassalDrawer >> selected: anObject [
 	selected := anObject
 ]
 
 { #category : #api }
-HWRoassalDrawer >> title [
+MVSRoassalDrawer >> title [
 	^ self className,' with ', selected asString 
 ]

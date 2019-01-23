@@ -1,11 +1,11 @@
 Class {
-	#name : #HWDeprecatedClassRelationWithForceLayout,
-	#superclass : #HWRoassalDrawer,
+	#name : #MVSDeprecatedClassRelationWithForceLayout,
+	#superclass : #MVSRoassalDrawer,
 	#category : #'MooseVisuOnSpec-drawers'
 }
 
 { #category : #drawing }
-HWDeprecatedClassRelationWithForceLayout >> drawOnRoassalView: aView [
+MVSDeprecatedClassRelationWithForceLayout >> drawOnRoassalView: aView [
 	| model es |
 	model := selected  select: [ :each | (each isAnnotatedWith: 'Deprecated') & each clientTypes notEmpty ].
 	aView @ RTDraggableView @ RTZoomableView.
