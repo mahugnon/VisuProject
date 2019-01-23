@@ -10,5 +10,6 @@ FAMIXType >> contextMenuOn: aPresenter [
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
 						ifTrue: [ aPresenter openResultInNewWindow: self ]
-						ifFalse: [ aPresenter updateListViewItems: self ] ])
+						ifFalse: [ aPresenter updateListViewItems: self ] ]).
+						aPresenter buildContextMenuWith: col
 ]

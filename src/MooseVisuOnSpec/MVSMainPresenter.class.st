@@ -294,12 +294,6 @@ self eltList: self history currentList
 ]
 
 { #category : #actions }
-MVSMainPresenter >> openResultInNewWindow [
-	^ (self class withDrawer: nil elements: listView listItems) openWithSpec .
-	
-]
-
-{ #category : #actions }
 MVSMainPresenter >> openResultInNewWindow: aCollection [
 	newSelf initListViewItems: aCollection .
 
@@ -312,7 +306,7 @@ MVSMainPresenter >> openResultNewWindowCheckBox [
 ^openResultNewWindowCheckBox
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
  openResultNewWindowCheckBox activationAction:  [
 	newSelf :=self class withDrawer:nil  elements:#()   ]

@@ -11,6 +11,7 @@ FAMIXTypeGroup >> contextMenuOn: aPresenter [
 				action: [ aPresenter isOpenResultNewWindow
 						ifTrue: [ aPresenter openResultInNewWindow: self ]
 						ifFalse: [ aPresenter updateListViewItems: self ] ]).
+						aPresenter buildContextMenuWith: col
 ]
 
 { #category : #'*MooseVisuOnSpec' }
