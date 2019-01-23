@@ -15,6 +15,14 @@ FAMIXTypeGroup >> contextMenuOn: aPresenter [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
+FAMIXTypeGroup >> doubleClick: aPresenter [
+	self contextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self ]
+		ifFalse: [ aPresenter updateListViewItems: self ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
 FAMIXTypeGroup >> drawers [
 	^ OrderedCollection new add: MVSDeprecatedClassRelationWithForceLayout;yourself 
 ]

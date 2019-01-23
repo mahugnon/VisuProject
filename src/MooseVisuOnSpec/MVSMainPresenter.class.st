@@ -77,17 +77,31 @@ MVSMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
 { #category : #'build items' }
 MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 	| tempPresenter |
-	menuItemPresenters isEmpty
-		ifTrue: [ ^ self ].
-	tempPresenter := self isOpenResultNewWindow
-		ifTrue: [ newSelf ]
-		ifFalse: [ self ].
-	tempPresenter listView
-		menu: [ :aMenu | 
-			MenuPresenter new
-				addGroup:
-						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
-				buildWithSpecAsPopup ].
+	menuItemPresenters
+		isEmpty
+		ifTrue:
+			[ ^ self ].
+	tempPresenter := self
+		isOpenResultNewWindow
+		ifTrue:
+			[ newSelf ]
+		ifFalse:
+			[ self ].
+	tempPresenter
+		listView
+		menu:
+			[ MenuPresenter
+				new
+				
+					addGroup:
+						[ :group | 
+					menuItemPresenters
+						do:
+							[ :each | 
+							group
+								addMenuItem: each ] ];
+				
+					buildWithSpecAsPopup ].
 	^ tempPresenter
 ]
 
@@ -177,11 +191,15 @@ MVSMainPresenter >> initializePresenter [
 	self itemSelectedEventOn: listView.
 	self executeTextQueryOnCR.
 	self openResultNewWindowCheckBoxEvent.
+	listView doubleClickAction: [ :item | 
+
+		listView selectedItem doubleClick: self ]
 ]
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
+	
 	drawerOptions := MVSDrawerOptions new.
 	self createQueryWidget.
 	self createOpenResultNewWindowCheckBox.

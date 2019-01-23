@@ -13,3 +13,11 @@ MooseGroup >> contextMenuOn: aPresenter [
 						ifFalse: [ aPresenter updateListViewItems: self  ] ]).
 	aPresenter buildContextMenuWith: col
 ]
+
+{ #category : #'*MooseVisuOnSpec' }
+MooseGroup >> doubleClick: aPresenter [
+	self contextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self ]
+		ifFalse: [ aPresenter updateListViewItems: self ]
+]

@@ -13,6 +13,14 @@ FAMIXClass >> contextMenuOn: aPresenter [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
+FAMIXClass >> doubleClick: aPresenter [
+	self contextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self ]
+		ifFalse: [ aPresenter updateListViewItems: self ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> drawers [
 	^ OrderedCollection new
 		add: MVSFMClassInheritanceTree ;
