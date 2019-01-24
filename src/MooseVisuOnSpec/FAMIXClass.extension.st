@@ -27,3 +27,10 @@ FAMIXClass >> drawers [
 	
 		yourself
 ]
+
+{ #category : #'*MooseVisuOnSpec' }
+FAMIXClass >> mvsInteraction [
+	| col |
+	col := OrderedCollection new add: self;yourself .
+	^ (MVSMainPresenter withDrawer: nil elements: col) openWithSpec
+]
