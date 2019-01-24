@@ -23,7 +23,7 @@ FAMIXClass >> doubleClick: aPresenter [
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> drawers [
 	^ OrderedCollection new
-		add: MVSFMClassInheritanceTree ;
+		add: MVSFMClassInheritanceTreePresenter ;
 	
 		yourself
 ]

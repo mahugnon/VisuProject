@@ -55,14 +55,14 @@ MVSMainPresenter class >> runMeWithClass [
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
 	(self
-		withDrawer: MVSDrawerSubclassesWithForceLayout
+		withDrawer: MVSDrawerSubclassesWithForceLayoutPresenter
 		elements: MooseModel root) openWithSpec
 ]
 
 { #category : #example }
 MVSMainPresenter class >> runMeWithSelectors [
 	<script>
-	(MVSMainPresenter withDrawer: MVSDrawerMethodsImplementors elements: Object allSelectors)
+	(MVSMainPresenter withDrawer: MVSDrawerMethodsImplementorsPresenter elements: Object allSelectors)
 		openWithSpec
 ]
 
@@ -175,6 +175,7 @@ MVSMainPresenter >> initHistory: aCollection [
 
 { #category : #initialization }
 MVSMainPresenter >> initListViewItems: aCollection [
+
 	listView
 		items: aCollection;
 		displayBlock: [ :item | 

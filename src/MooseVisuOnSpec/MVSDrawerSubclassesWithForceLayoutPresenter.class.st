@@ -1,19 +1,19 @@
 Class {
-	#name : #MVSDrawerSuperclassesWithTreeLayout,
-	#superclass : #MVSRoassalDrawer,
-	#category : #'MooseVisuOnSpec-drawers'
+	#name : #MVSDrawerSubclassesWithForceLayoutPresenter,
+	#superclass : #MVSRoassalDrawerPresenter,
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #drawing }
-MVSDrawerSuperclassesWithTreeLayout >> drawOnRoassalView: roassalView [
+MVSDrawerSubclassesWithForceLayoutPresenter >> drawOnRoassalView: roassalView [
 	| es |
-	roassalView @ RTDraggableView @ RTZoomableView.
+	roassalView @ RTDraggableView.
 	es := (RTBox new
 		size: 15;
 		color: [ :c | 
 			c = selected
 				ifTrue: [ Color green ]
-				ifFalse: [ Color black alpha: 0.5 ] ]) elementsOn: selected withAllSuperclasses.
+				ifFalse: [ Color black alpha: 0.5 ] ]) elementsOn: selected withAllSubclasses.
 	roassalView addAll: es.
 	RTMetricNormalizer new
 		elements: es;
@@ -24,5 +24,5 @@ MVSDrawerSuperclassesWithTreeLayout >> drawOnRoassalView: roassalView [
 		view: roassalView;
 		elements: es;
 		connectFrom: #superclass.
-	RTTreeLayout new on: es
+	RTForceBasedLayout new on: es
 ]

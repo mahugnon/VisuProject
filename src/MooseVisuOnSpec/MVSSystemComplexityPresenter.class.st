@@ -2,13 +2,13 @@
 I draw system complexity on view
 "
 Class {
-	#name : #MVSSystemComplexity,
-	#superclass : #MVSRoassalDrawer,
-	#category : #'MooseVisuOnSpec-drawers'
+	#name : #MVSSystemComplexityPresenter,
+	#superclass : #MVSRoassalDrawerPresenter,
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #drawing }
-MVSSystemComplexity >> drawOnRoassalView: aView [
+MVSSystemComplexityPresenter >> drawOnRoassalView: aView [
 	| es |
 	aView @RTZoomableView @RTDraggableView  .
 es:=(RTBox new borderColor:Color black  ;

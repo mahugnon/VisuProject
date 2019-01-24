@@ -2,13 +2,13 @@
 I draw inheritance tree
 "
 Class {
-	#name : #MVSFMClassInheritanceTree,
-	#superclass : #MVSRoassalDrawer,
-	#category : #'MooseVisuOnSpec-drawers'
+	#name : #MVSFMClassInheritanceTreePresenter,
+	#superclass : #MVSRoassalDrawerPresenter,
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #drawing }
-MVSFMClassInheritanceTree >> drawOnRoassalView: aView [
+MVSFMClassInheritanceTreePresenter >> drawOnRoassalView: aView [
 	| es col |
 	col := OrderedCollection new.
 	col

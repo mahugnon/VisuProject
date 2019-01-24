@@ -5,54 +5,54 @@ It knows the list of elements that the HWMainPresenter is showing, and the eleme
 It is responsible to show this element in some way
 "
 Class {
-	#name : #MVSRoassalDrawer,
+	#name : #MVSRoassalDrawerPresenter,
 	#superclass : #RoassalModel,
 	#instVars : [
 		'elements',
 		'selected',
 		'name'
 	],
-	#category : #'MooseVisuOnSpec-drawers'
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #drawing }
-MVSRoassalDrawer >> drawOnRoassalView: aView [
+MVSRoassalDrawerPresenter >> drawOnRoassalView: aView [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-MVSRoassalDrawer >> elements [
+MVSRoassalDrawerPresenter >> elements [
 	^ elements
 ]
 
 { #category : #accessing }
-MVSRoassalDrawer >> elements: anObject [
+MVSRoassalDrawerPresenter >> elements: anObject [
 	elements := anObject
 ]
 
 { #category : #api }
-MVSRoassalDrawer >> extent [
+MVSRoassalDrawerPresenter >> extent [
 	^ 800 @ 800
 ]
 
 { #category : #initialize }
-MVSRoassalDrawer >> initialize [ 
+MVSRoassalDrawerPresenter >> initialize [ 
 super initialize .
 self script: [ :view :canvas | self drawOnRoassalView: view ]
 
 ]
 
 { #category : #accessing }
-MVSRoassalDrawer >> selected [
+MVSRoassalDrawerPresenter >> selected [
 	^ selected
 ]
 
 { #category : #accessing }
-MVSRoassalDrawer >> selected: anObject [
+MVSRoassalDrawerPresenter >> selected: anObject [
 	selected := anObject
 ]
 
 { #category : #api }
-MVSRoassalDrawer >> title [
+MVSRoassalDrawerPresenter >> title [
 	^ self className,' with ', selected asString 
 ]

@@ -29,6 +29,6 @@ self contextMenuOn: aPresenter .
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClassGroup >> drawers [
 	^ OrderedCollection new
-		add: MVSDeprecatedClassRelationWithForceLayout;
-		add: MVSSystemComplexity; yourself
+		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
+		add: MVSSystemComplexityPresenter; yourself
 ]

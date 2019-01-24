@@ -2,13 +2,13 @@
 I am in charge of drawing a selector implemetors
 "
 Class {
-	#name : #MVSDrawerMethodsImplementors,
-	#superclass : #MVSRoassalDrawer,
-	#category : #'MooseVisuOnSpec-drawers'
+	#name : #MVSDrawerMethodsImplementorsPresenter,
+	#superclass : #MVSRoassalDrawerPresenter,
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #drawing }
-MVSDrawerMethodsImplementors >> drawOnRoassalView: aView [
+MVSDrawerMethodsImplementorsPresenter >> drawOnRoassalView: aView [
 	| shape |
 	shape := RTBox new
 		size: 50;

@@ -2,13 +2,13 @@
 I draw class name suffix dependecies graph
 "
 Class {
-	#name : #MVSDrawerClassNameSufix,
-	#superclass : #MVSRoassalDrawer,
-	#category : #'MooseVisuOnSpec-drawers'
+	#name : #MVSDrawerClassNameSufixPresenter,
+	#superclass : #MVSRoassalDrawerPresenter,
+	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
 }
 
 { #category : #Visualisation }
-MVSDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierarchies using: dicoOfColors and: dicoOfVisualElementsIndices on: aView [
+MVSDrawerClassNameSufixPresenter >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhierarchies using: dicoOfColors and: dicoOfVisualElementsIndices on: aView [
 	| allHierarchieClasses aDicoOfSuffixesAndClasses layers |
 	aView @ RTDraggableView.
 	aView @ RTZoomableView.
@@ -21,12 +21,12 @@ MVSDrawerClassNameSufix >> buildHierarchyBlueprintOf: aDicoOfSuffixesAndSubhiera
 ]
 
 { #category : #drawing }
-MVSDrawerClassNameSufix >> drawOnRoassalView: aView [
+MVSDrawerClassNameSufixPresenter >> drawOnRoassalView: aView [
 self hierarchieBlueprintOn: aView 
 ]
 
 { #category : #Visualisation }
-MVSDrawerClassNameSufix >> hierarchieBlueprint [
+MVSDrawerClassNameSufixPresenter >> hierarchieBlueprint [
 	| allHierarchieClasses subRootClasses aDico dicoOfVisualElementsIndices dicoOfColors |
 	allHierarchieClasses := selected hierarchieSuffixesAndClasses values flatCollect: #yourself.
 	subRootClasses := allHierarchieClasses select: [ :aScanReport | aScanReport indiceOfTheClassInSubHierarchy = 1 ].
@@ -38,7 +38,7 @@ MVSDrawerClassNameSufix >> hierarchieBlueprint [
 ]
 
 { #category : #Visualisation }
-MVSDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
+MVSDrawerClassNameSufixPresenter >> hierarchieBlueprintOn:aView [
 	| allHierarchieClasses subRootClasses aDico dicoOfVisualElementsIndices dicoOfColors |
 	allHierarchieClasses := selected hierarchieSuffixesAndClasses values flatCollect: #yourself.
 	subRootClasses := allHierarchieClasses select: [ :aScanReport | aScanReport indiceOfTheClassInSubHierarchy = 1 ].
@@ -50,7 +50,7 @@ MVSDrawerClassNameSufix >> hierarchieBlueprintOn:aView [
 ]
 
 { #category : #accessing }
-MVSDrawerClassNameSufix >> selected [
+MVSDrawerClassNameSufixPresenter >> selected [
 super selected .
 self selected: self selected vocabularyScanner allHierarchies .
 ]

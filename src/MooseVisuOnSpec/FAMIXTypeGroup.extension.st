@@ -24,5 +24,5 @@ FAMIXTypeGroup >> doubleClick: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXTypeGroup >> drawers [
-	^ OrderedCollection new add: MVSDeprecatedClassRelationWithForceLayout;yourself 
+	^ OrderedCollection new add: MVSDeprecatedClassRelationWithForceLayoutPresenter;yourself 
 ]
