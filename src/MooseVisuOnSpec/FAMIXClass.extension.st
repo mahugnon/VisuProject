@@ -8,7 +8,7 @@ FAMIXClass >> contextMenuOn: aPresenter [
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ aPresenter drawerOptionsOn: self ]).
+				action: [ aPresenter drawerOptionsOn: self runPragmas ]).
 	aPresenter buildContextMenuWith: col
 ]
 
@@ -30,9 +30,7 @@ FAMIXClass >> drawers [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> mvsInteraction [
-	| col |
-	col := OrderedCollection new
-		add: self;
-		yourself.
-	^ (MVSMainPresenter withDrawer: nil elements: col) openWithSpec
+	
+	"	col := self complexPropertyPragmas collect: [ :pragma | pragma methodSelector value: self ]."
+	^ (MVSMainPresenter withDrawer: nil elements: self runPragmas) openWithSpec
 ]

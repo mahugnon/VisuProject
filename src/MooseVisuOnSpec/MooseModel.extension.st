@@ -9,8 +9,8 @@ MooseModel >> contextMenuOn: aPresenter [
 			(MenuItemPresenter new
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: self cacheMooseGroups entityCache ]
-						ifFalse: [ aPresenter updateListViewItems: self cacheMooseGroups entityCache ] ]).
+						ifTrue: [ aPresenter openResultInNewWindow: self runPragmas ]
+						ifFalse: [ aPresenter updateListViewItems: self runPragmas ] ]).
 	aPresenter buildContextMenuWith: col
 ]
 
