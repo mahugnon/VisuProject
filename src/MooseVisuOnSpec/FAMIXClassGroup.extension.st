@@ -9,8 +9,8 @@ FAMIXClassGroup >> contextMenuOn: aPresenter [
 			(MenuItemPresenter new
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: self  ]
-						ifFalse: [ aPresenter updateListViewItems: self  ] ]);
+						ifTrue: [ aPresenter openResultInNewWindow: self ]
+						ifFalse: [ aPresenter updateListViewItems: self ] ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';

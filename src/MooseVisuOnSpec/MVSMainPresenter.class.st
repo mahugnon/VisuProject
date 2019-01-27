@@ -229,6 +229,13 @@ MVSMainPresenter >> itemSelectedEventOn: aListView [
 						contextMenuOn: self ] ]
 ]
 
+{ #category : #'writing - class' }
+MVSMainPresenter >> itemSourceCode: anObject [
+	MVSSourceTextPresenter  new
+		sourceCode: anObject sourceText;
+		openWithSpec
+]
+
 { #category : #accessing }
 MVSMainPresenter >> labelNumberListElt [
 	^ labelNumberListElt
