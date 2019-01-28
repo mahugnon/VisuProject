@@ -34,7 +34,11 @@ FAMIXClass >> drawers [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> mvsInteraction [
-	
 	"	col := self complexPropertyPragmas collect: [ :pragma | pragma methodSelector value: self ]."
-	^ (MVSMainPresenter withDrawer: nil elements: self runPragmas) openWithSpec
+
+	^ (MVSMainPresenter
+		withElements:
+			self
+				runPragmas)
+		openWithSpec
 ]

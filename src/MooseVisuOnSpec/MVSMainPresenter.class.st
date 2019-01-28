@@ -54,20 +54,19 @@ MVSMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self
-		withDrawer: MVSDrawerSubclassesWithForceLayoutPresenter
-		elements: MooseModel root) openWithSpec
+	(self withElements: MooseModel root)
+		openWithSpec
 ]
 
 { #category : #example }
 MVSMainPresenter class >> runMeWithSelectors [
 	<script>
-	(MVSMainPresenter withDrawer: MVSDrawerMethodsImplementorsPresenter elements: Object allSelectors)
-		openWithSpec
+	(MVSMainPresenter
+		withElements: Object allSelectors) openWithSpec
 ]
 
 { #category : #'instance creation' }
-MVSMainPresenter class >> withDrawer: aDrawerClass elements: aCollection [
+MVSMainPresenter class >> withElements: aCollection [
 	^ self basicNew
 		initialize;
 		initListViewItems: aCollection;
@@ -335,8 +334,8 @@ MVSMainPresenter >> openResultNewWindowCheckBox [
 
 { #category : #actions }
 MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
- openResultNewWindowCheckBox activationAction:  [
-	newSelf :=self class withDrawer:nil  elements:#()   ]
+	openResultNewWindowCheckBox
+		activationAction: [ newSelf := self class withElements: #() ]
 ]
 
 { #category : #navigation }
