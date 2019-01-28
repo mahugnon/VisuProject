@@ -20,7 +20,12 @@ MooseModel >> contextMenuOn: aPresenter [
 { #category : #'*MooseVisuOnSpec' }
 MooseModel >> doubleClick: aPresenter [
 	self contextMenuOn: aPresenter.
-	^aPresenter isOpenResultNewWindow
-		ifTrue: [ aPresenter openResultInNewWindow: self cacheMooseGroups entityCache ]
-		ifFalse: [ aPresenter updateListViewItems: self cacheMooseGroups entityCache ]
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self mvsGroupEntitycache ]
+		ifFalse: [ aPresenter updateListViewItems: self mvsGroupEntitycache  ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
+MooseModel >> mvsGroupEntitycache [
+^self cacheMooseGroups entityCache
 ]
