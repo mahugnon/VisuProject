@@ -19,7 +19,7 @@ MVSDrawerSuperclassesWithTreeLayoutPresenter >> drawOnRoassalView: roassalView [
 		elements: es;
 		normalizeHeight: [ :els | els numberOfMethods ] min: 15 max: 50;
 		normalizeWidth: [ :cls | cls numberOfInstanceVariables ] min: 15 max: 50.
-	es @ RTDraggable @ RTPopup.
+	es @ RTDraggable @ RTPopup @ RTMVSElInteraction.
 	RTEdgeBuilder new
 		view: roassalView;
 		elements: es;

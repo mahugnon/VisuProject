@@ -7,16 +7,18 @@ Class {
 { #category : #drawing }
 MVSDeprecatedClassRelationWithForceLayoutPresenter >> drawOnRoassalView: aView [
 	| model es |
-	model := selected  select: [ :each | (each isAnnotatedWith: 'Deprecated') & each clientTypes notEmpty ].
+	model := selected
+		select: [ :each | (each isAnnotatedWith: 'Deprecated') & each clientTypes notEmpty ].
 	aView @ RTDraggableView @ RTZoomableView.
 	es := (RTEllipse new
 		size: 15;
 		color: [ :c | 
 			(c isAnnotatedWith: 'Deprecated')
 				ifTrue: [ Color red ]
-				ifFalse: [ Color gray ] ]) elementsOn: (model , (model flatCollect: #clientTypes)) asSet.
+				ifFalse: [ Color gray ] ])
+		elementsOn: (model , (model flatCollect: #clientTypes)) asSet.
 	aView addAll: es.
-	es @ RTDraggable @ RTPopup.
+	es @ RTDraggable @ RTPopup @ RTMVSElInteraction.
 	RTEdgeBuilder new
 		view: aView;
 		elements: es;

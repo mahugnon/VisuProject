@@ -15,7 +15,6 @@ MVSDrawerMethodsImplementorsPresenter >> drawOnRoassalView: aView [
 		color: Color gray trans.
 	elements := shape elementsOn: self selected senders.
 	aView addAll: elements.
-	elements @ RTPopup.
-	RTFlowLayout on: elements.
-	
+	elements @ RTPopup @ RTMVSElInteraction.
+	RTFlowLayout on: elements
 ]

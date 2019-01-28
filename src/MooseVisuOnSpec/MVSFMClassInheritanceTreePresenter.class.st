@@ -27,7 +27,7 @@ MVSFMClassInheritanceTreePresenter >> drawOnRoassalView: aView [
 		elements: es;
 		normalizeSize: #numberOfMethods min: 15 max: 50;
 		normalizeColorAsGray: #numberOfAttributes.
-	es @ RTDraggable @ RTPopup.
+	es @ RTDraggable @ RTPopup @ RTMVSElInteraction .
 	RTEdgeBuilder new
 		view: aView;
 		elements: es;
