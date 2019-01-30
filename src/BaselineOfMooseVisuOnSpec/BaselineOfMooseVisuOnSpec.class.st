@@ -39,7 +39,7 @@ BaselineOfMooseVisuOnSpec >> baselineForRoassal2Spec: spec [
 		project: 'Roassal2'
 		with: [ spec
 				className: #ConfigurationOfRoassal2;
-				versionString: #stable;
+				versionString: '1.21-baseline';
 				loads: #('NoGlamour');
 				repository: 'http://smalltalkhub.com/mc/ObjectProfile/Roassal2/main/' ]
 ]
