@@ -25,7 +25,7 @@ Class {
 		'openResultNewWindowCheckBox',
 		'newSelf'
 	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #specs }
@@ -167,6 +167,15 @@ MVSMainPresenter >> history [
 	^ history
 ]
 
+{ #category : #actions }
+MVSMainPresenter >> importSt [
+	| root |
+	MPImportSTCommand new execute.
+	root := MooseModel root.
+	^ (self class withElements: (root at: root size) mvsGroupEntitycache )
+		openWithSpec
+]
+
 { #category : #initialization }
 MVSMainPresenter >> initHistory: aCollection [
 	history := MVSHistory create
@@ -174,12 +183,12 @@ MVSMainPresenter >> initHistory: aCollection [
 
 { #category : #initialization }
 MVSMainPresenter >> initListViewItems: aCollection [
-
 	listView
 		items: aCollection;
 		displayBlock: [ :item | 
-			item asString
-				copyReplaceAll: 'famixt' with: 'famix' ];
+			item class = MooseModel
+				ifTrue: [ item name ]
+				ifFalse: [ item  mooseName copyReplaceAll: 'famixt' with: 'famix' ] ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
 	self createHistory.
@@ -284,7 +293,7 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 						name: nil;
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
-						action: [ self inform: 'Import Smalltalk' ] ] ];
+						action: [ self importSt ] ] ];
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 

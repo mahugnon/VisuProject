@@ -4,7 +4,7 @@ I test the main presenter functionalities
 Class {
 	#name : #MVSTest,
 	#superclass : #TestCase,
-	#category : #'MooseVisuOnSpec-tests'
+	#category : #'MooseVisuOnSpec-Tests'
 }
 
 { #category : #'event testing' }

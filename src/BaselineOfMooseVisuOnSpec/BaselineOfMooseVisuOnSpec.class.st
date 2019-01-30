@@ -17,8 +17,8 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 		do: [ spec preLoadDoIt: #preload:package:.
 			spec postLoadDoIt: #postload:package:.
 			"Dependencies"
-			self
-				baselineForRoassal2Spec: spec.
+			self baselineForRoassal2Spec: spec.
+	
 
 			"Packages"
 			spec package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2') ] ].
@@ -39,7 +39,7 @@ BaselineOfMooseVisuOnSpec >> baselineForRoassal2Spec: spec [
 		project: 'Roassal2'
 		with: [ spec
 				className: #ConfigurationOfRoassal2;
-				versionString: #stable;
+				versionString: '1.21-baseline';
 				loads: #('NoGlamour');
 				repository: 'http://smalltalkhub.com/mc/ObjectProfile/Roassal2/main/' ]
 ]

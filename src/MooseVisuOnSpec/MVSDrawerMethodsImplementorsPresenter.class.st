@@ -4,7 +4,7 @@ I am in charge of drawing a selector implemetors
 Class {
 	#name : #MVSDrawerMethodsImplementorsPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
-	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
+	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
 
 { #category : #drawing }

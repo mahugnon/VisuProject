@@ -1,7 +1,7 @@
 Class {
 	#name : #MVSFilterManager,
 	#superclass : #Object,
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #actions }

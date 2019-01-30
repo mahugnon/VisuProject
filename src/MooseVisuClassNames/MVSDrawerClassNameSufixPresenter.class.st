@@ -4,7 +4,7 @@ I draw class name suffix dependecies graph
 Class {
 	#name : #MVSDrawerClassNameSufixPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
-	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
+	#category : #MooseVisuClassNames
 }
 
 { #category : #Visualisation }

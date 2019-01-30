@@ -9,21 +9,12 @@ Class {
 		'past',
 		'future'
 	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initailize-release' }
 MVSHistory class >> create [
 	^ self new
-]
-
-{ #category : #'as yet unclassified' }
-MVSHistory class >> create: aCollection [
-	|history|
-	history:= self
-		new.
-		^history initializeHistory: aCollection;
-		yourself
 ]
 
 { #category : #adding }
