@@ -4,7 +4,7 @@ I draw system complexity on view
 Class {
 	#name : #MVSSystemComplexityPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
-	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
+	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
 
 { #category : #drawing }

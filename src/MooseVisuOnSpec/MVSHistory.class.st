@@ -9,7 +9,7 @@ Class {
 		'past',
 		'future'
 	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #'initailize-release' }

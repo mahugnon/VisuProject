@@ -4,7 +4,7 @@ I draw inheritance tree
 Class {
 	#name : #MVSFMClassInheritanceTreePresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
-	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
+	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
 
 { #category : #drawing }

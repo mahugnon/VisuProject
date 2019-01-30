@@ -25,7 +25,7 @@ Class {
 		'openResultNewWindowCheckBox',
 		'newSelf'
 	],
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #specs }

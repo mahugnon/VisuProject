@@ -4,7 +4,7 @@ I'm responsable of loading mse files
 Class {
 	#name : #MSELoader,
 	#superclass : #Object,
-	#category : #'MooseVisuOnSpec-core'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #utilities }

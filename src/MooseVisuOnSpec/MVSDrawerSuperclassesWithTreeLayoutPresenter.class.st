@@ -1,7 +1,7 @@
 Class {
 	#name : #MVSDrawerSuperclassesWithTreeLayoutPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
-	#category : #'MooseVisuOnSpec-roassalDrawPresenters'
+	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
 
 { #category : #drawing }
