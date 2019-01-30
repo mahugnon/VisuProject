@@ -52,5 +52,6 @@ BaselineOfMooseVisuOnSpec >> postload: loader package: packageSpec [
 
 { #category : #baselines }
 BaselineOfMooseVisuOnSpec >> preload: aloader package: packageSpec [
-	Transcript crLog: 'The fetching is finish. wait until loading finish'
+	Transcript crLog: 'Removing Moose repo for now'.
+	IceRepository registry select: [ :aRepository | aRepository name = 'Moose' ] thenDo: [ :aRepository | aRepository forget ].
 ]

@@ -1,6 +1,6 @@
 Extension { #name : #ClassScanReport }
 
-{ #category : #'*MooseVisuOnSpec' }
+{ #category : #'*MooseVisuClassNames' }
 ClassScanReport >> drawers [
 	^ OrderedCollection new add: MVSDrawerClassNameSufixPresenter;yourself 
 ]
