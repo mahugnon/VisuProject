@@ -3,7 +3,7 @@ REsponsible for opening a window with a list of elements on the left and a Roass
 Selecting an elements in the list on the left will trigger a refresh of the roassal view on the right
 
 [[[
-			(HWMainPresenter withDrawer: HWDrawerSubclassesWithForceLayout) openWithSpec 
+			(MVSMainPresenter withDrawer: HWDrawerSubclassesWithForceLayout) openWithSpec 
 ]]]
 
 I'm able to performe choice making depending on what is selected.
@@ -38,7 +38,7 @@ MVSMainPresenter class >> defaultSpec [
 						newColumn: [ :left | 
 							left
 								add: #menu height: self toolbarHeight;
-								add: #labelNumberListElt height: 30;
+								add: #labelNumberListElement height: 30;
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
 								add: #listView ] ] ];
@@ -58,13 +58,6 @@ MVSMainPresenter class >> runMeWithClass [
 		openWithSpec
 ]
 
-{ #category : #example }
-MVSMainPresenter class >> runMeWithSelectors [
-	<script>
-	(MVSMainPresenter
-		withElements: Object allSelectors) openWithSpec
-]
-
 { #category : #'instance creation' }
 MVSMainPresenter class >> withElements: aCollection [
 	^ self basicNew
@@ -76,30 +69,16 @@ MVSMainPresenter class >> withElements: aCollection [
 { #category : #'build items' }
 MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 	| tempPresenter |
-	menuItemPresenters
-		isEmpty
-		ifTrue:
-			[ ^ self ].
-	tempPresenter := self
-		isOpenResultNewWindow
-		ifTrue:
-			[ newSelf ]
-		ifFalse:
-			[ self ].
-	tempPresenter
-		listView
-		menu:
+	menuItemPresenters isEmpty
+		ifTrue: [ ^ self ].
+	tempPresenter := self isOpenResultNewWindow
+		ifTrue: [ newSelf ]
+		ifFalse: [ self ].
+	tempPresenter listView menu:
 			[ MenuPresenter
-				new
-				
-					addGroup:
-						[ :group | 
+				new addGroup: [ :group | 
 					menuItemPresenters
-						do:
-							[ :each | 
-							group
-								addMenuItem: each ] ];
-				
+						do: [ :each |  group addMenuItem: each ] ];
 					buildWithSpecAsPopup ].
 	^ tempPresenter
 ]
@@ -118,21 +97,21 @@ MVSMainPresenter >> createOpenResultNewWindowCheckBox [
 
 { #category : #initialization }
 MVSMainPresenter >> createQueryWidget [
-	queryWidget := self instantiate: MVSQueryWidget.
+	queryWidget := self instantiate: MVSQueryWidgetPresenter.
 	
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing model' }
 MVSMainPresenter >> currentConfig [
 	^ self drawerOptions config
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing model' }
 MVSMainPresenter >> drawerOptions [
 	^ drawerOptions
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing model' }
 MVSMainPresenter >> drawerOptions: anObject [
 	drawerOptions := anObject
 ]
@@ -154,7 +133,7 @@ MVSMainPresenter >> executeTextQueryOnCR [
 		beForCode;
 		ghostText: 'Write an each query please';
 		bindKeyCombination: 13
-			toAction: [ self updateListViewItems: (queryWidget performFilterOn: listView listItems ) ]
+		toAction: [ self updateListViewItems: (queryWidget performFilterOn: listView listItems ) ]
 ]
 
 { #category : #api }
@@ -162,7 +141,7 @@ MVSMainPresenter >> extent [
 	^ 800 @ 650
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing model' }
 MVSMainPresenter >> history [
 	^ history
 ]
@@ -172,13 +151,7 @@ MVSMainPresenter >> importSt [
 	| root |
 	MPImportSTCommand new execute.
 	root := MooseModel root.
-	^ (self class withElements: (root at: root size) mvsGroupEntitycache )
-		openWithSpec
-]
-
-{ #category : #initialization }
-MVSMainPresenter >> initHistory: aCollection [
-	history := MVSHistory create
+	^ (self class withElements: (root at: root size) mvsGroupEntitycache ) openWithSpec
 ]
 
 { #category : #initialization }
@@ -192,7 +165,7 @@ MVSMainPresenter >> initListViewItems: aCollection [
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
 	self createHistory.
-	self updateNumberOfModelElt
+	self updateNumberOfModelElement
 ]
 
 { #category : #initialization }
@@ -201,15 +174,14 @@ MVSMainPresenter >> initializePresenter [
 	self executeTextQueryOnCR.
 	self openResultNewWindowCheckBoxEvent.
 	listView doubleClickAction: [ :item | 
-
 		listView selectedItem doubleClick: self ]
 ]
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
+
 	listView := self instantiate: FastTablePresenter.
-	
-	drawerOptions := MVSDrawerOptions new.
+	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
@@ -222,7 +194,7 @@ MVSMainPresenter >> initializeWidgets [
 
 { #category : #testing }
 MVSMainPresenter >> isOpenResultNewWindow [
-^openResultNewWindowCheckBox state
+	^ openResultNewWindowCheckBox state
 ]
 
 { #category : #initialization }
@@ -245,7 +217,7 @@ MVSMainPresenter >> itemSourceCode: anObject [
 ]
 
 { #category : #accessing }
-MVSMainPresenter >> labelNumberListElt [
+MVSMainPresenter >> labelNumberListElement [
 	^ labelNumberListElt
 ]
 
@@ -319,7 +291,7 @@ MVSMainPresenter >> next [
 		ifFalse: [ ^ self ].
 	self updatePastWith:  listView listItems.
 	listView items: self history next.
-	self updateNumberOfModelElt
+	self updateNumberOfModelElement
 
 	"
 self history hasFuture ifFalse: [^ self].
@@ -330,15 +302,14 @@ self eltList: self history currentList
 
 { #category : #actions }
 MVSMainPresenter >> openResultInNewWindow: aCollection [
-	newSelf initListViewItems: aCollection .
-
-	newSelf 	openWithSpec.
+	newSelf initListViewItems: aCollection.
+	newSelf openWithSpec.
 	
 ]
 
 { #category : #accessing }
 MVSMainPresenter >> openResultNewWindowCheckBox [
-^openResultNewWindowCheckBox
+	^ openResultNewWindowCheckBox
 ]
 
 { #category : #actions }
@@ -353,7 +324,7 @@ MVSMainPresenter >> prev [
 		ifFalse: [ ^ self ].
 	self updateFutureWith:  listView listItems.
 	self listView items: history previous.
-	self updateNumberOfModelElt
+	self updateNumberOfModelElement
 ]
 
 { #category : #accessing }
@@ -381,11 +352,11 @@ MVSMainPresenter >> updateListViewItems: aCollection [
 	
 	history addToPast: listView listItems.
 	listView items: aCollection.
-	self updateNumberOfModelElt
+	self updateNumberOfModelElement
 ]
 
 { #category : #'model - updating' }
-MVSMainPresenter >> updateNumberOfModelElt [
+MVSMainPresenter >> updateNumberOfModelElement [
 	labelNumberListElt
 		label: 'Number of items ' , ' :  ' , listView listItems size asString;
 		emphasis: #bold

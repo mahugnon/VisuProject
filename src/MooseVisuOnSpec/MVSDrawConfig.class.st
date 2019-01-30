@@ -33,9 +33,7 @@ MVSDrawConfig >> center: anObject [
 
 { #category : #utilities }
 MVSDrawConfig >> getDrawers [
-	^MVSDrawerManager
-		new
-		drawersFor: type
+	^ MVSDrawerManager new drawersFor: type
 ]
 
 { #category : #accessing }

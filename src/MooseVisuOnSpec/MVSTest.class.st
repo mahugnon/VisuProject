@@ -22,6 +22,28 @@ MVSTest >> testFilter [
 ]
 
 { #category : #'event testing' }
+MVSTest >> testFirst [
+	| model importer packages |
+	model := MooseModel new.
+	importer := MoosePharoImporterTask new model: model.
+	importer factory: SmalltalkCompatibilityMetamodelFactory.
+	importer
+		importingContext:
+			(MooseImportingContext new
+				mergeClassAndMetaclass;
+				importClass;
+				importPackage;
+				importInheritance;
+				yourself).
+	packages := #(ClassNamesAnalyzerResourcesForTest).
+	packages do: [ :each | importer addFromPackageNamed: each ].
+	importer run.
+	model name: 'ClassNamesAnalyzerResourcesForTest'.
+	self assert: model allModelPackages first class equals: FAMIXPackage.
+	
+]
+
+{ #category : #'event testing' }
 MVSTest >> testInitNavigation [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -76,4 +98,17 @@ MVSTest >> testPastNavigationwhenUpdateListViewItems [
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
 	presenter updateListViewItems: #(0 8 7).
 	self assert: presenter history hasPast equals: true.
+]
+
+{ #category : #'event testing' }
+MVSTest >> testSecondSolution [
+
+'ChrysalConfigurationForXXTest >> setUp [
+	super setUp.
+	testingWorkingDirectory := FileSystem memory workingDirectory.
+	(testingWorkingDirectory / ''toto.mse'')
+		writeStreamDo: [ :stream | 
+			stream nextPutAll: self class contentsOfTotoMse ]
+	
+'
 ]

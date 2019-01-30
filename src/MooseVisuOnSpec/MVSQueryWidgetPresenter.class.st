@@ -2,7 +2,7 @@
 testing query stuff
 "
 Class {
-	#name : #MVSQueryWidget,
+	#name : #MVSQueryWidgetPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'filtre',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #specs }
-MVSQueryWidget class >> defaultSpec [
+MVSQueryWidgetPresenter class >> defaultSpec [
 	^ SpecRowLayout composed
 		add: #label origin: 0 @ 0 corner: 0.1 @ 0.1;
 		add: #textField origin: 0.1 @ 1 corner: 1 @ 0.07;
@@ -21,30 +21,30 @@ MVSQueryWidget class >> defaultSpec [
 ]
 
 { #category : #specs }
-MVSQueryWidget class >> runMe [ 
+MVSQueryWidgetPresenter class >> runMe [ 
 <script>
-MVSQueryWidget new openWithSpec 
+MVSQueryWidgetPresenter new openWithSpec 
 ]
 
 { #category : #initialization }
-MVSQueryWidget >> createLabel [
+MVSQueryWidgetPresenter >> createLabel [
 	label := self newLabel.
 	label label: 'Query :';
 	emphasis: #bold
 ]
 
 { #category : #accessing }
-MVSQueryWidget >> filtre [
+MVSQueryWidgetPresenter >> filter [
 	^ filtre
 ]
 
 { #category : #accessing }
-MVSQueryWidget >> filtre: anObject [
+MVSQueryWidgetPresenter >> filter: anObject [
 	filtre := anObject
 ]
 
 { #category : #initialization }
-MVSQueryWidget >> initializeWidgets [
+MVSQueryWidgetPresenter >> initializeWidgets [
 	filtre := MVSFilterManager new.
 	textField := self newTextInput.
 	self createLabel.
@@ -53,16 +53,16 @@ MVSQueryWidget >> initializeWidgets [
 ]
 
 { #category : #accessing }
-MVSQueryWidget >> label [
+MVSQueryWidgetPresenter >> label [
 	^ label
 ]
 
 { #category : #'api actions' }
-MVSQueryWidget >> performFilterOn: aCollection [
-	^ (self filtre executeQueryWith: textField text on: aCollection )
+MVSQueryWidgetPresenter >> performFilterOn: aCollection [
+	^ (self filter executeQueryWith: textField text on: aCollection )
 ]
 
 { #category : #accessing }
-MVSQueryWidget >> textField [
+MVSQueryWidgetPresenter >> textField [
 	^ textField
 ]

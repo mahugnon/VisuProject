@@ -11,7 +11,7 @@ FAMIXClass >> contextMenuOn: aPresenter [
 				action: [ aPresenter drawerOptionsOn: self runPragmas ]);
 		add:
 			(MenuItemPresenter new
-				name: 'Souce code';
+				name: 'Source code';
 				action: [ aPresenter itemSourceCode: self ]).
 	aPresenter buildContextMenuWith: col
 ]

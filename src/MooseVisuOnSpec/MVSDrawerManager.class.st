@@ -9,9 +9,6 @@ Class {
 
 { #category : #utility }
 MVSDrawerManager >> drawersFor: aType [
-	aType
-		isNotNil
-		ifTrue:
-			[ ^ aType
-				drawers ]
+	aType isNotNil
+		ifTrue: [ ^ aType drawers ]
 ]
