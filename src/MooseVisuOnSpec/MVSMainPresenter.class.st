@@ -161,7 +161,7 @@ MVSMainPresenter >> initListViewItems: aCollection [
 		displayBlock: [ :item | 
 			item class = MooseModel
 				ifTrue: [ item name ]
-				ifFalse: [ item  mooseName copyReplaceAll: 'famixt' with: 'famix' ] ];
+				ifFalse: [ item asString  copyReplaceAll: 'famixt' with: 'famix' ] ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
 	self createHistory.
