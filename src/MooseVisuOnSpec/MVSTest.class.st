@@ -4,8 +4,47 @@ I test the main presenter functionalities
 Class {
 	#name : #MVSTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'rootCurrent',
+		'rootTest'
+	],
 	#category : #'MooseVisuOnSpec-Tests'
 }
+
+{ #category : #'event testing' }
+MVSTest >> createTestingMSE [
+	| model importer packages |
+	model := MooseModel new.
+	importer := MoosePharoImporterTask new model: model.
+	importer factory: SmalltalkCompatibilityMetamodelFactory.
+	importer
+		importingContext:
+			(MooseImportingContext new
+				mergeClassAndMetaclass;
+				importClass;
+				importPackage;
+				importInheritance;
+				yourself).
+	packages := self mooseVisuProjectPackages.
+	packages do: [ :each | importer addFromPackageNamed: each ].
+	importer run.
+	 model name: 'MooseVisuProjectModel'.
+		^model
+]
+
+{ #category : #'event testing' }
+MVSTest >> mooseVisuProjectPackages [
+	^ RPackage allInstances
+		select: [ :each | each name matchesRegex: 'MooseVisu.*' ]
+]
+
+{ #category : #running }
+MVSTest >> setUp [
+super setUp.
+	rootCurrent := MooseModel root.
+	MooseModel resetRoot.
+	MooseModel root add: self createTestingMSE
+]
 
 { #category : #'event testing' }
 MVSTest >> testFilter [
@@ -19,28 +58,6 @@ MVSTest >> testFilter [
 			(filterManager executeQueryWith: 'each isAnnotatedWith: ''Deprecated''' on: testModel)
 				size
 		equals: 25
-]
-
-{ #category : #'event testing' }
-MVSTest >> testFirst [
-	| model importer packages |
-	model := MooseModel new.
-	importer := MoosePharoImporterTask new model: model.
-	importer factory: SmalltalkCompatibilityMetamodelFactory.
-	importer
-		importingContext:
-			(MooseImportingContext new
-				mergeClassAndMetaclass;
-				importClass;
-				importPackage;
-				importInheritance;
-				yourself).
-	packages := #(ClassNamesAnalyzerResourcesForTest).
-	packages do: [ :each | importer addFromPackageNamed: each ].
-	importer run.
-	model name: 'ClassNamesAnalyzerResourcesForTest'.
-	self assert: model allModelPackages first class equals: FAMIXPackage.
-	
 ]
 
 { #category : #'event testing' }
