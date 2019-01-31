@@ -8,7 +8,7 @@ FAMIXClass >> contextMenuOn: aPresenter [
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ aPresenter drawerOptionsOn: self runPragmas ]);
+				action: [ aPresenter drawerOptionsOn: self]);
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
