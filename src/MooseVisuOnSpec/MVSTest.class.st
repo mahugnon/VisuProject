@@ -5,13 +5,12 @@ Class {
 	#name : #MVSTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'rootCurrent',
-		'rootTest'
+		'rootCurrent'
 	],
 	#category : #'MooseVisuOnSpec-Tests'
 }
 
-{ #category : #'event testing' }
+{ #category : #'testing-utilities' }
 MVSTest >> createTestingMSE [
 	| model importer packages |
 	model := MooseModel new.
@@ -26,41 +25,47 @@ MVSTest >> createTestingMSE [
 				importInheritance;
 				yourself).
 	packages := self mooseVisuProjectPackages.
-	packages do: [ :each | importer addFromPackageNamed: each ].
+	packages do: [ :each | importer addFromPackageNamed: each name ].
 	importer run.
 	 model name: 'MooseVisuProjectModel'.
 		^model
 ]
 
-{ #category : #'event testing' }
+{ #category : #'testing-utilities' }
 MVSTest >> mooseVisuProjectPackages [
-	^ RPackage allInstances
-		select: [ :each | each name matchesRegex: 'MooseVisu.*' ]
+	^ RPackage organizer packages select: [ :each | each name matchesRegex: 'MooseVisu.*' ]
 ]
 
-{ #category : #running }
+{ #category : #'testing-utilities' }
 MVSTest >> setUp [
-super setUp.
+	super setUp.
 	rootCurrent := MooseModel root.
 	MooseModel resetRoot.
-	MooseModel root add: self createTestingMSE
+	MooseModel root add: self createTestingMSE.
 ]
 
-{ #category : #'event testing' }
+{ #category : #'testing-utilities' }
+MVSTest >> tearDown [
+MooseModel resetRoot .
+MooseModel root addAll: rootCurrent 
+
+	
+]
+
+{ #category : #testing }
 MVSTest >> testFilter [
 	"Je permet de test filtre d'une liste "
 
 	| testModel filterManager |
 	filterManager := MVSFilterManager new.
-	testModel := (MooseModel root at: 2) allModelClasses.
+	testModel := (MooseModel root at: 1) allModelClasses.
 	self
 		assert:
-			(filterManager executeQueryWith: 'each isAnnotatedWith: ''Deprecated''' on: testModel)
-				size
-		equals: 25
+			(filterManager executeQueryWith: 'each hierarchyNestingLevel=2' on: testModel) size
+		equals: 6
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testInitNavigation [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -68,7 +73,7 @@ MVSTest >> testInitNavigation [
 	self assert: presenter history hasPast equals: false.
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testNavigationWhenFutureIsPress [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -80,7 +85,7 @@ MVSTest >> testNavigationWhenFutureIsPress [
 	self assert: presenter listView listItems equals: #(0 8 7) sorted
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testNavigationWhenListViewItemsNotUpdatedAnPreviousIsPress [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -90,7 +95,7 @@ MVSTest >> testNavigationWhenListViewItemsNotUpdatedAnPreviousIsPress [
 	self assert: presenter history hasPast equals: false
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testNavigationWhenPreviousIsPress [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -101,7 +106,7 @@ MVSTest >> testNavigationWhenPreviousIsPress [
 	self assert: presenter listView listItems  equals: #(0 1 2 3 4) sorted
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testNextNavigationwhenUpdateListViewItems [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -109,7 +114,7 @@ MVSTest >> testNextNavigationwhenUpdateListViewItems [
 	self assert: presenter history hasNext  equals: false
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testPastNavigationwhenUpdateListViewItems [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
@@ -117,7 +122,7 @@ MVSTest >> testPastNavigationwhenUpdateListViewItems [
 	self assert: presenter history hasPast equals: true.
 ]
 
-{ #category : #'event testing' }
+{ #category : #testing }
 MVSTest >> testSecondSolution [
 
 'ChrysalConfigurationForXXTest >> setUp [
