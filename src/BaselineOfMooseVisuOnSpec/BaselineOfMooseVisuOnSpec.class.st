@@ -18,12 +18,20 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 			spec postLoadDoIt: #postload:package:.
 			"Dependencies"
 			self baselineForRoassal2Spec: spec.
+			self baselineForMoose: spec.
 
 
 			"Packages "
-			spec package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2') ] ].
+			spec package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2' 'Moose') ] ].
 	"Groups"
 	spec group: 'All' with: #('MooseVisuOnSpec')
+]
+
+{ #category : #baselines }
+BaselineOfMooseVisuOnSpec >> baselineForMoose: spec [
+	spec
+				baseline: 'Moose'
+				with: [ spec repository: 'github://moosetechnology/Moose:development/src' ] 
 ]
 
 { #category : #baselines }
