@@ -8,17 +8,31 @@ Class {
 }
 
 { #category : #utilities }
-MSELoader class >> loadMSE [
-	| fileRef mooseModel |
-	fileRef := UIManager default
+MSELoader class >> loadFileWithExtesion:anExtension [
+^UIManager default
 		chooseExistingFileReference: 'Import model from MSE file'
-		extensions: #('mse')
+		extensions: anExtension 
 		path: ''
 		preview: ''.
+]
+
+{ #category : #utilities }
+MSELoader class >> loadMSE [
+	| fileRef |
+	fileRef := self loadFileWithExtesion:#('mse').
 	fileRef isNotNil
 		ifFalse: [ ^ self ].
-	mooseModel := MooseModel new
+	MooseModel new
 		installWithCache: true;
 		importFromMSEStream: fileRef asFileReference readStream.
-	^ mooseModel cacheMooseGroups entityCache
+	^ MooseModel root allModels
+]
+
+{ #category : #'as yet unclassified' }
+MSELoader >> loadFileWithExtesion:anExtension [
+^UIManager default
+		chooseExistingFileReference: 'Import model from MSE file'
+		extensions: anExtension 
+		path: ''
+		preview: ''.
 ]
