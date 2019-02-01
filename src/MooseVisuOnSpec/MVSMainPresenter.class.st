@@ -174,7 +174,7 @@ MVSMainPresenter >> initializePresenter [
 	self executeTextQueryOnCR.
 	self openResultNewWindowCheckBoxEvent.
 	listView doubleClickAction: [ :item | 
-		listView selectedItem doubleClick: self ]
+		listView selectedItem mvsdoubleClick: self ]
 ]
 
 { #category : #initialization }
@@ -206,7 +206,7 @@ MVSMainPresenter >> itemSelectedEventOn: aListView [
 				notNil
 				ifTrue:
 					[ item
-						contextMenuOn: self ] ]
+						mvscontextMenuFor: self ] ]
 ]
 
 { #category : #'writing - class' }

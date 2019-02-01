@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*MooseVisuOnSpec' }
-Object >> contextMenuOn: aPresenter [
+Object >> mvscontextMenuFor: aPresenter [
 	^ aPresenter
 		listViewMenu: [ :aMenu |  ];
 		yourself

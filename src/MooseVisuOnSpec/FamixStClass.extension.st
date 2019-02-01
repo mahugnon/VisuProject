@@ -1,7 +1,15 @@
 Extension { #name : #FamixStClass }
 
 { #category : #'*MooseVisuOnSpec' }
-FamixStClass >> contextMenuOn: aPresenter [
+FamixStClass >> drawers [
+	^ OrderedCollection new
+		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
+		add: MVSSystemComplexityPresenter;
+		yourself
+]
+
+{ #category : #'*MooseVisuOnSpec' }
+FamixStClass >> mvscontextMenuFor: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -14,12 +22,4 @@ FamixStClass >> contextMenuOn: aPresenter [
 				name: 'Source code';
 				action: [ aPresenter itemSourceCode: self ]).
 	aPresenter buildContextMenuWith: col
-]
-
-{ #category : #'*MooseVisuOnSpec' }
-FamixStClass >> drawers [
-	^ OrderedCollection new
-		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
-		add: MVSSystemComplexityPresenter;
-		yourself
 ]

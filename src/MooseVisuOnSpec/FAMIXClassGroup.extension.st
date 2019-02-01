@@ -1,7 +1,14 @@
 Extension { #name : #FAMIXClassGroup }
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClassGroup >> contextMenuOn: aPresenter [
+FAMIXClassGroup >> drawers [
+	^ OrderedCollection new
+		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
+		add: MVSSystemComplexityPresenter; yourself
+]
+
+{ #category : #'*MooseVisuOnSpec' }
+FAMIXClassGroup >> mvscontextMenuFor: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -19,16 +26,9 @@ FAMIXClassGroup >> contextMenuOn: aPresenter [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClassGroup >> doubleClick: aPresenter [
-self contextMenuOn: aPresenter .
+FAMIXClassGroup >> mvsdoubleClick: aPresenter [
+self mvscontextMenuFor: aPresenter .
 ^aPresenter isOpenResultNewWindow
 						ifTrue: [ aPresenter openResultInNewWindow: self ]
 						ifFalse: [ aPresenter updateListViewItems: self ]
-]
-
-{ #category : #'*MooseVisuOnSpec' }
-FAMIXClassGroup >> drawers [
-	^ OrderedCollection new
-		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
-		add: MVSSystemComplexityPresenter; yourself
 ]
