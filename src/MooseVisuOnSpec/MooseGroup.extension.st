@@ -1,7 +1,7 @@
 Extension { #name : #MooseGroup }
 
 { #category : #'*MooseVisuOnSpec' }
-MooseGroup >> mvscontextMenuFor: aPresenter [
+MooseGroup >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -16,7 +16,7 @@ MooseGroup >> mvscontextMenuFor: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 MooseGroup >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuFor: aPresenter.
+	self mvscontextMenuOn: aPresenter.
 	^ aPresenter isOpenResultNewWindow
 		ifTrue: [ aPresenter openResultInNewWindow: self ]
 		ifFalse: [ aPresenter updateListViewItems: self ]

@@ -29,6 +29,11 @@ Class {
 }
 
 { #category : #specs }
+MVSMainPresenter class >> countNumberOfSelfWindowOpen [
+	^ (self allInstances select: [ :each | each window notNil ]) size
+]
+
+{ #category : #specs }
 MVSMainPresenter class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :tcol | 
@@ -54,8 +59,7 @@ MVSMainPresenter class >> runMeWithClass [
 	col
 		add: IceTipMergePatchMorph;
 		add: OrderedCollection.
-	(self withElements: MooseModel root)
-		openWithSpec
+	(self withElements: MooseModel root) openWithSpec
 ]
 
 { #category : #'instance creation' }
@@ -156,6 +160,7 @@ MVSMainPresenter >> importSt [
 
 { #category : #initialization }
 MVSMainPresenter >> initListViewItems: aCollection [
+
 	listView
 		items: aCollection;
 		displayBlock: [ :item | 
@@ -173,8 +178,7 @@ MVSMainPresenter >> initializePresenter [
 	self itemSelectedEventOn: listView.
 	self executeTextQueryOnCR.
 	self openResultNewWindowCheckBoxEvent.
-	listView doubleClickAction: [ :item | 
-		listView selectedItem mvsdoubleClick: self ]
+	listView doubleClickAction: [ :item | listView selectedItem   mvsdoubleClick: self ]
 ]
 
 { #category : #initialization }
@@ -206,7 +210,7 @@ MVSMainPresenter >> itemSelectedEventOn: aListView [
 				notNil
 				ifTrue:
 					[ item
-						mvscontextMenuFor: self ] ]
+						mvscontextMenuOn: self ] ]
 ]
 
 { #category : #'writing - class' }
@@ -335,6 +339,11 @@ MVSMainPresenter >> queryWidget [
 { #category : #accessing }
 MVSMainPresenter >> selected [
 	^ listView selectedItem
+]
+
+{ #category : #simulating }
+MVSMainPresenter >> simulateDoubleClick [
+self listView doubleClick: self listView doubleClickAction
 ]
 
 { #category : #api }

@@ -8,7 +8,7 @@ FAMIXClassGroup >> drawers [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClassGroup >> mvscontextMenuFor: aPresenter [
+FAMIXClassGroup >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -27,7 +27,7 @@ FAMIXClassGroup >> mvscontextMenuFor: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClassGroup >> mvsdoubleClick: aPresenter [
-self mvscontextMenuFor: aPresenter .
+self mvscontextMenuOn: aPresenter .
 ^aPresenter isOpenResultNewWindow
 						ifTrue: [ aPresenter openResultInNewWindow: self ]
 						ifFalse: [ aPresenter updateListViewItems: self ]

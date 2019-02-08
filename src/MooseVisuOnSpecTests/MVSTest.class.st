@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'rootCurrent'
 	],
-	#category : #'MooseVisuOnSpec-Tests'
+	#category : #MooseVisuOnSpecTests
 }
 
 { #category : #'testing-utilities' }
@@ -46,10 +46,10 @@ MVSTest >> setUp [
 
 { #category : #'testing-utilities' }
 MVSTest >> tearDown [
-MooseModel resetRoot .
-MooseModel root addAll: rootCurrent 
-
-	
+	super tearDown.
+	MooseModel resetRoot.
+	MooseModel root addAll: rootCurrent.
+	MVSMainPresenter closeOfSelfWindowOpen 
 ]
 
 { #category : #testing }
@@ -71,6 +71,24 @@ MVSTest >> testInitNavigation [
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
 	self assert: presenter history hasPast equals: false.
 	self assert: presenter history hasPast equals: false.
+]
+
+{ #category : #testing }
+MVSTest >> testMainPresenterListViewChangeWhenDoubleClick [
+	| presenter list |
+	presenter := MVSMainPresenter new.
+	presenter listView items: MooseModel root.
+	list := presenter listView listItems.
+	presenter listView setSelectedItem: (MooseModel root at: 1).
+	presenter simulateDoubleClick .
+	self assert: list ~= presenter listView listItems
+]
+
+{ #category : #tests }
+MVSTest >> testMainPresenterListViewIsEmptyWhenNoModel [
+|mainPresenter|
+mainPresenter :=MVSMainPresenter new.
+self assert: mainPresenter listView listItems equals: #()
 ]
 
 { #category : #testing }
@@ -114,6 +132,19 @@ MVSTest >> testNextNavigationwhenUpdateListViewItems [
 	self assert: presenter history hasNext  equals: false
 ]
 
+{ #category : #tests }
+MVSTest >> testOpenInNewWindowWhenOptionIsChecked [
+	| presenter numberOfOpenMainPresenterWindow|
+	presenter := MVSMainPresenter new.
+	presenter openResultNewWindowCheckBox state: true.
+	presenter listView items: MooseModel root.
+	presenter listView setSelectedItem: (MooseModel root at: 1).
+	numberOfOpenMainPresenterWindow := MVSMainPresenter countNumberOfSelfWindowOpen .
+	presenter simulateDoubleClick.
+	self assert: (numberOfOpenMainPresenterWindow <MVSMainPresenter countNumberOfSelfWindowOpen )
+	
+]
+
 { #category : #testing }
 MVSTest >> testPastNavigationwhenUpdateListViewItems [
 	| presenter |
@@ -133,4 +164,20 @@ MVSTest >> testSecondSolution [
 			stream nextPutAll: self class contentsOfTotoMse ]
 	
 '
+]
+
+{ #category : #tests }
+MVSTest >> testUpdateListView [
+	| mainPresenter |
+	mainPresenter := MVSMainPresenter new.
+	mainPresenter updateListViewItems: #(1 2 3).
+	self assert: mainPresenter listView listItems equals: #(1 2 3)
+]
+
+{ #category : #tests }
+MVSTest >> testWhenUpdateMainPresenterListViewWithEmptyIsEmpty [
+	| mainPresenter |
+	mainPresenter := MVSMainPresenter new.
+	mainPresenter updateListViewItems: #().
+	self assert: mainPresenter listView listItems equals: #()
 ]

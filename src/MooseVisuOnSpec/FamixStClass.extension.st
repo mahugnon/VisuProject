@@ -9,7 +9,7 @@ FamixStClass >> drawers [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
-FamixStClass >> mvscontextMenuFor: aPresenter [
+FamixStClass >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col

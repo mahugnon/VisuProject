@@ -1,7 +1,7 @@
 Extension { #name : #FAMIXSourcedEntity }
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXSourcedEntity >> mvscontextMenuFor: aPresenter [
+FAMIXSourcedEntity >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col

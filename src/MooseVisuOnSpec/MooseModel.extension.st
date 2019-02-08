@@ -6,7 +6,7 @@ MooseModel >> mvsGroupEntitycache [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
-MooseModel >> mvscontextMenuFor: aPresenter [
+MooseModel >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -29,7 +29,7 @@ MooseModel >> mvscontextMenuFor: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 MooseModel >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuFor: aPresenter.
+	self mvscontextMenuOn: aPresenter.
 	^ aPresenter isOpenResultNewWindow
 		ifTrue: [ aPresenter openResultInNewWindow: self mvsGroupEntitycache ]
 		ifFalse: [ aPresenter updateListViewItems: self mvsGroupEntitycache  ]

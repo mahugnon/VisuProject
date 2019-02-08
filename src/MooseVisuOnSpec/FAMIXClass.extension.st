@@ -20,7 +20,7 @@ FAMIXClass >> mvsInteraction [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
-FAMIXClass >> mvscontextMenuFor: aPresenter [
+FAMIXClass >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
 	col
@@ -37,7 +37,7 @@ FAMIXClass >> mvscontextMenuFor: aPresenter [
 
 { #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuFor: aPresenter.
+	self mvscontextMenuOn: aPresenter.
 	^ aPresenter isOpenResultNewWindow
 		ifTrue: [ aPresenter openResultInNewWindow: self ]
 		ifFalse: [ aPresenter updateListViewItems: self ]
