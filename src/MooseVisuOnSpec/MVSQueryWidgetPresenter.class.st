@@ -66,3 +66,9 @@ MVSQueryWidgetPresenter >> performFilterOn: aCollection [
 MVSQueryWidgetPresenter >> textField [
 	^ textField
 ]
+
+{ #category : #testing }
+MVSQueryWidgetPresenter >> type: aCharacter [ 
+	
+	textField type: aCharacter
+]

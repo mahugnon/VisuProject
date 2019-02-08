@@ -92,6 +92,25 @@ self assert: mainPresenter listView listItems equals: #()
 ]
 
 { #category : #testing }
+MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
+	| presenter  |
+	presenter := MVSMainPresenter new.
+	presenter listView items: MooseModel root.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems first equals: MooseModel root first
+]
+
+{ #category : #testing }
+MVSTest >> testMainPresenterWithWrongFilterDoesNotFilter [
+	| presenter  |
+	presenter := MVSMainPresenter new.
+	presenter listView items: MooseModel root.
+	presenter queryWidget textField text: 'whatever it doe snot compile'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems first equals: MooseModel root first
+]
+
+{ #category : #testing }
 MVSTest >> testNavigationWhenFutureIsPress [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).

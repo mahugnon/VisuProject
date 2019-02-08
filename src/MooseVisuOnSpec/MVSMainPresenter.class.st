@@ -29,6 +29,14 @@ Class {
 }
 
 { #category : #specs }
+MVSMainPresenter class >> closeOfSelfWindowOpen [
+	^ self
+		allInstancesDo: [ :each | 
+			each window isNotNil
+				ifTrue: [ each window close ] ]
+]
+
+{ #category : #specs }
 MVSMainPresenter class >> countNumberOfSelfWindowOpen [
 	^ (self allInstances select: [ :each | each window notNil ]) size
 ]

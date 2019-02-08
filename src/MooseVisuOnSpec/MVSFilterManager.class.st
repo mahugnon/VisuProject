@@ -6,8 +6,14 @@ Class {
 
 { #category : #actions }
 MVSFilterManager >> buildQueryBlockFrom: aText [
+
+	| blockCode |
+	blockCode := aText
+		ifEmpty: [ '[:each | true ]' ]
+		ifNotEmpty: [ '[:each | [(' , aText , ') ~= false] on: Error do: [ true ] ]' ].
+
 	^ OpalCompiler new
-		source: '[:each |',aText,']';
+		source: blockCode;
 		logged: false;
 		evaluate
 ]
