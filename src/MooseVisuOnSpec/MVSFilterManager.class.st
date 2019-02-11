@@ -6,16 +6,23 @@ Class {
 
 { #category : #actions }
 MVSFilterManager >> buildQueryBlockFrom: aText [
-
 	| blockCode |
-	blockCode := aText
-		ifEmpty: [ '[:each | true ]' ]
-		ifNotEmpty: [ '[:each | [(' , aText , ') ~= false] on: Error do: [ true ] ]' ].
-
+	blockCode := self checkTextCorrectnessAndBuildCorrespondingStringBlock: aText .
 	^ OpalCompiler new
 		source: blockCode;
 		logged: false;
 		evaluate
+]
+
+{ #category : #'as yet unclassified' }
+MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
+	^ aText
+		ifEmpty: [ '[:each | true ]' ]
+		ifNotEmpty: [
+			(aText includes: $.)
+			ifFalse:[  
+			 '[:each | [((' , aText , ') ~= false)] on: Error do: [ true ] ]']
+			ifTrue:['[:each|true]'] ]
 ]
 
 { #category : #actions }

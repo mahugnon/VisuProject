@@ -66,6 +66,16 @@ MVSTest >> testFilter [
 ]
 
 { #category : #testing }
+MVSTest >> testFilterTestContainsDotSign [
+	"Je permet de test filtre d'une liste "
+
+	| testModel filterManager |
+	filterManager := MVSFilterManager new.
+	testModel := (MooseModel root at: 1) allModelClasses.
+	self assert: (filterManager executeQueryWith: 'true.true' on: testModel) size equals: 20
+]
+
+{ #category : #testing }
 MVSTest >> testInitNavigation [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
