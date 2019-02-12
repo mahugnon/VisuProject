@@ -1,3 +1,19 @@
+"
+monCode := '7 = 5'.
+monCode := 'Object new'.
+monCode := 'self error'.
+monCode := '{'.
+monCode := '1+2 . true'.
+monCode := ''.
+
+RBParser parseFaultyExpression: monCode.
+
+wrap := [ :code | '[([', code , '] value = false) not] on: Error do: [ true ] ' ].
+
+OpalCompiler evaluate: (wrap value: monCode).
+
+[ ] value
+"
 Class {
 	#name : #MVSFilterManager,
 	#superclass : #Object,
@@ -16,11 +32,11 @@ MVSFilterManager >> buildQueryBlockFrom: aText [
 
 { #category : #'as yet unclassified' }
 MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
-	^ aText
-		ifEmpty: [ '[:each | true ]' ]
-		ifNotEmpty: [ (aText includesAny: #($.))
-				ifFalse: [ '[:each | [((' , aText , ') ~= false)] on: Error do: [ true ] ]' ]
-				ifTrue: [ '[:each|true]' ] ]
+	" Joli commentaire "
+	(RBParser parseFaultyExpression: aText)
+		isFaulty ifTrue: [ ^ '[:each | true ]' ].
+
+	^ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]'
 ]
 
 { #category : #actions }

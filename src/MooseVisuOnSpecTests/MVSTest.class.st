@@ -130,6 +130,16 @@ self assert: mainPresenter listView listItems equals: #()
 ]
 
 { #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: 'Object new'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: self modelForTest size
+]
+
+{ #category : #'testing-filter-interaction' }
 MVSTest >> testMainPresenterWithCorrectFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
@@ -156,6 +166,66 @@ MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
 	presenter listView items: self modelForTest.
 	presenter queryWidget type: 13.
 	self assert: presenter listView listItems asSet equals: self modelForTest asSet
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: 'Error signal'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: self modelForTest size
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithFalseFilterWorks [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '1=2'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems isEmpty
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '{'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: self modelForTest size
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '1+3 . false'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems isEmpty
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '1+3 . true'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: self modelForTest size
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithTrueFilterWorks [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '1=1'.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
