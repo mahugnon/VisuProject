@@ -7,7 +7,7 @@ Class {
 { #category : #actions }
 MVSFilterManager >> buildQueryBlockFrom: aText [
 	| blockCode |
-	blockCode := self checkTextCorrectnessAndBuildCorrespondingStringBlock: aText .
+		blockCode := self checkTextCorrectnessAndBuildCorrespondingStringBlock: aText.
 	^ OpalCompiler new
 		source: blockCode;
 		logged: false;
@@ -18,11 +18,9 @@ MVSFilterManager >> buildQueryBlockFrom: aText [
 MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
 	^ aText
 		ifEmpty: [ '[:each | true ]' ]
-		ifNotEmpty: [
-			(aText includes: $.)
-			ifFalse:[  
-			 '[:each | [((' , aText , ') ~= false)] on: Error do: [ true ] ]']
-			ifTrue:['[:each|true]'] ]
+		ifNotEmpty: [ (aText includesAny: #($.))
+				ifFalse: [ '[:each | [((' , aText , ') ~= false)] on: Error do: [ true ] ]' ]
+				ifTrue: [ '[:each|true]' ] ]
 ]
 
 { #category : #actions }

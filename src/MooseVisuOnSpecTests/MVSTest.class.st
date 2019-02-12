@@ -10,6 +10,16 @@ Class {
 	#category : #MooseVisuOnSpecTests
 }
 
+{ #category : #testing }
+MVSTest >> correctQuery [
+	^ 'each hierarchyNestingLevel=2'
+]
+
+{ #category : #testing }
+MVSTest >> correctQueryWithFloat [
+	^ 'each hierarchyNestingLevel=2.0'
+]
+
 { #category : #'testing-utilities' }
 MVSTest >> createTestingMSE [
 	| model importer packages |
@@ -29,6 +39,11 @@ MVSTest >> createTestingMSE [
 	importer run.
 	 model name: 'MooseVisuProjectModel'.
 		^model
+]
+
+{ #category : #testing }
+MVSTest >> modelForTest [
+	^ (MooseModel root at: 1) allModelClasses
 ]
 
 { #category : #'testing-utilities' }
@@ -52,26 +67,50 @@ MVSTest >> tearDown [
 	MVSMainPresenter closeOfSelfWindowOpen 
 ]
 
-{ #category : #testing }
-MVSTest >> testFilter [
-	"Je permet de test filtre d'une liste "
-
-	| testModel filterManager |
-	filterManager := MVSFilterManager new.
-	testModel := (MooseModel root at: 1) allModelClasses.
-	self
-		assert:
-			(filterManager executeQueryWith: 'each hierarchyNestingLevel=2' on: testModel) size
-		equals: 6
+{ #category : #'testing-drilling' }
+MVSTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
+	| presenter list selectedItem |
+	presenter := MVSMainPresenter new.
+	presenter listView items: MooseModel root.
+	list := presenter listView listItems.
+	selectedItem := MooseModel root at: 1.
+	presenter listView setSelectedItem: selectedItem.
+	presenter simulateDoubleClick.
+	self deny: (presenter listView listItems includes: selectedItem)
 ]
 
-{ #category : #testing }
-MVSTest >> testFilterTestContainsDotSign [
+{ #category : #'testing-drilling' }
+MVSTest >> testDrillInMooseModelShowsPragmas [
+	| presenter list selectedItem |
+	
+	presenter := MVSMainPresenter new.
+	presenter listView items: MooseModel root.
+	list := presenter listView listItems.
+	
+	selectedItem := MooseModel root at: 1.
+	presenter listView setSelectedItem: selectedItem.
+	presenter simulateDoubleClick.
+	self assert: (presenter listView listItems allSatisfy: [ :each | 
+		each mooseModel = selectedItem or: [ each mooseModel isNil ] ])
+]
+
+{ #category : #'testing-queryExecution' }
+MVSTest >> testExecuteCorrectFilterTextReturnsFilteredCollection [
 	"Je permet de test filtre d'une liste "
 
 	| testModel filterManager |
 	filterManager := MVSFilterManager new.
-	testModel := (MooseModel root at: 1) allModelClasses.
+	testModel := self modelForTest.
+	self assert: (filterManager executeQueryWith: self correctQuery on: testModel) size equals: 6
+]
+
+{ #category : #'testing-queryExecution' }
+MVSTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
+	"Je permet de test filtre d'une liste "
+
+	| testModel filterManager |
+	filterManager := MVSFilterManager new.
+	testModel := self modelForTest.
 	self assert: (filterManager executeQueryWith: 'true.true' on: testModel) size equals: 20
 ]
 
@@ -83,17 +122,6 @@ MVSTest >> testInitNavigation [
 	self assert: presenter history hasPast equals: false.
 ]
 
-{ #category : #testing }
-MVSTest >> testMainPresenterListViewChangeWhenDoubleClick [
-	| presenter list |
-	presenter := MVSMainPresenter new.
-	presenter listView items: MooseModel root.
-	list := presenter listView listItems.
-	presenter listView setSelectedItem: (MooseModel root at: 1).
-	presenter simulateDoubleClick .
-	self assert: list ~= presenter listView listItems
-]
-
 { #category : #tests }
 MVSTest >> testMainPresenterListViewIsEmptyWhenNoModel [
 |mainPresenter|
@@ -101,23 +129,43 @@ mainPresenter :=MVSMainPresenter new.
 self assert: mainPresenter listView listItems equals: #()
 ]
 
-{ #category : #testing }
-MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
-	| presenter  |
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithCorrectFilter [
+	| presenter |
 	presenter := MVSMainPresenter new.
-	presenter listView items: MooseModel root.
+	presenter listView items: self modelForTest .
+	presenter queryWidget textField text: self correctQuery.
 	presenter queryWidget type: 13.
-	self assert: presenter listView listItems first equals: MooseModel root first
+	self assert: presenter listView listItems size equals: 6
 ]
 
-{ #category : #testing }
-MVSTest >> testMainPresenterWithWrongFilterDoesNotFilter [
-	| presenter  |
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithCorrectFilterWithFloat [
+	| presenter |
 	presenter := MVSMainPresenter new.
-	presenter listView items: MooseModel root.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: self correctQueryWithFloat.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems size equals: 6
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget type: 13.
+	self assert: presenter listView listItems asSet equals: self modelForTest asSet
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithWrongFilterDoesNotFilter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
 	presenter queryWidget textField text: 'whatever it doe snot compile'.
 	presenter queryWidget type: 13.
-	self assert: presenter listView listItems first equals: MooseModel root first
+	self assert: presenter listView listItems asSet equals: self modelForTest asSet
 ]
 
 { #category : #testing }
