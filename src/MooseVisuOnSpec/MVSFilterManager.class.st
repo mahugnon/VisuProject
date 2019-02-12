@@ -1,10 +1,14 @@
 "
-monCode := '7 = 5'.
-monCode := 'Object new'.
-monCode := 'self error'.
-monCode := '{'.
-monCode := '1+2 . true'.
-monCode := ''.
+My object represent the model of the filter in  the main presenter.
+My main responsibility is  to execute a select query on a mooseModel  from the filter typed by the user on the ui. The filter is then an arbitrary text.  I convert the text into a Block that always returns a boolean. I use that block for the select.
+
+I manage the following cases the user might type.
+- valid boolean expression :'7 = 5'>> false.
+- valid non boolean expression returns always true 'Object new'>>true.
+- non valid  exception return true 'self error'>>true.
+- invalid pharo syntax return true '{'>true.
+monCode := '1+2 . true'>>true.
+monCode := ''>>true.
 
 RBParser parseFaultyExpression: monCode.
 
@@ -46,5 +50,5 @@ MVSFilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
 
 { #category : #actions }
 MVSFilterManager >> executeQueryWith: aText on: aFamixClassGroup [
-	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
+	^ aFamixClassGroup select: (self buildQueryBlockFrom: aText)
 ]
