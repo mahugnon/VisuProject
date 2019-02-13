@@ -67,6 +67,15 @@ MVSTest >> tearDown [
 	MVSMainPresenter closeOfSelfWindowOpen 
 ]
 
+{ #category : #testing }
+MVSTest >> testAddingElementsToHistoryEnablesPreviousButton [
+	| presenter |
+	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
+	presenter updateListViewItems: #(0 8 7).
+
+	self assert: presenter previousButton enabled
+]
+
 { #category : #'testing-drilling' }
 MVSTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
 	| presenter list selectedItem |
@@ -111,7 +120,7 @@ MVSTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
 	| testModel filterManager |
 	filterManager := MVSFilterManager new.
 	testModel := self modelForTest.
-	self assert: (filterManager executeQueryWith: 'true.true' on: testModel) size equals: 20
+	self assert: (filterManager executeQueryWith: 'true.true' on: testModel) size equals: 21
 ]
 
 { #category : #testing }
@@ -179,6 +188,16 @@ MVSTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: 'self error: ''test error'''.
+	presenter queryWidget type: 13.
+	self assert: presenter errorReporter message equals: 'Error: test error'
+]
+
+{ #category : #'testing-filter-interaction' }
 MVSTest >> testMainPresenterWithFalseFilterWorks [
 	| presenter |
 	presenter := MVSMainPresenter new.
@@ -199,6 +218,16 @@ MVSTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithNonBooleanExpressionShowsError [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: 'Object new'.
+	presenter queryWidget type: 13.
+	self assert: presenter errorReporter message equals: 'MessageNotUnderstood: Object>>ifTrue:'
+]
+
+{ #category : #'testing-filter-interaction' }
 MVSTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
 	| presenter |
 	presenter := MVSMainPresenter new.
@@ -216,6 +245,16 @@ MVSTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
 	presenter queryWidget textField text: '1+3 . true'.
 	presenter queryWidget type: 13.
 	self assert: presenter listView listItems size equals: self modelForTest size
+]
+
+{ #category : #'testing-filter-interaction' }
+MVSTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
+	| presenter |
+	presenter := MVSMainPresenter new.
+	presenter listView items: self modelForTest.
+	presenter queryWidget textField text: '}|'.
+	presenter queryWidget type: 13.
+	self assert: presenter errorReporter message equals: 'SyntaxErrorNotification: '']'' expected'
 ]
 
 { #category : #'testing-filter-interaction' }
@@ -327,4 +366,18 @@ MVSTest >> testWhenUpdateMainPresenterListViewWithEmptyIsEmpty [
 	mainPresenter := MVSMainPresenter new.
 	mainPresenter updateListViewItems: #().
 	self assert: mainPresenter listView listItems equals: #()
+]
+
+{ #category : #testing }
+MVSTest >> testWithEmptyHistoryHasNextButtonDisabled [
+	| presenter |
+	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
+	self deny: presenter nextButton enabled
+]
+
+{ #category : #testing }
+MVSTest >> testWithEmptyHistoryHasPreviousButtonDisabled [
+	| presenter |
+	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
+	self deny: presenter previousButton enabled
 ]

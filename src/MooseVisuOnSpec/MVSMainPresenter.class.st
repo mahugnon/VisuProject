@@ -24,7 +24,8 @@ Class {
 		'labelNumberListElt',
 		'openResultNewWindowCheckBox',
 		'newSelf',
-		'logHolder'
+		'logHolder',
+		'errorReporter'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -56,7 +57,7 @@ MVSMainPresenter class >> defaultSpec [
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
 								add: #listView;
-								add: #logHolder height: 30 ] ] ];
+								add: #errorReporter height: 30 ] ] ];
 		yourself
 ]
 
@@ -103,11 +104,6 @@ MVSMainPresenter >> createHistory [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> createLogHolder [
-	logHolder := self newTextInput ghostText: 'Query error log console'
-]
-
-{ #category : #initialization }
 MVSMainPresenter >> createOpenResultNewWindowCheckBox [
 	openResultNewWindowCheckBox := self newCheckBox
 	label: 'Open result in new window'
@@ -145,14 +141,41 @@ MVSMainPresenter >> drawerOptionsOn: item [
 	self drawerOptions window modalRelativeTo: World
 ]
 
+{ #category : #'model - updating' }
+MVSMainPresenter >> enableNavigationButtonAt: anIndex withValue: aBoolean [
+
+	"If the widget does not exist, we will modify the spec objects"
+	| navigationMenuGroup buttonMorph |
+	navigationMenuGroup := menu menuGroups second.
+	buttonMorph := navigationMenuGroup menuItems at: anIndex.
+	buttonMorph enabled: aBoolean.
+
+	self widget ifNotNil: [	| dockingBarMorph |
+		dockingBarMorph := self widget widget submorphs first submorphs first submorphs first findA: ToolDockingBarMorph.
+		((dockingBarMorph submorphs last: 2) at: anIndex) enabled: aBoolean ]
+]
+
+{ #category : #'model - updating' }
+MVSMainPresenter >> enableNextButton: aBoolean [
+
+	self enableNavigationButtonAt: 2 withValue: aBoolean
+]
+
+{ #category : #'model - updating' }
+MVSMainPresenter >> enablePreviousButton: aBoolean [
+
+	self enableNavigationButtonAt: 1 withValue: aBoolean
+]
+
+{ #category : #accessing }
+MVSMainPresenter >> errorReporter [
+	
+	^ errorReporter
+]
+
 { #category : #actions }
 MVSMainPresenter >> executeTextQueryOnCR [
-	self queryWidget textField
-		autoAccept: true;
-		beForCode;
-		ghostText: 'Write an each query please';
-		bindKeyCombination: 13
-		toAction: [ self updateListViewItems: (queryWidget performFilterOn: listView listItems ) ]
+	self queryWidget whenFilterAccepted: [ self performQuery ]
 ]
 
 { #category : #api }
@@ -175,16 +198,16 @@ MVSMainPresenter >> importSt [
 
 { #category : #initialization }
 MVSMainPresenter >> initListViewItems: aCollection [
-
 	listView
 		items: aCollection;
 		displayBlock: [ :item | 
 			item class = MooseModel
 				ifTrue: [ item name ]
-				ifFalse: [ item asString  copyReplaceAll: 'famixt' with: 'famix' ] ];
+				ifFalse: [ item asString copyReplaceAll: 'famixt' with: 'famix' ] ];
 		icons: [ :item | item mooseIcon ];
 		sortingBlock: [ :a :b | a asString < b asString ].
 	self createHistory.
+	self updateNavigationButtons.
 	self updateNumberOfModelElement
 ]
 
@@ -199,13 +222,13 @@ MVSMainPresenter >> initializePresenter [
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
 	listView := self instantiate: FastTablePresenter.
+	errorReporter := self instantiate: MVSErrorReportPresenter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
-	self createLogHolder.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
-	self initListViewItems: #().
+	self initListViewItems: #().	
 	self focusOrder
 		add: menu;
 		add: listView
@@ -309,12 +332,32 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 	^ aMenu
 ]
 
+{ #category : #'menu-accessing' }
+MVSMainPresenter >> navigationMenuGroup [
+	
+	"Ugly method, but there is no easy way to access a menu group"
+	"menu menuGroups second => Does not work because the spec menu object cannot interact with the real menu, to for example, disable it"
+	"To be able to update the menu dynamically we have to get the morphs.
+	This is bad code, please do not replicate"
+	| dockingBarMorph |
+	
+	"If the widget does not exist, we will modify the spec objects"
+	self widget ifNil: [ | navigationMenuGroup |
+		navigationMenuGroup := menu menuGroups second.
+		^ { navigationMenuGroup menuItems first . navigationMenuGroup menuItems second }
+		 ].
+	
+	dockingBarMorph := self widget widget submorphs first submorphs first submorphs first findA: ToolDockingBarMorph.
+	^ dockingBarMorph submorphs last: 2
+]
+
 { #category : #navigation }
 MVSMainPresenter >> next [
 	history hasNext
 		ifFalse: [ ^ self ].
-	self updatePastWith:  listView listItems.
+	self updatePastWith: listView listItems.
 	listView items: self history next.
+	self updateNavigationButtons.
 	self updateNumberOfModelElement
 
 	"
@@ -322,6 +365,11 @@ self history hasFuture ifFalse: [^ self].
 self history next.
 self eltList: self history currentList
 "
+]
+
+{ #category : #'menu-accessing' }
+MVSMainPresenter >> nextButton [
+	^ self navigationMenuGroup second
 ]
 
 { #category : #actions }
@@ -342,13 +390,29 @@ MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
 		activationAction: [ newSelf := self class withElements: #() ]
 ]
 
+{ #category : #actions }
+MVSMainPresenter >> performQuery [
+	| newListItems |
+	[ newListItems := queryWidget performFilterOn: listView listItems.
+	self updateListViewItems: newListItems ]
+		on: Exception
+		do: [ :exception | errorReporter logError: exception ]
+]
+
 { #category : #navigation }
 MVSMainPresenter >> prev [
 	history hasPast
 		ifFalse: [ ^ self ].
-	self updateFutureWith:  listView listItems.
+	self updateFutureWith: listView listItems.
 	self listView items: history previous.
+	self updateNavigationButtons.
 	self updateNumberOfModelElement
+]
+
+{ #category : #'menu-accessing' }
+MVSMainPresenter >> previousButton [
+	
+	^ self navigationMenuGroup first
 ]
 
 { #category : #accessing }
@@ -378,10 +442,16 @@ MVSMainPresenter >> updateFutureWith: item [
 
 { #category : #'model - updating' }
 MVSMainPresenter >> updateListViewItems: aCollection [
-	
 	history addToPast: listView listItems.
 	listView items: aCollection.
+	self updateNavigationButtons.
 	self updateNumberOfModelElement
+]
+
+{ #category : #'model - updating' }
+MVSMainPresenter >> updateNavigationButtons [
+	self enableNextButton: history hasNext.
+	self enablePreviousButton: history hasPast.
 ]
 
 { #category : #'model - updating' }

@@ -5,9 +5,9 @@ Class {
 	#name : #MVSQueryWidgetPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'filtre',
 		'textField',
-		'label'
+		'label',
+		'model'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -35,20 +35,22 @@ MVSQueryWidgetPresenter >> createLabel [
 
 { #category : #accessing }
 MVSQueryWidgetPresenter >> filter [
-	^ filtre
+	^ model
 ]
 
 { #category : #accessing }
 MVSQueryWidgetPresenter >> filter: anObject [
-	filtre := anObject
+	model := anObject
 ]
 
 { #category : #initialization }
 MVSQueryWidgetPresenter >> initializeWidgets [
-	filtre := MVSFilterManager new.
+	model := MVSFilterManager new.
 	textField := self newTextInput.
+	textField autoAccept: true;
+		beForCode;
+		ghostText: 'Write an each query please'.
 	self createLabel.
-	
 	self focusOrder add: textField
 ]
 
@@ -71,4 +73,9 @@ MVSQueryWidgetPresenter >> textField [
 MVSQueryWidgetPresenter >> type: aCharacter [ 
 	
 	textField type: aCharacter
+]
+
+{ #category : #'api actions' }
+MVSQueryWidgetPresenter >> whenFilterAccepted: aBlock [
+	self textField bindKeyCombination: Character cr toAction: aBlock	"CR, the enter key"
 ]

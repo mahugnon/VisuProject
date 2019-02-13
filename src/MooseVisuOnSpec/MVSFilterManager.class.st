@@ -36,9 +36,7 @@ MVSFilterManager >> buildQueryBlockFrom: aText [
 
 { #category : #actions }
 MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
-	(RBParser parseFaultyExpression: aText) isFaulty
-		ifTrue: [ ^ '[:each | true ]' ].
-	^ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]'
+	^ '[:each | ' , aText , ']'
 ]
 
 { #category : #actions }
