@@ -23,7 +23,8 @@ Class {
 		'history',
 		'labelNumberListElt',
 		'openResultNewWindowCheckBox',
-		'newSelf'
+		'newSelf',
+		'logHolder'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -54,7 +55,8 @@ MVSMainPresenter class >> defaultSpec [
 								add: #labelNumberListElement height: 30;
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
-								add: #listView ] ] ];
+								add: #listView ;
+								add: #logHolder height:30] ] ];
 		yourself
 ]
 
@@ -98,6 +100,11 @@ MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 { #category : #initialization }
 MVSMainPresenter >> createHistory [
 	history := MVSHistory create
+]
+
+{ #category : #initialization }
+MVSMainPresenter >> createLogHolder [
+	logHolder := self newTextInput ghostText: 'Query error log console'
 ]
 
 { #category : #initialization }
@@ -191,10 +198,10 @@ MVSMainPresenter >> initializePresenter [
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
-
 	listView := self instantiate: FastTablePresenter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
+	self createLogHolder.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
@@ -247,6 +254,11 @@ MVSMainPresenter >> listViewMenu: aBlock [
 MVSMainPresenter >> loadImportedModel [
 	
 	self initListViewItems: MSELoader loadMSE
+]
+
+{ #category : #accessing }
+MVSMainPresenter >> logHolder [
+^logHolder
 ]
 
 { #category : #accessing }

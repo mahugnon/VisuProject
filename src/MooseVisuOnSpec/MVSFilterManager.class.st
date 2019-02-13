@@ -36,11 +36,13 @@ MVSFilterManager >> buildQueryBlockFrom: aText [
 
 { #category : #'as yet unclassified' }
 MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
-	" Joli commentaire "
+
 	(RBParser parseFaultyExpression: aText)
 		isFaulty ifTrue: [ ^ '[:each | true ]' ].
 
-	^ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]'
+	^ aText
+		ifEmpty: [ '[:each | true ]' ]
+		ifNotEmpty: [ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]' ]
 ]
 
 { #category : #actions }
@@ -50,5 +52,5 @@ MVSFilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
 
 { #category : #actions }
 MVSFilterManager >> executeQueryWith: aText on: aFamixClassGroup [
-	^ aFamixClassGroup select: (self buildQueryBlockFrom: aText)
+	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
 ]
