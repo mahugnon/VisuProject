@@ -34,23 +34,15 @@ MVSFilterManager >> buildQueryBlockFrom: aText [
 		evaluate
 ]
 
-{ #category : #'as yet unclassified' }
-MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
-
-	(RBParser parseFaultyExpression: aText)
-		isFaulty ifTrue: [ ^ '[:each | true ]' ].
-
-	^ aText
-		ifEmpty: [ '[:each | true ]' ]
-		ifNotEmpty: [ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]' ]
-]
-
 { #category : #actions }
-MVSFilterManager >> executeQueryBlock: aBlock on: aFamixClassGroup [
-	^ aFamixClassGroup select: aBlock
+MVSFilterManager >> checkTextCorrectnessAndBuildCorrespondingStringBlock: aText [
+	(RBParser parseFaultyExpression: aText) isFaulty
+		ifTrue: [ ^ '[:each | true ]' ].
+	^ '[:each | [([' , aText , '] value ~= false)] on: Error do: [ true ] ]'
 ]
 
 { #category : #actions }
 MVSFilterManager >> executeQueryWith: aText on: aFamixClassGroup [
-	^ self executeQueryBlock: (self buildQueryBlockFrom: aText) on: aFamixClassGroup
+	^ aFamixClassGroup select: (self buildQueryBlockFrom: aText)
+	
 ]

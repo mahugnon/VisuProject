@@ -55,8 +55,8 @@ MVSMainPresenter class >> defaultSpec [
 								add: #labelNumberListElement height: 30;
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
-								add: #listView ;
-								add: #logHolder height:30] ] ];
+								add: #listView;
+								add: #logHolder height: 30 ] ] ];
 		yourself
 ]
 
