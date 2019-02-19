@@ -22,9 +22,11 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 
 
 			"Packages "
-			spec package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2' 'Moose') ] ].
+			spec package: 'MooseVisuOnSpecModelLoader';
+			package: 'MooseVisuOnSpec' with: [ spec requires: #('Roassal2' 'Moose' 'MooseVisuOnSpecModelLoader') ] ].
 	"Groups"
-	spec group: 'All' with: #('MooseVisuOnSpec')
+	spec group: 'default' with: #('MooseVisuOnSpec');
+	group: 'mvsLoader' with:#('MooseVisuOnSpecModelLoader')
 ]
 
 { #category : #baselines }
