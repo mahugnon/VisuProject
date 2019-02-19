@@ -275,8 +275,8 @@ MVSMainPresenter >> listViewMenu: aBlock [
 
 { #category : #actions }
 MVSMainPresenter >> loadImportedModel [
-	
-	self initListViewItems: MVSMSELoader importModel
+	MVSMSELoader importModel.
+	self initListViewItems: MooseModel root allModels
 ]
 
 { #category : #accessing }

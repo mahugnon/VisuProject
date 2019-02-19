@@ -16,5 +16,5 @@ MVSMSELoader class >> importModel [
 	MooseModel new
 		installWithCache: true;
 		importFromMSEStream: fileRef asFileReference readStream.
-	^ MooseModel root allModels
+	
 ]
