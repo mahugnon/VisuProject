@@ -88,11 +88,11 @@ MVSFilterTest >> setUp [
 
 { #category : #running }
 MVSFilterTest >> tearDown [
-	super tearDown.
 	MooseModel resetRoot.
 	MooseModel root addAll: rootCurrent.
 	MVSMainPresenter closeOfSelfWindowOpen.
-	(MCPackage named: 'TestMokePackage') unload. 
+	(MCPackage named: 'TestMokePackage') unload.
+	super tearDown
 ]
 
 { #category : #'testing-drilling' }
