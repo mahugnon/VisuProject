@@ -22,7 +22,7 @@ MVSTest >> correctQueryWithFloat [
 
 { #category : #'testing-utilities' }
 MVSTest >> createTestingMSE [
-	| model importer packages |
+	| model importer package |
 	model := MooseModel new.
 	importer := MoosePharoImporterTask new model: model.
 	importer factory: SmalltalkCompatibilityMetamodelFactory.
@@ -34,11 +34,22 @@ MVSTest >> createTestingMSE [
 				importPackage;
 				importInheritance;
 				yourself).
-	packages := self mooseVisuProjectPackages.
-	packages do: [ :each | importer addFromPackageNamed: each name ].
-	importer run.
-	 model name: 'MooseVisuProjectModel'.
-		^model
+	package := MCPackage named: 'TestMokePackage'.
+	importer addFromPackageNamed: package name;
+	 run.
+	model name: 'TestMokePackage'.
+	^ model
+]
+
+{ #category : #'as yet unclassified' }
+MVSTest >> createTestingModel [
+	#('ModelClass1' 'ModelClass2' 'ModelClass3' 'ModelClass7' 'ModelClass4' 'ModelClass5' 'ModelClass6')
+		do: [ :each | 
+			Object
+				subclass: each
+				instanceVariableNames: ''
+				classVariableNames: ''
+				package: 'TestMokePackage' ]
 ]
 
 { #category : #testing }
@@ -54,9 +65,10 @@ MVSTest >> mooseVisuProjectPackages [
 { #category : #'testing-utilities' }
 MVSTest >> setUp [
 	super setUp.
+	self createTestingModel.
 	rootCurrent := MooseModel root.
 	MooseModel resetRoot.
-	MooseModel root add: self createTestingMSE.
+	MooseModel root add: self createTestingMSE
 ]
 
 { #category : #'testing-utilities' }
@@ -64,7 +76,8 @@ MVSTest >> tearDown [
 	super tearDown.
 	MooseModel resetRoot.
 	MooseModel root addAll: rootCurrent.
-	MVSMainPresenter closeOfSelfWindowOpen 
+	MVSMainPresenter closeOfSelfWindowOpen.
+	(MCPackage named: 'TestMokePackage') unload. 
 ]
 
 { #category : #testing }
