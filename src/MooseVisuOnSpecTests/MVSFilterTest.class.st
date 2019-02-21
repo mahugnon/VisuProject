@@ -1,8 +1,5 @@
-"
-I test the main presenter functionalities
-"
 Class {
-	#name : #MVSTest,
+	#name : #MVSFilterTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'rootCurrent'
@@ -11,17 +8,17 @@ Class {
 }
 
 { #category : #testing }
-MVSTest >> correctQuery [
+MVSFilterTest >> correctQuery [
 	^ 'each hierarchyNestingLevel=2'
 ]
 
 { #category : #testing }
-MVSTest >> correctQueryWithFloat [
+MVSFilterTest >> correctQueryWithFloat [
 	^ 'each hierarchyNestingLevel=2.0'
 ]
 
 { #category : #'testing-utilities' }
-MVSTest >> createTestingMSE [
+MVSFilterTest >> createTestingMSE [
 	| model importer package |
 	model := MooseModel new.
 	importer := MoosePharoImporterTask new model: model.
@@ -42,7 +39,7 @@ MVSTest >> createTestingMSE [
 ]
 
 { #category : #utilities }
-MVSTest >> createTestingModel [
+MVSFilterTest >> createTestingModel [
 	| maClass |
 	#('ModelClass1' 'ModelClass2' 'ModelClass3' 'ModelClass7' 'ModelClass4' 'ModelClass5' 'ModelClass6')
 		do: [ :each | 
@@ -72,17 +69,13 @@ MVSTest >> createTestingModel [
 ]
 
 { #category : #testing }
-MVSTest >> modelForTest [
+MVSFilterTest >> modelForTest [
 	^ (MooseModel root at: 1) allModelClasses
 ]
 
-{ #category : #'testing-utilities' }
-MVSTest >> mooseVisuProjectPackages [
-	^ RPackage organizer packages select: [ :each | each name matchesRegex: 'MooseVisu.*' ]
-]
-
-{ #category : #'testing-utilities' }
-MVSTest >> setUp [
+{ #category : #running }
+MVSFilterTest >> setUp [
+	
 	super setUp.
 	self createTestingModel.
 	rootCurrent := MooseModel root.
@@ -90,8 +83,8 @@ MVSTest >> setUp [
 	MooseModel root add: self createTestingMSE
 ]
 
-{ #category : #'testing-utilities' }
-MVSTest >> tearDown [
+{ #category : #running }
+MVSFilterTest >> tearDown [
 	super tearDown.
 	MooseModel resetRoot.
 	MooseModel root addAll: rootCurrent.
@@ -99,17 +92,8 @@ MVSTest >> tearDown [
 	(MCPackage named: 'TestMokePackage') unload. 
 ]
 
-{ #category : #testing }
-MVSTest >> testAddingElementsToHistoryEnablesPreviousButton [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-
-	self assert: presenter previousButton enabled
-]
-
 { #category : #'testing-drilling' }
-MVSTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
+MVSFilterTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
 	| presenter list selectedItem |
 	presenter := MVSMainPresenter new.
 	presenter listView items: MooseModel root.
@@ -121,7 +105,7 @@ MVSTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
 ]
 
 { #category : #'testing-drilling' }
-MVSTest >> testDrillInMooseModelShowsPragmas [
+MVSFilterTest >> testDrillInMooseModelShowsPragmas [
 	| presenter list selectedItem |
 	
 	presenter := MVSMainPresenter new.
@@ -136,7 +120,7 @@ MVSTest >> testDrillInMooseModelShowsPragmas [
 ]
 
 { #category : #'testing-queryExecution' }
-MVSTest >> testExecuteCorrectFilterTextReturnsFilteredCollection [
+MVSFilterTest >> testExecuteCorrectFilterTextReturnsFilteredCollection [
 	"Je permet de test filtre d'une liste "
 
 	| testModel filterManager |
@@ -146,7 +130,7 @@ MVSTest >> testExecuteCorrectFilterTextReturnsFilteredCollection [
 ]
 
 { #category : #'testing-queryExecution' }
-MVSTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
+MVSFilterTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
 	"Je permet de test filtre d'une liste "
 
 	| testModel filterManager |
@@ -155,23 +139,8 @@ MVSTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
 	self assert: (filterManager executeQueryWith: 'true.true' on: testModel) size equals: 9
 ]
 
-{ #category : #testing }
-MVSTest >> testInitNavigation [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	self assert: presenter history hasPast equals: false.
-	self assert: presenter history hasPast equals: false.
-]
-
-{ #category : #tests }
-MVSTest >> testMainPresenterListViewIsEmptyWhenNoModel [
-|mainPresenter|
-mainPresenter :=MVSMainPresenter new.
-self assert: mainPresenter listView listItems equals: #()
-]
-
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -181,7 +150,7 @@ MVSTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithCorrectFilter [
+MVSFilterTest >> testMainPresenterWithCorrectFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest .
@@ -191,7 +160,7 @@ MVSTest >> testMainPresenterWithCorrectFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithCorrectFilterWithFloat [
+MVSFilterTest >> testMainPresenterWithCorrectFilterWithFloat [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -201,7 +170,7 @@ MVSTest >> testMainPresenterWithCorrectFilterWithFloat [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -210,7 +179,7 @@ MVSTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -220,7 +189,7 @@ MVSTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError [
+MVSFilterTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -230,7 +199,7 @@ MVSTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithFalseFilterWorks [
+MVSFilterTest >> testMainPresenterWithFalseFilterWorks [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -240,7 +209,7 @@ MVSTest >> testMainPresenterWithFalseFilterWorks [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -250,7 +219,7 @@ MVSTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithNonBooleanExpressionShowsError [
+MVSFilterTest >> testMainPresenterWithNonBooleanExpressionShowsError [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -260,7 +229,7 @@ MVSTest >> testMainPresenterWithNonBooleanExpressionShowsError [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
+MVSFilterTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -270,7 +239,7 @@ MVSTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -280,7 +249,7 @@ MVSTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
+MVSFilterTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -290,7 +259,7 @@ MVSTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithTrueFilterWorks [
+MVSFilterTest >> testMainPresenterWithTrueFilterWorks [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -300,7 +269,7 @@ MVSTest >> testMainPresenterWithTrueFilterWorks [
 ]
 
 { #category : #'testing-filter-interaction' }
-MVSTest >> testMainPresenterWithWrongFilterDoesNotFilter [
+MVSFilterTest >> testMainPresenterWithWrongFilterDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
@@ -309,49 +278,8 @@ MVSTest >> testMainPresenterWithWrongFilterDoesNotFilter [
 	self assert: presenter listView listItems asSet equals: self modelForTest asSet
 ]
 
-{ #category : #testing }
-MVSTest >> testNavigationWhenFutureIsPress [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	presenter prev.
-	presenter next.
-	self assert: presenter history hasNext equals: false.
-	self assert: presenter history past top equals: #(0 1 2 3 4) sorted.
-	self assert: presenter listView listItems equals: #(0 8 7) sorted
-]
-
-{ #category : #testing }
-MVSTest >> testNavigationWhenListViewItemsNotUpdatedAnPreviousIsPress [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter prev.
-	self assert: presenter listView listItems  equals: #(0 1 2 3 4).
-	self assert: presenter history hasPast equals: false.
-	self assert: presenter history hasPast equals: false
-]
-
-{ #category : #testing }
-MVSTest >> testNavigationWhenPreviousIsPress [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	presenter prev.
-	self assert: presenter history hasPast equals: false.
-	self assert: presenter history future top equals: #(0 8 7) sorted.
-	self assert: presenter listView listItems  equals: #(0 1 2 3 4) sorted
-]
-
-{ #category : #testing }
-MVSTest >> testNextNavigationwhenUpdateListViewItems [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	self assert: presenter history hasNext  equals: false
-]
-
 { #category : #tests }
-MVSTest >> testOpenInNewWindowWhenOptionIsChecked [
+MVSFilterTest >> testOpenInNewWindowWhenOptionIsChecked [
 	| presenter numberOfOpenMainPresenterWindow|
 	presenter := MVSMainPresenter new.
 	presenter openResultNewWindowCheckBox state: true.
@@ -361,42 +289,4 @@ MVSTest >> testOpenInNewWindowWhenOptionIsChecked [
 	presenter simulateDoubleClick.
 	self assert: (numberOfOpenMainPresenterWindow <MVSMainPresenter countNumberOfSelfWindowOpen )
 	
-]
-
-{ #category : #testing }
-MVSTest >> testPastNavigationwhenUpdateListViewItems [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	self assert: presenter history hasPast equals: true.
-]
-
-{ #category : #tests }
-MVSTest >> testUpdateListView [
-	| mainPresenter |
-	mainPresenter := MVSMainPresenter new.
-	mainPresenter updateListViewItems: #(1 2 3).
-	self assert: mainPresenter listView listItems equals: #(1 2 3)
-]
-
-{ #category : #tests }
-MVSTest >> testWhenUpdateMainPresenterListViewWithEmptyIsEmpty [
-	| mainPresenter |
-	mainPresenter := MVSMainPresenter new.
-	mainPresenter updateListViewItems: #().
-	self assert: mainPresenter listView listItems equals: #()
-]
-
-{ #category : #testing }
-MVSTest >> testWithEmptyHistoryHasNextButtonDisabled [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	self deny: presenter nextButton enabled
-]
-
-{ #category : #testing }
-MVSTest >> testWithEmptyHistoryHasPreviousButtonDisabled [
-	| presenter |
-	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	self deny: presenter previousButton enabled
 ]
