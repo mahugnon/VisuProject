@@ -1,3 +1,6 @@
+"
+Test moose query execution on the model
+"
 Class {
 	#name : #MVSFilterTest,
 	#superclass : #TestCase,
@@ -38,7 +41,7 @@ MVSFilterTest >> createTestingMSE [
 	^ model
 ]
 
-{ #category : #utilities }
+{ #category : #'testing-utilities' }
 MVSFilterTest >> createTestingModel [
 	| maClass |
 	#('ModelClass1' 'ModelClass2' 'ModelClass3' 'ModelClass7' 'ModelClass4' 'ModelClass5' 'ModelClass6')
