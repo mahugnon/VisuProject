@@ -17,7 +17,7 @@ MVSSystemComplexityPresenter >> drawOnRoassalView: aView [
 		height: [ :cls | cls numberOfMethods max: 5 ];
 		color: Color black) elementsOn: selected allModelClasses.
 	aView addAll: es.
-	es @ RTPopup @RTMVSElInteraction .
+	es @ RTPopup @ RTMVSElInteraction @RTDraggable .
 	RTEdgeBuilder new
 		elements: es;
 		view: aView;
