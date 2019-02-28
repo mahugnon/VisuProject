@@ -1,6 +1,6 @@
 Extension { #name : #MooseAbstractGroup }
 
-{ #category : #'*MooseVisuOnSpec' }
+{ #category : #'*MooseVisuClassNames' }
 MooseAbstractGroup >> drawers [
 	^ OrderedCollection new
 		add: MVSDrawerClassNameSufixPresenter;

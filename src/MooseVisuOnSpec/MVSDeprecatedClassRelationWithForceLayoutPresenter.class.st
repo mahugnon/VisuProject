@@ -1,3 +1,6 @@
+"
+I draws a visalization of the relationship between classes annotated with deprecated and other classes of the model.
+"
 Class {
 	#name : #MVSDeprecatedClassRelationWithForceLayoutPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,

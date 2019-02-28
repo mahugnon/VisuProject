@@ -33,7 +33,9 @@ MVSDrawConfig >> center: anObject [
 
 { #category : #utilities }
 MVSDrawConfig >> getDrawers [
-	^ MVSDrawerManager new drawersFor: type
+	type isNil
+		ifTrue: [ ^ self ].
+	^ type drawers
 ]
 
 { #category : #accessing }
