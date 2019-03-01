@@ -1,6 +1,3 @@
-"
-I draw a visualization of hierarchical  relationship between the model classes using force layout. 
-"
 Class {
 	#name : #MVSDrawerSubclassesWithForceLayoutPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,

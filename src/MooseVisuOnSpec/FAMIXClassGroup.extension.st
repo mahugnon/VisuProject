@@ -24,3 +24,11 @@ FAMIXClassGroup >> mvscontextMenuOn: aPresenter [
 				action: [ aPresenter drawerOptionsOn: self ]).
 	aPresenter buildContextMenuWith: col
 ]
+
+{ #category : #'*MooseVisuOnSpec' }
+FAMIXClassGroup >> mvsdoubleClick: aPresenter [
+self mvscontextMenuOn: aPresenter .
+^aPresenter isOpenResultNewWindow
+						ifTrue: [ aPresenter openResultInNewWindow: self ]
+						ifFalse: [ aPresenter updateListViewItems: self ]
+]

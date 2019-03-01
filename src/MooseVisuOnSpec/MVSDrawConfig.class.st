@@ -15,13 +15,6 @@ Class {
 }
 
 { #category : #accessing }
-MVSDrawConfig >> applicableDrawers [
-	^self
-		getDrawers.
-	
-]
-
-{ #category : #accessing }
 MVSDrawConfig >> center [
 	^ center
 ]
@@ -33,9 +26,7 @@ MVSDrawConfig >> center: anObject [
 
 { #category : #utilities }
 MVSDrawConfig >> getDrawers [
-	type isNil
-		ifTrue: [ ^ self ].
-	^ type drawers
+	^ MVSDrawerManager new drawersFor: type
 ]
 
 { #category : #accessing }

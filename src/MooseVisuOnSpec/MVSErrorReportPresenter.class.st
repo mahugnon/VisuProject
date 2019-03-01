@@ -1,6 +1,3 @@
-"
-I	report syntax error in query
-"
 Class {
 	#name : #MVSErrorReportPresenter,
 	#superclass : #ComposablePresenter,

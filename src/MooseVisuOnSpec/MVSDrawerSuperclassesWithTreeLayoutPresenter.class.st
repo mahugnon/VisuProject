@@ -1,6 +1,3 @@
-"
-I draw a visualization of hierarchical  relationship between the model classes in a tree. 
-"
 Class {
 	#name : #MVSDrawerSuperclassesWithTreeLayoutPresenter,
 	#superclass : #MVSRoassalDrawerPresenter,
