@@ -1,6 +1,6 @@
 Class {
 	#name : #MVSSourceTextPresenter,
-	#superclass : #ComposablePresenter,
+	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'sourceText'
 	],

@@ -1,6 +1,14 @@
 Extension { #name : #MooseGroup }
 
 { #category : #'*MooseVisuOnSpec' }
+MooseGroup >> mvsDoubleClick: aPresenter [
+	self mvscontextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self ]
+		ifFalse: [ aPresenter updateListViewItems: self ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
 MooseGroup >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
@@ -12,12 +20,4 @@ MooseGroup >> mvscontextMenuOn: aPresenter [
 						ifTrue: [ aPresenter openResultInNewWindow: self]
 						ifFalse: [ aPresenter updateListViewItems: self  ] ]).
 	aPresenter buildContextMenuWith: col
-]
-
-{ #category : #'*MooseVisuOnSpec' }
-MooseGroup >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuOn: aPresenter.
-	^ aPresenter isOpenResultNewWindow
-		ifTrue: [ aPresenter openResultInNewWindow: self ]
-		ifFalse: [ aPresenter updateListViewItems: self ]
 ]

@@ -3,7 +3,7 @@ I am a Modal to allow user to select a draw beyond different options
 "
 Class {
 	#name : #MVSDrawerOptionsPresenter,
-	#superclass : #DynamicComposablePresenter,
+	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'typeLabel',
 		'selectedDrawer',

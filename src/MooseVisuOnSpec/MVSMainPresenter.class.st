@@ -14,7 +14,7 @@ Exemple:
 "
 Class {
 	#name : #MVSMainPresenter,
-	#superclass : #ComposablePresenter,
+	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'listView',
 		'menu',
@@ -216,7 +216,7 @@ MVSMainPresenter >> initializePresenter [
 	self itemSelectedEventOn: listView.
 	self executeTextQueryOnCR.
 	self openResultNewWindowCheckBoxEvent.
-	listView doubleClickAction: [ :item | listView selectedItem   mvsdoubleClick: self ]
+	listView doubleClickAction: [ :item | listView selectedItem   mvsDoubleClick: self ]
 ]
 
 { #category : #initialization }

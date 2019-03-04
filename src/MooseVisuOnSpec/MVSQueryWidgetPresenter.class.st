@@ -3,7 +3,7 @@ testing query stuff
 "
 Class {
 	#name : #MVSQueryWidgetPresenter,
-	#superclass : #ComposablePresenter,
+	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'textField',
 		'label',
@@ -33,6 +33,15 @@ MVSQueryWidgetPresenter >> createLabel [
 	emphasis: #bold
 ]
 
+{ #category : #initialization }
+MVSQueryWidgetPresenter >> createQueryTextField [
+	textField := self newTextInput.
+	textField
+		autoAccept: true;
+		beForCode;
+		ghostText: 'Write an each query please'
+]
+
 { #category : #accessing }
 MVSQueryWidgetPresenter >> filter [
 	^ model
@@ -44,12 +53,14 @@ MVSQueryWidgetPresenter >> filter: anObject [
 ]
 
 { #category : #initialization }
+MVSQueryWidgetPresenter >> initContext [
+	model := MVSFilterManager new
+]
+
+{ #category : #initialization }
 MVSQueryWidgetPresenter >> initializeWidgets [
-	model := MVSFilterManager new.
-	textField := self newTextInput.
-	textField autoAccept: true;
-		beForCode;
-		ghostText: 'Write an each query please'.
+	self initContext.
+	self createQueryTextField.
 	self createLabel.
 	self focusOrder add: textField
 ]

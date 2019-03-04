@@ -1,6 +1,14 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*MooseVisuOnSpec' }
+MooseModel >> mvsDoubleClick: aPresenter [
+	self mvscontextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self mvsGroupEntitycache ]
+		ifFalse: [ aPresenter updateListViewItems: self mvsGroupEntitycache  ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
 MooseModel >> mvsGroupEntitycache [
 ^self cacheMooseGroups entityCache
 ]
@@ -25,12 +33,4 @@ MooseModel >> mvscontextMenuOn: aPresenter [
 				name: 'Rename model';
 				action: [ self setRootFolder ]).
 	aPresenter buildContextMenuWith: col
-]
-
-{ #category : #'*MooseVisuOnSpec' }
-MooseModel >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuOn: aPresenter.
-	^ aPresenter isOpenResultNewWindow
-		ifTrue: [ aPresenter openResultInNewWindow: self mvsGroupEntitycache ]
-		ifFalse: [ aPresenter updateListViewItems: self mvsGroupEntitycache  ]
 ]

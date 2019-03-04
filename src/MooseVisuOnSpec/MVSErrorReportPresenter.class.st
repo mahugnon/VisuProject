@@ -1,6 +1,6 @@
 Class {
 	#name : #MVSErrorReportPresenter,
-	#superclass : #ComposablePresenter,
+	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'logHolder'
 	],
@@ -20,7 +20,10 @@ MVSErrorReportPresenter class >> show [
 
 { #category : #initialization }
 MVSErrorReportPresenter >> createLogHolder [
-	logHolder := self newTextInput ghostText: 'Query error log console'
+	logHolder := self newLabel
+		color: Color red;
+		emphasis: #bold;
+		yourself
 ]
 
 { #category : #initialization }
@@ -30,7 +33,8 @@ MVSErrorReportPresenter >> initializeWidgets [
 
 { #category : #accessing }
 MVSErrorReportPresenter >> logError: anException [
-	logHolder text: anException class name, ': ', anException messageText
+	logHolder
+		label: anException class name , ': ' , anException messageText
 ]
 
 { #category : #accessing }

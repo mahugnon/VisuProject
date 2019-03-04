@@ -9,6 +9,14 @@ FAMIXClass >> drawers [
 ]
 
 { #category : #'*MooseVisuOnSpec' }
+FAMIXClass >> mvsDoubleClick: aPresenter [
+	self mvscontextMenuOn: aPresenter.
+	^ aPresenter isOpenResultNewWindow
+		ifTrue: [ aPresenter openResultInNewWindow: self ]
+		ifFalse: [ aPresenter updateListViewItems: self ]
+]
+
+{ #category : #'*MooseVisuOnSpec' }
 FAMIXClass >> mvsInteraction [
 	"	col := self complexPropertyPragmas collect: [ :pragma | pragma methodSelector value: self ]."
 
@@ -33,12 +41,4 @@ FAMIXClass >> mvscontextMenuOn: aPresenter [
 				name: 'Source code';
 				action: [ aPresenter itemSourceCode: self ]).
 	aPresenter buildContextMenuWith: col
-]
-
-{ #category : #'*MooseVisuOnSpec' }
-FAMIXClass >> mvsdoubleClick: aPresenter [
-	self mvscontextMenuOn: aPresenter.
-	^ aPresenter isOpenResultNewWindow
-		ifTrue: [ aPresenter openResultInNewWindow: self ]
-		ifFalse: [ aPresenter updateListViewItems: self ]
 ]
