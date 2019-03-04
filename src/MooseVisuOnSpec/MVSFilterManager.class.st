@@ -21,7 +21,7 @@ OpalCompiler evaluate: (wrap value: monCode).
 Class {
 	#name : #MVSFilterManager,
 	#superclass : #Object,
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-Utilities'
 }
 
 { #category : #actions }

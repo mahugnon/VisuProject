@@ -7,9 +7,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'past',
-		'future'
+		'future',
+		'context'
 	],
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-Utilities'
 }
 
 { #category : #'initailize-release' }
@@ -74,4 +75,16 @@ MVSHistory >> previous [
 	
 	past pop.
 	^ previous
+]
+
+{ #category : #initialization }
+MVSHistory >> subscribeToContext: aContext [
+context :=aContext .
+aContext addListener: self.
+]
+
+{ #category : #initialization }
+MVSHistory >> unSubscribeToContext [
+	context removeListener: self.
+	context := nil
 ]

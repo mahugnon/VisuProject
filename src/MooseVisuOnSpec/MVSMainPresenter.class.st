@@ -16,14 +16,13 @@ Class {
 	#name : #MVSMainPresenter,
 	#superclass : #MVSAbstractPresenter,
 	#instVars : [
-		'listView',
+		'mooseView',
 		'menu',
 		'queryWidget',
 		'drawerOptions',
 		'history',
 		'labelNumberListElt',
 		'openResultNewWindowCheckBox',
-		'newSelf',
 		'logHolder',
 		'errorReporter'
 	],
@@ -56,7 +55,7 @@ MVSMainPresenter class >> defaultSpec [
 								add: #labelNumberListElement height: 30;
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
-								add: #listView;
+								add: #mooseView;
 								add: #errorReporter height: 30 ] ] ];
 		yourself
 ]
@@ -77,7 +76,7 @@ MVSMainPresenter class >> runMeWithClass [
 MVSMainPresenter class >> withElements: aCollection [
 	^ self basicNew
 		initialize;
-		initListViewItems: aCollection;
+		initMooseView: aCollection;
 		yourself
 ]
 
@@ -89,7 +88,7 @@ MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 	tempPresenter := self isOpenResultNewWindow
 		ifTrue: [ newSelf ]
 		ifFalse: [ self ].
-	tempPresenter listView menu:
+	tempPresenter mooseView menu:
 			[ MenuPresenter
 				new addGroup: [ :group | 
 					menuItemPresenters
@@ -99,15 +98,25 @@ MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 ]
 
 { #category : #initialization }
+MVSMainPresenter >> createErrorReporter [
+	errorReporter := self instantiate: MVSErrorReportPresenter
+]
+
+{ #category : #initialization }
 MVSMainPresenter >> createHistory [
 	history := MVSHistory create
 ]
 
 { #category : #initialization }
+MVSMainPresenter >> createMooseView [
+	mooseView := self instantiate: MVSMooseViewPresenter.
+	mooseView subscribeToContext: context
+]
+
+{ #category : #initialization }
 MVSMainPresenter >> createOpenResultNewWindowCheckBox [
-	openResultNewWindowCheckBox := self newCheckBox
-	label: 'Open result in new window'
-	
+	openResultNewWindowCheckBox := (self instantiate: MVSOpenInNewWindowOptionPresenter )
+		label: 'Open result in new window'
 ]
 
 { #category : #initialization }
@@ -197,41 +206,39 @@ MVSMainPresenter >> importSt [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> initListViewItems: aCollection [
-	listView
-		items: aCollection;
-		displayBlock: [ :item | 
-			item class = MooseModel
-				ifTrue: [ item name ]
-				ifFalse: [ item asString copyReplaceAll: 'famixt' with: 'famix' ] ];
-		icons: [ :item | item mooseIcon ];
-		sortingBlock: [ :a :b | a asString < b asString ].
-	self createHistory.
+MVSMainPresenter >> initContext [
+	self subscribeToContext: MVSContext new
+]
+
+{ #category : #initialization }
+MVSMainPresenter >> initMooseView [
+	"self createHistory.
 	self updateNavigationButtons.
-	self updateNumberOfModelElement
+	self updateNumberOfModelElement"
 ]
 
 { #category : #initialization }
 MVSMainPresenter >> initializePresenter [
 	self itemSelectedEventOn: listView.
 	self executeTextQueryOnCR.
-	self openResultNewWindowCheckBoxEvent.
+"	self openResultNewWindowCheckBoxEvent."
 	listView doubleClickAction: [ :item | listView selectedItem   mvsDoubleClick: self ]
 ]
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
-	listView := self instantiate: FastTablePresenter.
-	errorReporter := self instantiate: MVSErrorReportPresenter.
+	self initContext.
+	self createMooseView.
+	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
 	labelNumberListElt := self newLabel.
-	self initListViewItems: #().	
+	self initMooseView.
 	self focusOrder
 		add: menu;
-		add: listView
+		add: mooseView 
 ]
 
 { #category : #testing }
@@ -263,20 +270,10 @@ MVSMainPresenter >> labelNumberListElement [
 	^ labelNumberListElt
 ]
 
-{ #category : #accessing }
-MVSMainPresenter >> listView [
-	^ listView
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> listViewMenu: aBlock [
-	^ self listView menu: aBlock 
-]
-
 { #category : #actions }
 MVSMainPresenter >> loadImportedModel [
 	MVSMSELoader importModel.
-	self initListViewItems: MooseModel root allModels
+	self initMooseView: MooseModel root allModels
 ]
 
 { #category : #accessing }
@@ -305,7 +302,7 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 						name: nil;
 						description: 'Import model from MSE file';
 						icon: MooseIcons mooseImportMse;
-						action: [ self loadImportedModel ] ].
+						action: [ context importMSE ] ].
 			group
 				addItem: [ :item | 
 					item
@@ -330,6 +327,16 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 						action: [ self next ] ] ].
 	aMenu applyTo: aPresenter.
 	^ aMenu
+]
+
+{ #category : #accessing }
+MVSMainPresenter >> mooseView [
+	^ listView
+]
+
+{ #category : #'model - updating' }
+MVSMainPresenter >> mooseViewMenu: aBlock [
+	^ self mooseView menu: aBlock 
 ]
 
 { #category : #'menu-accessing' }
@@ -374,7 +381,7 @@ MVSMainPresenter >> nextButton [
 
 { #category : #actions }
 MVSMainPresenter >> openResultInNewWindow: aCollection [
-	newSelf initListViewItems: aCollection.
+	newSelf initMooseView: aCollection.
 	newSelf openWithSpec.
 	
 ]
@@ -386,8 +393,7 @@ MVSMainPresenter >> openResultNewWindowCheckBox [
 
 { #category : #actions }
 MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
-	openResultNewWindowCheckBox
-		activationAction: [ newSelf := self class withElements: #() ]
+	
 ]
 
 { #category : #actions }
@@ -404,7 +410,7 @@ MVSMainPresenter >> prev [
 	history hasPast
 		ifFalse: [ ^ self ].
 	self updateFutureWith: listView listItems.
-	self listView items: history previous.
+	self mooseView items: history previous.
 	self updateNavigationButtons.
 	self updateNumberOfModelElement
 ]
@@ -427,12 +433,17 @@ MVSMainPresenter >> selected [
 
 { #category : #simulating }
 MVSMainPresenter >> simulateDoubleClick [
-self listView doubleClick: self listView doubleClickAction
+self mooseView doubleClick: self mooseView doubleClickAction
 ]
 
 { #category : #api }
 MVSMainPresenter >> title [ 
 ^'Visualization'.
+]
+
+{ #category : #initialization }
+MVSMainPresenter >> upadate [
+	
 ]
 
 { #category : #actions }

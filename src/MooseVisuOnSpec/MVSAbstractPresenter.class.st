@@ -1,6 +1,6 @@
 Class {
 	#name : #MVSAbstractPresenter,
-	#superclass : #DynamicComposablePresenter,
+	#superclass : #ComposablePresenter,
 	#instVars : [
 		'context'
 	],
@@ -25,9 +25,9 @@ MVSAbstractPresenter >> subscribeToContext: aContext [
 ]
 
 { #category : #initialization }
-MVSAbstractPresenter >> unSubscribeToContext: aContext [
-	context := nil.
-	context removeListener: self
+MVSAbstractPresenter >> unSubscribeToContext [
+	context removeListener: self.
+	context := nil
 ]
 
 { #category : #initialization }
