@@ -219,10 +219,12 @@ MVSMainPresenter >> initMooseView [
 
 { #category : #initialization }
 MVSMainPresenter >> initializePresenter [
-	self itemSelectedEventOn: listView.
+	| listView |
+	mooseView itemSelectedEvent.
 	self executeTextQueryOnCR.
-"	self openResultNewWindowCheckBoxEvent."
-	listView doubleClickAction: [ :item | listView selectedItem   mvsDoubleClick: self ]
+	"	self openResultNewWindowCheckBoxEvent."
+	listView
+		doubleClickAction: [ :item | listView selectedItem mvsDoubleClick: self ]
 ]
 
 { #category : #initialization }

@@ -32,6 +32,14 @@ MVSMooseViewPresenter >> initializeWidgets [
 ]
 
 { #category : #'as yet unclassified' }
+MVSMooseViewPresenter >> itemSelectedEvent [
+	presenter 
+		whenSelectedItemChanged: [ :item | 
+			item notNil
+				ifTrue: [ context changeFocus:item ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MVSMooseViewPresenter >> populatePresenterWith: aCollection [
 	^ presenter items: aCollection
 ]
