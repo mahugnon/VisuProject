@@ -18,7 +18,6 @@ Class {
 	#instVars : [
 		'mooseView',
 		'menu',
-		'drawerOptions',
 		'history',
 		'openResultNewWindowCheckBox',
 		'errorReporter',
@@ -134,16 +133,6 @@ MVSMainPresenter >> currentConfig [
 	^ self drawerOptions config
 ]
 
-{ #category : #'accessing model' }
-MVSMainPresenter >> drawerOptions [
-	^ drawerOptions
-]
-
-{ #category : #'accessing model' }
-MVSMainPresenter >> drawerOptions: anObject [
-	drawerOptions := anObject
-]
-
 { #category : #actions }
 MVSMainPresenter >> drawerOptionsOn: item [
 	self drawerOptions
@@ -220,7 +209,6 @@ self subscribeToContext: MVSContext new.
 	self createHistory.
 	self createMooseView.
 	self createErrorReporter.
-	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createMvsQueryPresenter.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.

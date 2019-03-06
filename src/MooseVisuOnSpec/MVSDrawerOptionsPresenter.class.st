@@ -8,7 +8,6 @@ Class {
 		'typeLabel',
 		'selectedDrawer',
 		'drawerList',
-		'config',
 		'buttonOk'
 	],
 	#category : #'MooseVisuOnSpec-Core'
@@ -24,6 +23,14 @@ MVSDrawerOptionsPresenter class >> defaultSpec [
 ]
 
 { #category : #specs }
+MVSDrawerOptionsPresenter class >> openInContext: aContext [
+	| widget |
+	widget := self new context: aContext.
+	widget openWithSpec.
+	widget window modalRelativeTo: World
+]
+
+{ #category : #specs }
 MVSDrawerOptionsPresenter class >> runMe [
 <script>
 MVSDrawerOptionsPresenter new openWithSpec 
@@ -32,6 +39,12 @@ MVSDrawerOptionsPresenter new openWithSpec
 { #category : #accessing }
 MVSDrawerOptionsPresenter >> buttonOk [
 	^ buttonOk
+]
+
+{ #category : #accessing }
+MVSDrawerOptionsPresenter >> context: aContext [
+	context := aContext.
+	self drawerList items: context drawers
 ]
 
 { #category : #api }
@@ -54,9 +67,8 @@ MVSDrawerOptionsPresenter >> initButtonOk [
 MVSDrawerOptionsPresenter >> initDrawerList [
 	drawerList := self newDropList.
 	"Select a drawer for ' , config type printString."
-	self drawerList
-		items: self config getDrawers asOrderedCollection;
-		whenSelectedItemChanged: [ :item | config selectedDrawer: item ]
+	drawerList 
+		whenSelectedItemChanged: [ :item | selectedDrawer := item ]
 ]
 
 { #category : #initialization }
@@ -69,15 +81,11 @@ MVSDrawerOptionsPresenter >> initTypeLabel [
 MVSDrawerOptionsPresenter >> initializePresenter [
 	buttonOk
 		action: [ self window close.
-			self config selectedDrawer
-				new
-				selected: config type;
-				openWithSpec ]
+			selectedDrawer drawOn: context focus ]
 ]
 
 { #category : #initialization }
 MVSDrawerOptionsPresenter >> initializeWidgets [
-	self initConfig.
 	self initDrawerList.
 	self initTypeLabel.
 	self initButtonOk.

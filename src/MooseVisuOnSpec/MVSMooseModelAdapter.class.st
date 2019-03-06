@@ -8,13 +8,12 @@ Class {
 MVSMooseModelAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
-	^col
+	^ col
 		add:
 			(MenuItemPresenter new
 				name: 'Open';
-				action: [ context isOpenResultNewWindow
-						ifTrue: [ MVSMainPresenter withElements: context focus runPragmas ]
-						ifFalse: [ context mooseModel: context focus runPragmas ] ]);
+				action:
+						[ self openAction ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Set root folder';
@@ -32,4 +31,11 @@ MVSMooseModelAdapter >> mvsDoubleClickOn: aMooseView [
 { #category : #utilities }
 MVSMooseModelAdapter >> mvsGroupEntitycache [
 	^ context focus cacheMooseGroups entityCache
+]
+
+{ #category : #action }
+MVSMooseModelAdapter >> openAction [
+	^ context isOpenResultNewWindow
+		ifTrue: [ MVSMainPresenter withElements: self mvsGroupEntitycache ]
+		ifFalse: [ context mooseModel: self mvsGroupEntitycache ]
 ]

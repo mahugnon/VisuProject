@@ -39,8 +39,26 @@ MVSAbstractAdapter >> mvsDoubleClickOn: aMooseView [
 		ifFalse: [ context mooseModel: context focus. ]
 ]
 
+{ #category : #action }
+MVSAbstractAdapter >> openAction [
+	^ context isOpenResultNewWindow
+		ifTrue: [ MVSMainPresenter withElements: context focus ]
+		ifFalse: [ context mooseModel: context focus ]
+]
+
 { #category : #processing }
 MVSAbstractAdapter >> runPragmas [
 	^ (MooseNavigationPresentation new displayFor: context  focus)
 		collect: [ :each | each value ]
+]
+
+{ #category : #'as yet unclassified' }
+MVSAbstractAdapter >> viewSourceCodeAction [
+	^ MVSSourceTextPresenter createWithSource: context focusSourceText
+]
+
+{ #category : #actions }
+MVSAbstractAdapter >> visualizeAction [
+	context drawers: self drawers.
+	^ MVSDrawerOptionsPresenter openInContext: context
 ]

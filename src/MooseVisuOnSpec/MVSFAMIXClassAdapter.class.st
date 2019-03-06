@@ -19,11 +19,12 @@ MVSFAMIXClassAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ "aPresenter drawerOptionsOn: self" ]);
+				action:
+						[ self visualizeAction ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ MVSSourceTextPresenter createWithSource:context focusSourceText ]);
+				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
 		yourself
 ]
 

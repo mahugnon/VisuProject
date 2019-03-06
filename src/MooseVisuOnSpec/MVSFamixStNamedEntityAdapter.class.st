@@ -12,6 +12,6 @@ MVSFamixStNamedEntityAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
+				action: [ self viewSourceCodeAction ]);
 		yourself
 ]

@@ -12,6 +12,6 @@ MVSFAMIXSourcedEntityAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Souce code';
-				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
+				action: [ self viewSourceCodeAction ]);
 		yourself
 ]

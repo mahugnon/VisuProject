@@ -12,8 +12,7 @@ MVSMooseGroupAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Open';
-				action: [ context isOpenResultNewWindow
-						ifTrue: [ MVSMainPresenter withElements: context focus ]
-						ifFalse: [ context mooseModel: context focus ] ]);
+				action:
+						[ self openAction ]);
 		yourself
 ]

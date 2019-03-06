@@ -20,10 +20,10 @@ MVSFAMIXStClassAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ "aPresenter drawerOptionsOn: self runPragmas" ]);
+				action: [ self visualizeAction ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
+				action: [ self viewSourceCodeAction ]);
 		yourself
 ]

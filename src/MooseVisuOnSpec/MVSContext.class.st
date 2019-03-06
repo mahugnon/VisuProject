@@ -7,7 +7,8 @@ Class {
 		'focus',
 		'isOpenResultNewWindow',
 		'errorListener',
-		'mvsError'
+		'mvsError',
+		'drawers'
 	],
 	#category : #'MooseVisuOnSpec-Context'
 }
@@ -15,6 +16,16 @@ Class {
 { #category : #adding }
 MVSContext >> addListener: aListener [
 	listeners add: aListener
+]
+
+{ #category : #accessing }
+MVSContext >> drawers [
+	^ drawers
+]
+
+{ #category : #accessing }
+MVSContext >> drawers: aCollection [
+	drawers := aCollection
 ]
 
 { #category : #'as yet unclassified' }

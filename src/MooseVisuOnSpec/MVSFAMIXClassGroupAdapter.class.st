@@ -26,6 +26,6 @@ MVSFAMIXClassGroupAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ "aPresenter drawerOptionsOn: self" ]);
+				action: [ self visualizeAction  ]);
 		yourself
 ]
