@@ -13,13 +13,13 @@ MVSAbstractAdapter class >> adaptedClass [
 ]
 
 { #category : #'instance creation' }
-MVSAbstractAdapter class >> adapterFor: aString [
+MVSAbstractAdapter class >> adapterFor: aModel [
 	| adapter |
-	adapter:= (self allSubclasses
-		select: [ :each | each name = ('MVS' , aString , 'Adapter') ]).
-		^adapter isEmpty
-		ifTrue:  [  self new ]
-		ifFalse:[adapter first new]
+	adapter := self allSubclasses
+		select: [ :each | each adaptedClass = aModel ].
+	^ adapter isEmpty
+		ifTrue: [ self new ]
+		ifFalse: [ adapter first new ]
 ]
 
 { #category : #accessing }
