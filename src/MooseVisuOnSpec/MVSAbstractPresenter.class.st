@@ -31,7 +31,7 @@ MVSAbstractPresenter >> unSubscribeToContext [
 
 { #category : #'model updates' }
 MVSAbstractPresenter >> update [
-	^self subclassResponsibility 
+	
 
 	
 ]

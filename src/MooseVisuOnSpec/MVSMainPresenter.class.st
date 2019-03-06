@@ -115,8 +115,10 @@ MVSMainPresenter >> createMooseView [
 
 { #category : #initialization }
 MVSMainPresenter >> createOpenResultNewWindowCheckBox [
-	openResultNewWindowCheckBox := (self instantiate: MVSOpenInNewWindowOptionPresenter )
-		label: 'Open result in new window'
+	openResultNewWindowCheckBox := (self
+		instantiate: MVSOpenInNewWindowOptionPresenter)
+		label: 'Open result in new window'.
+	openResultNewWindowCheckBox subscribeToContext: context
 ]
 
 { #category : #initialization }

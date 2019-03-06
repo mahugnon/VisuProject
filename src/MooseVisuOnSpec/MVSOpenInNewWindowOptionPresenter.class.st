@@ -21,6 +21,11 @@ MVSOpenInNewWindowOptionPresenter class >> runMe [
 ]
 
 { #category : #initialization }
+MVSOpenInNewWindowOptionPresenter >> initializePresenter [
+	option whenChangedDo: [ context isOpenResultNewWindow: self state ]
+]
+
+{ #category : #initialization }
 MVSOpenInNewWindowOptionPresenter >> initializeWidgets [ 
 	option := self newCheckBox
 ]

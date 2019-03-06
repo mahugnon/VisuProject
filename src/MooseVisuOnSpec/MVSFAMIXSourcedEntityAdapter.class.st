@@ -15,15 +15,3 @@ MVSFAMIXSourcedEntityAdapter >> mvsContextMenu [
 				action: [ "aPresenter itemSourceCode: context focus" ]);
 		yourself
 ]
-
-{ #category : #action }
-MVSFAMIXSourcedEntityAdapter >> mvscontextMenuOn: aPresenter [
-	| col |
-	col := OrderedCollection new.
-	col
-		add:
-			(MenuItemPresenter new
-				name: 'Souce code';
-				action: [ aPresenter itemSourceCode: context focus ]).
-	aPresenter buildContextMenuWith: col
-]

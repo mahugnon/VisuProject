@@ -24,17 +24,3 @@ MVSFAMIXTypeGroupAdapter >> mvsContextMenu [
 						ifFalse: [ context mooseModel: context focus ] ]);
 		yourself
 ]
-
-{ #category : #action }
-MVSFAMIXTypeGroupAdapter >> mvscontextMenuOn: aPresenter [
-	| col |
-	col := OrderedCollection new.
-	col
-		add:
-			(MenuItemPresenter new
-				name: 'Open';
-				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: self ]
-						ifFalse: [ aPresenter updateListViewItems: self ] ]).
-	aPresenter buildContextMenuWith: col
-]

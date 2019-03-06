@@ -15,7 +15,7 @@ MVSFAMIXClassAdapter >> drawers [
 MVSFAMIXClassAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
-	col
+	^ col
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
@@ -23,8 +23,8 @@ MVSFAMIXClassAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ "aPresenter itemSourceCode: self "]).
-	
+				action: [ "aPresenter itemSourceCode: self " ]);
+		yourself
 ]
 
 { #category : #actions }
@@ -32,20 +32,4 @@ MVSFAMIXClassAdapter >> mvsInteraction [
 	"	col := self complexPropertyPragmas collect: [ :pragma | pragma methodSelector value: self ]."
 
 	^ (MVSMainPresenter withElements: self runPragmas) openWithSpec
-]
-
-{ #category : #actions }
-MVSFAMIXClassAdapter >> mvscontextMenuOn: aPresenter [
-	| col |
-	col := OrderedCollection new.
-	col
-		add:
-			(MenuItemPresenter new
-				name: 'Visualize';
-				action: [ aPresenter drawerOptionsOn: self ]);
-		add:
-			(MenuItemPresenter new
-				name: 'Source code';
-				action: [ aPresenter itemSourceCode: self ]).
-	aPresenter buildContextMenuWith: col
 ]
