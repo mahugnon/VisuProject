@@ -4,6 +4,11 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSMooseModelAdapter class >> adaptedClass [
+	^ MooseModel
+]
+
 { #category : #action }
 MVSMooseModelAdapter >> mvsContextMenu [
 	| col |

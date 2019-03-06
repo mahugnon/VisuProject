@@ -4,6 +4,11 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSFAMIXTypeGroupAdapter class >> adaptedClass [
+	^ FAMIXTypeGroup
+]
+
 { #category : #utilities }
 MVSFAMIXTypeGroupAdapter >> drawers [
 	^ OrderedCollection new

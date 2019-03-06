@@ -4,6 +4,11 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSFAMIXSourcedEntityAdapter class >> adaptedClass [
+	^ FAMIXSourcedEntity
+]
+
 { #category : #action }
 MVSFAMIXSourcedEntityAdapter >> mvsContextMenu [
 	| col |

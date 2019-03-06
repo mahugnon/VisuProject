@@ -1,11 +1,16 @@
 Class {
-	#name : #MVSFAMIXStClassAdapter,
+	#name : #MVSFamixStClassAdapter,
 	#superclass : #MVSAbstractAdapter,
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSFamixStClassAdapter class >> adaptedClass [
+	^ FamixStClass
+]
+
 { #category : #'as yet unclassified' }
-MVSFAMIXStClassAdapter >> drawers [
+MVSFamixStClassAdapter >> drawers [
 	^ OrderedCollection new
 		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
 		add: MVSSystemComplexityPresenter;
@@ -13,7 +18,7 @@ MVSFAMIXStClassAdapter >> drawers [
 ]
 
 { #category : #'as yet unclassified' }
-MVSFAMIXStClassAdapter >> mvsContextMenu [
+MVSFamixStClassAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
 	^ col

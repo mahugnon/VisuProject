@@ -7,6 +7,11 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSAbstractAdapter class >> adaptedClass [
+	^self subclassResponsibility 
+]
+
 { #category : #'instance creation' }
 MVSAbstractAdapter class >> adapterFor: aString [
 	| adapter |

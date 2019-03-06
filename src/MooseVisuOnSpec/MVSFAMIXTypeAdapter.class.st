@@ -4,6 +4,11 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #display }
+MVSFAMIXTypeAdapter class >> adaptedClass [
+	^ FAMIXType
+]
+
 { #category : #'as yet unclassified' }
 MVSFAMIXTypeAdapter >> mvsContextMenu [
 	| col |
