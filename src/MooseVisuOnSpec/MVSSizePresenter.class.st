@@ -26,6 +26,6 @@ MVSSizePresenter >> sizeLabel [
 { #category : #'model updates' }
 MVSSizePresenter >> update [
 	sizeLabel
-		label: 'Number of items ' , ' :  ' , context size asString;
+		label: 'Number of items ' , ' :  ' , context mooseModelSize ;
 		emphasis: #bold
 ]

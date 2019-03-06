@@ -51,7 +51,8 @@ MVSContext >> initMooseModel [
 MVSContext >> initialize [
 	super initialize.
 	self initListeners.
-	self initMooseModel
+	self initMooseModel.
+	isOpenResultNewWindow := false
 ]
 
 { #category : #accessing }
@@ -73,6 +74,11 @@ MVSContext >> mooseModel [
 MVSContext >> mooseModel: aMooseModel [
 	mooseModel := aMooseModel.
 	self notifyAll
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> mooseModelSize [
+	^ mooseModel size asString
 ]
 
 { #category : #'as yet unclassified' }

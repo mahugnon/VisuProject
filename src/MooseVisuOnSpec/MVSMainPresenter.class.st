@@ -212,15 +212,9 @@ MVSMainPresenter >> initContextWith: aCollection [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> initMooseView [
-	"self createHistory.
-	self updateNavigationButtons.
-	self updateNumberOfModelElement"
-]
-
-{ #category : #initialization }
 MVSMainPresenter >> initializePresenter [
-	self executeTextQueryOnCR
+	self executeTextQueryOnCR.
+	self updateNavigationButtons.
 	"	self openResultNewWindowCheckBoxEvent."
 ]
 
@@ -235,27 +229,9 @@ MVSMainPresenter >> initializeWidgets [
 	self createQueryWidget.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
-	self initMooseView.
 	self focusOrder
 		add: menu;
 		add: mooseView
-]
-
-{ #category : #testing }
-MVSMainPresenter >> isOpenResultNewWindow [
-	^ openResultNewWindowCheckBox state
-]
-
-{ #category : #initialization }
-MVSMainPresenter >> itemSelectedEventOn: aListView [
-	^ aListView
-		whenSelectedItemChanged:
-			[ :item | 
-			item
-				notNil
-				ifTrue:
-					[ item
-						mvscontextMenuOn: self ] ]
 ]
 
 { #category : #'writing - class' }
