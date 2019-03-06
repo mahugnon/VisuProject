@@ -76,7 +76,7 @@ MVSMainPresenter class >> runMeWithClass [
 MVSMainPresenter class >> withElements: aCollection [
 	^ self basicNew
 		initialize;
-		initMooseView: aCollection;
+		initContextWith: aCollection;
 		yourself
 ]
 
@@ -206,8 +206,9 @@ MVSMainPresenter >> importSt [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> initContext [
-	self subscribeToContext: MVSContext new
+MVSMainPresenter >> initContextWith: aCollection [
+	self subscribeToContext: MVSContext new.
+	context focus: aCollection
 ]
 
 { #category : #initialization }
@@ -219,12 +220,10 @@ MVSMainPresenter >> initMooseView [
 
 { #category : #initialization }
 MVSMainPresenter >> initializePresenter [
-	| listView |
-	mooseView itemSelectedEvent.
+	self itemSelectedEventOn: listView.
 	self executeTextQueryOnCR.
-	"	self openResultNewWindowCheckBoxEvent."
-	listView
-		doubleClickAction: [ :item | listView selectedItem mvsDoubleClick: self ]
+"	self openResultNewWindowCheckBoxEvent."
+	listView doubleClickAction: [ :item | listView selectedItem   mvsDoubleClick: self ]
 ]
 
 { #category : #initialization }

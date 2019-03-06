@@ -14,15 +14,14 @@ MVSContext >> addListener: aListener [
 	listeners add: aListener
 ]
 
-{ #category : #'as yet unclassified' }
-MVSContext >> changeFocus: aModel [
-focus := aModel .
-self notifyAll .
-]
-
 { #category : #accessing }
 MVSContext >> focus [
 	^ focus
+]
+
+{ #category : #accessing }
+MVSContext >> focus: aModel [
+	focus := aModel
 ]
 
 { #category : #'as yet unclassified' }
