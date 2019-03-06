@@ -5,7 +5,9 @@ Class {
 		'listeners',
 		'mooseModel',
 		'focus',
-		'isOpenResultNewWindow'
+		'isOpenResultNewWindow',
+		'errorListener',
+		'mvsError'
 	],
 	#category : #'MooseVisuOnSpec-Context'
 }
@@ -13,6 +15,16 @@ Class {
 { #category : #adding }
 MVSContext >> addListener: aListener [
 	listeners add: aListener
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> errorListener [
+	^ errorListener
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> errorListener: anObject [
+	errorListener := anObject
 ]
 
 { #category : #accessing }
@@ -31,10 +43,21 @@ MVSContext >> focusName [
 ]
 
 { #category : #'as yet unclassified' }
+MVSContext >> focusSourceText [
+	^ focus sourceText
+]
+
+{ #category : #'as yet unclassified' }
 MVSContext >> importMSE [
 	MVSMSELoader importModel.
 	self mooseModel: MooseModel root allModels.
 	
+]
+
+{ #category : #actions }
+MVSContext >> importSt [
+	MPImportSTCommand new execute.
+	self mooseModel: MooseModel root allModels
 ]
 
 { #category : #initialization }
@@ -82,10 +105,26 @@ MVSContext >> mooseModelSize [
 	^ mooseModel size asString
 ]
 
+{ #category : #accessing }
+MVSContext >> mvsError [
+	^ mvsError
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> mvsError: anObject [
+	mvsError := anObject.
+	self notifyError
+]
+
 { #category : #'as yet unclassified' }
 MVSContext >> notifyAll [
 	listeners ifEmpty: [ ^ self ].
 	^ listeners do: [ :listener | listener update ]
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> notifyError [
+ errorListener update
 ]
 
 { #category : #adding }

@@ -8,6 +8,13 @@ Class {
 }
 
 { #category : #specs }
+MVSSourceTextPresenter class >> createWithSource: aSource [
+	self new
+		sourceCode: aSource;
+		openWithSpec
+]
+
+{ #category : #specs }
 MVSSourceTextPresenter class >> defaultSpec [
 	^ SpecLayout composed
 		add: #sourceText;

@@ -24,5 +24,6 @@ MVSFAMIXStClassAdapter >> mvsContextMenu [
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ "aPresenter itemSourceCode: context focus" ]);yourself 
+				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
+		yourself
 ]

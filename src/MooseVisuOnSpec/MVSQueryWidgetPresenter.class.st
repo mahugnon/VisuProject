@@ -39,7 +39,11 @@ MVSQueryWidgetPresenter >> createQueryTextField [
 	textField
 		autoAccept: true;
 		beForCode;
-		ghostText: 'Write an each query please'
+		ghostText: 'Write an each query please';
+		bindKeyCombination: Character cr
+		toAction: [ "CR, the enter key"
+		
+			self performQuery ]
 ]
 
 { #category : #accessing }
@@ -73,6 +77,13 @@ MVSQueryWidgetPresenter >> label [
 { #category : #'api actions' }
 MVSQueryWidgetPresenter >> performFilterOn: aCollection [
 	^ (self filter executeQueryWith: textField text on: aCollection )
+]
+
+{ #category : #actions }
+MVSQueryWidgetPresenter >> performQuery [
+	[ context mooseModel: (self performFilterOn: context mooseModel) ]
+		on: Exception
+		do: [ :exception | context mvsError: exception ]
 ]
 
 { #category : #accessing }

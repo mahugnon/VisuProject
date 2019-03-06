@@ -18,13 +18,12 @@ Class {
 	#instVars : [
 		'mooseView',
 		'menu',
-		'queryWidget',
 		'drawerOptions',
 		'history',
 		'openResultNewWindowCheckBox',
-		'logHolder',
 		'errorReporter',
-		'modelSizePresenter'
+		'modelSizePresenter',
+		'mvsQueryPresenter'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -93,7 +92,9 @@ MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
 
 { #category : #initialization }
 MVSMainPresenter >> createErrorReporter [
-	errorReporter := self instantiate: MVSErrorReportPresenter
+	errorReporter := self instantiate: MVSErrorReportPresenter.
+	errorReporter subscribeTo: context.
+	
 ]
 
 { #category : #initialization }
@@ -114,17 +115,18 @@ MVSMainPresenter >> createMooseView [
 ]
 
 { #category : #initialization }
+MVSMainPresenter >> createMvsQueryPresenter [
+	mvsQueryPresenter  := self instantiate: MVSQueryWidgetPresenter.
+	mvsQueryPresenter subscribeToContext: context .
+	
+]
+
+{ #category : #initialization }
 MVSMainPresenter >> createOpenResultNewWindowCheckBox [
 	openResultNewWindowCheckBox := (self
 		instantiate: MVSOpenInNewWindowOptionPresenter)
 		label: 'Open result in new window'.
 	openResultNewWindowCheckBox subscribeToContext: context
-]
-
-{ #category : #initialization }
-MVSMainPresenter >> createQueryWidget [
-	queryWidget := self instantiate: MVSQueryWidgetPresenter.
-	
 ]
 
 { #category : #'accessing model' }
@@ -180,7 +182,6 @@ MVSMainPresenter >> enablePreviousButton: aBoolean [
 
 { #category : #accessing }
 MVSMainPresenter >> errorReporter [
-	
 	^ errorReporter
 ]
 
@@ -199,14 +200,6 @@ MVSMainPresenter >> history [
 	^ history
 ]
 
-{ #category : #actions }
-MVSMainPresenter >> importSt [
-	| root |
-	MPImportSTCommand new execute.
-	root := MooseModel root.
-	^ (self class withElements: (root at: root size) mvsGroupEntitycache ) openWithSpec
-]
-
 { #category : #initialization }
 MVSMainPresenter >> initContextWith: aCollection [
 	
@@ -215,7 +208,7 @@ MVSMainPresenter >> initContextWith: aCollection [
 
 { #category : #initialization }
 MVSMainPresenter >> initializePresenter [
-	self executeTextQueryOnCR.
+	"self executeTextQueryOnCR."
 	self updateNavigationButtons.
 	"	self openResultNewWindowCheckBoxEvent."
 ]
@@ -228,24 +221,12 @@ self subscribeToContext: MVSContext new.
 	self createMooseView.
 	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
-	self createQueryWidget.
+	self createMvsQueryPresenter.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
 	self focusOrder
 		add: menu;
 		add: mooseView
-]
-
-{ #category : #'writing - class' }
-MVSMainPresenter >> itemSourceCode: anObject [
-	MVSSourceTextPresenter  new
-		sourceCode: anObject sourceText;
-		openWithSpec
-]
-
-{ #category : #accessing }
-MVSMainPresenter >> logHolder [
-^logHolder
 ]
 
 { #category : #accessing }
@@ -277,7 +258,7 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 						name: nil;
 						description: 'Import Smalltalk';
 						icon: MooseIcons mooseImportSmalltalk;
-						action: [ self importSt ] ] ];
+						action: [ context importSt ] ] ];
 		addGroup: [ :group | 
 			group
 				addItem: [ :item | 
@@ -351,13 +332,6 @@ MVSMainPresenter >> nextButton [
 	^ self navigationMenuGroup second
 ]
 
-{ #category : #actions }
-MVSMainPresenter >> openResultInNewWindow: aCollection [
-	newSelf initMooseView: aCollection.
-	newSelf openWithSpec.
-	
-]
-
 { #category : #accessing }
 MVSMainPresenter >> openResultNewWindowCheckBox [
 	^ openResultNewWindowCheckBox
@@ -368,19 +342,11 @@ MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
 	
 ]
 
-{ #category : #actions }
-MVSMainPresenter >> performQuery [
-	| newListItems |
-	[ newListItems := queryWidget performFilterOn: listView listItems.
-	self updateListViewItems: newListItems ]
-		on: Exception
-		do: [ :exception | errorReporter logError: exception ]
-]
-
 { #category : #navigation }
 MVSMainPresenter >> prev [
 	history hasPast
 		ifFalse: [ ^ self ].
+		1halt.
 	self updateFutureWith: context mooseModel.
 	context mooseModel: history previous
 ]
@@ -393,7 +359,7 @@ MVSMainPresenter >> previousButton [
 
 { #category : #accessing }
 MVSMainPresenter >> queryWidget [
-	^ queryWidget
+	^ mvsQueryPresenter
 ]
 
 { #category : #simulating }

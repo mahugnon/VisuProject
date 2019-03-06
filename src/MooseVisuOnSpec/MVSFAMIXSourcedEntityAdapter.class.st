@@ -8,10 +8,10 @@ Class {
 MVSFAMIXSourcedEntityAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
-	^col
+	^ col
 		add:
 			(MenuItemPresenter new
 				name: 'Souce code';
-				action: [ "aPresenter itemSourceCode: context focus" ]);
+				action: [ MVSSourceTextPresenter createWithSource: context focusSourceText ]);
 		yourself
 ]

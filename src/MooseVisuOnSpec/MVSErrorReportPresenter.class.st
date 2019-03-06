@@ -46,3 +46,14 @@ MVSErrorReportPresenter >> logHolder [
 MVSErrorReportPresenter >> message [
 	^ logHolder text
 ]
+
+{ #category : #subscription }
+MVSErrorReportPresenter >> subscribeTo: aContext [
+	aContext errorListener: self.
+	context := aContext
+]
+
+{ #category : #subscription }
+MVSErrorReportPresenter >> update [
+	self logError: context mvsError
+]
