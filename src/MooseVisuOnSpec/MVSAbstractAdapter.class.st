@@ -7,6 +7,16 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
+{ #category : #'instance creation' }
+MVSAbstractAdapter class >> adapterFor: aString [
+	| adapter |
+	adapter:= (self allSubclasses
+		select: [ :each | each name = ('MVS' , aString , 'Adapter') ]).
+		^adapter isEmpty
+		ifTrue:  [  self new ]
+		ifFalse:[adapter first new]
+]
+
 { #category : #accessing }
 MVSAbstractAdapter >> focus [
 	^ focus
