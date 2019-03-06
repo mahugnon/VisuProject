@@ -32,8 +32,8 @@ MVSMooseViewPresenter >> createPresenter [
 { #category : #'as yet unclassified' }
 MVSMooseViewPresenter >> doubleClickActionOnModel [
 	| adapter |
-	adapter := MVSAbstractAdapter adapterFor: context focus.
-	adapter mvsDoubleClickOn: self.
+	adapter := MVSAbstractAdapter adapterFor: context focusName.
+	adapter mvsDoubleClickOn: self
 ]
 
 { #category : #initialization }

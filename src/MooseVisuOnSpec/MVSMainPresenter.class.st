@@ -82,19 +82,13 @@ MVSMainPresenter class >> withElements: aCollection [
 
 { #category : #'build items' }
 MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
-	| tempPresenter |
 	menuItemPresenters isEmpty
 		ifTrue: [ ^ self ].
-	tempPresenter := self isOpenResultNewWindow
-		ifTrue: [ newSelf ]
-		ifFalse: [ self ].
-	tempPresenter mooseView menu:
-			[ MenuPresenter
-				new addGroup: [ :group | 
-					menuItemPresenters
-						do: [ :each |  group addMenuItem: each ] ];
-					buildWithSpecAsPopup ].
-	^ tempPresenter
+	self
+		menu: [ MenuPresenter new
+				addGroup:
+						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+				buildWithSpecAsPopup ]
 ]
 
 { #category : #initialization }
@@ -234,6 +228,7 @@ MVSMainPresenter >> initializePresenter [
 MVSMainPresenter >> initializeWidgets [
 	context := MVSContext new.
 	self createModelSizePresenter.
+	self createHistory.
 	self createMooseView.
 	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.

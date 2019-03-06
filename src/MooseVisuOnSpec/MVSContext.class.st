@@ -26,6 +26,11 @@ MVSContext >> focus: aModel [
 ]
 
 { #category : #'as yet unclassified' }
+MVSContext >> focusName [
+	^ focus className
+]
+
+{ #category : #'as yet unclassified' }
 MVSContext >> importMSE [
 	MVSMSELoader importModel.
 	mooseModel := MooseModel root allModels.
