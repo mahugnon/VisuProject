@@ -26,10 +26,20 @@ MVSMooseViewPresenter >> createPresenter [
 		sortingBlock: [ :a :b | a asString < b asString ]
 ]
 
+{ #category : #'as yet unclassified' }
+MVSMooseViewPresenter >> doubleClickActionOnModel [
+	| adapter |
+	adapter := MVSAbstractAdapter adapterFor: context focus.
+	adapter mvsDoubleClickOn: self.
+]
+
 { #category : #initialization }
-MVSMooseViewPresenter >> initializePresenter [ 
-mooseModelPresenter whenSelectedItemChanged: [ :item|
-	context focus: item ]
+MVSMooseViewPresenter >> initializePresenter [
+	mooseModelPresenter
+		handlesDoubleClick: true;
+		whenSelectedItemChanged: [ :item | context focus: item ];
+		doubleClickAction: [ :item | 
+			self doubleClickActionOnModel ]
 ]
 
 { #category : #initialization }

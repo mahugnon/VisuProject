@@ -2,7 +2,7 @@ Class {
 	#name : #MVSAbstractAdapter,
 	#superclass : #Object,
 	#instVars : [
-		'focus'
+		'context'
 	],
 	#category : #'MooseVisuOnSpec-Adapter'
 }
@@ -18,21 +18,21 @@ MVSAbstractAdapter class >> adapterFor: aString [
 ]
 
 { #category : #accessing }
-MVSAbstractAdapter >> focus [
-	^ focus
+MVSAbstractAdapter >> context [
+	^ context
 ]
 
 { #category : #accessing }
-MVSAbstractAdapter >> focus: anObject [
-	focus := anObject
+MVSAbstractAdapter >> context: aContext [
+	context := aContext
 ]
 
 { #category : #action }
-MVSAbstractAdapter >> mvsDoubleClick: aPresenter [
-	self mvscontextMenuOn: aPresenter.
-	^ aPresenter isOpenResultNewWindow
-		ifTrue: [ aPresenter openResultInNewWindow: focus ]
-		ifFalse: [ aPresenter updateListViewItems: focus ]
+MVSAbstractAdapter >> mvsDoubleClickOn:aMooseView [
+	
+	^ context  isOpenResultNewWindow
+		ifTrue: [( MVSMainPresenter withElements: context focus) openWithSpec  ]
+		ifFalse: [ aMooseView update ]
 ]
 
 { #category : #action }
@@ -42,6 +42,6 @@ MVSAbstractAdapter >> mvscontextMenuOn: aPresenter [
 
 { #category : #processing }
 MVSAbstractAdapter >> runPragmas [
-	^ (MooseNavigationPresentation new displayFor: focus )
+	^ (MooseNavigationPresentation new displayFor: context  focus)
 		collect: [ :each | each value ]
 ]

@@ -110,7 +110,8 @@ MVSMainPresenter >> createHistory [
 { #category : #initialization }
 MVSMainPresenter >> createMooseView [
 	mooseView := self instantiate: MVSMooseViewPresenter.
-	mooseView subscribeToContext: context
+	mooseView subscribeToContext: context.
+	
 ]
 
 { #category : #initialization }
@@ -208,7 +209,7 @@ MVSMainPresenter >> importSt [
 { #category : #initialization }
 MVSMainPresenter >> initContextWith: aCollection [
 	self subscribeToContext: MVSContext new.
-	context focus: aCollection
+	context mooseModel:  aCollection
 ]
 
 { #category : #initialization }

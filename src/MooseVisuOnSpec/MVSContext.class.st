@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'listeners',
 		'mooseModel',
-		'focus'
+		'focus',
+		'isOpenResultNewWindow'
 	],
 	#category : #'MooseVisuOnSpec-Context'
 }
@@ -49,14 +50,23 @@ MVSContext >> initialize [
 ]
 
 { #category : #accessing }
+MVSContext >> isOpenResultNewWindow [
+	^ isOpenResultNewWindow
+]
+
+{ #category : #accessing }
+MVSContext >> isOpenResultNewWindow: aBoolean [
+	isOpenResultNewWindow := aBoolean
+]
+
+{ #category : #accessing }
 MVSContext >> mooseModel [
 	^ mooseModel
 ]
 
 { #category : #accessing }
 MVSContext >> mooseModel: aMooseModel [
-	mooseModel := aMooseModel.
-	self notifyAll
+	mooseModel := aMooseModel
 ]
 
 { #category : #'as yet unclassified' }
