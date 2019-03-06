@@ -8,7 +8,7 @@ Class {
 MVSMooseModelAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
-	col
+	^col
 		add:
 			(MenuItemPresenter new
 				name: 'Open';

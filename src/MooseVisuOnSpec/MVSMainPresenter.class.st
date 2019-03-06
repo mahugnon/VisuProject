@@ -207,7 +207,7 @@ MVSMainPresenter >> importSt [
 
 { #category : #initialization }
 MVSMainPresenter >> initContextWith: aCollection [
-	self subscribeToContext: MVSContext new.
+	
 	context mooseModel: aCollection
 ]
 
@@ -220,7 +220,7 @@ MVSMainPresenter >> initializePresenter [
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
-	context := MVSContext new.
+self subscribeToContext: MVSContext new.
 	self createModelSizePresenter.
 	self createHistory.
 	self createMooseView.
@@ -239,12 +239,6 @@ MVSMainPresenter >> itemSourceCode: anObject [
 	MVSSourceTextPresenter  new
 		sourceCode: anObject sourceText;
 		openWithSpec
-]
-
-{ #category : #actions }
-MVSMainPresenter >> loadImportedModel [
-	MVSMSELoader importModel.
-	self initMooseView: MooseModel root allModels
 ]
 
 { #category : #accessing }
@@ -273,7 +267,8 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 						name: nil;
 						description: 'Import model from MSE file';
 						icon: MooseIcons mooseImportMse;
-						action: [ context importMSE ] ].
+						action: [ 
+							 context importMSE ] ].
 			group
 				addItem: [ :item | 
 					item

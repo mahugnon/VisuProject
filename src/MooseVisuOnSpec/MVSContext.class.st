@@ -33,8 +33,8 @@ MVSContext >> focusName [
 { #category : #'as yet unclassified' }
 MVSContext >> importMSE [
 	MVSMSELoader importModel.
-	mooseModel := MooseModel root allModels.
-	self notifyAll
+	self mooseModel: MooseModel root allModels.
+	
 ]
 
 { #category : #initialization }
@@ -73,7 +73,8 @@ MVSContext >> mooseModel [
 { #category : #accessing }
 MVSContext >> mooseModel: aMooseModel [
 	mooseModel := aMooseModel.
-	self notifyAll
+	self notifyAll.
+	
 ]
 
 { #category : #'as yet unclassified' }

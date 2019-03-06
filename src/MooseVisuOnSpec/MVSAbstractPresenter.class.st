@@ -19,9 +19,8 @@ MVSAbstractPresenter >> context: anObject [
 
 { #category : #initialization }
 MVSAbstractPresenter >> subscribeToContext: aContext [
-	context := aContext.
-	context addListener: self.
-
+	aContext addListener: self.
+context := aContext.
 ]
 
 { #category : #initialization }

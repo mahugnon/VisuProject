@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MVSFamixStNamedEntityAdapter >> mvsContextMenu: aPresenter [
+MVSFamixStNamedEntityAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
 	^ col

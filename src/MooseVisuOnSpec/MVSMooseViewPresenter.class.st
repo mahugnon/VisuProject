@@ -17,11 +17,6 @@ MVSMooseViewPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-MVSMooseViewPresenter >> contextMenu [
-^self modelAdapter mvsContetMenu
-]
-
 { #category : #initialization }
 MVSMooseViewPresenter >> createPresenter [
 	mooseModelPresenter := self instantiate: FastTablePresenter.
@@ -43,9 +38,11 @@ MVSMooseViewPresenter >> doubleClickActionOnModel [
 MVSMooseViewPresenter >> initializePresenter [
 	mooseModelPresenter
 		handlesDoubleClick: true;
-		whenSelectedItemChanged: [ :item | context focus: item ];
-		doubleClickAction: [ :item | self doubleClickActionOnModel ];
-		menu: [ self modelAdapter contextMenu ]
+		autoDeselect: true;
+		whenSelectedItemChanged: [ :item | context focus: item .
+			self mooseModelPresentContextMenu];
+		doubleClickAction: [ :item | self doubleClickActionOnModel ].
+	
 ]
 
 { #category : #initialization }
@@ -58,6 +55,19 @@ MVSMooseViewPresenter >> modelAdapter [
 	^( MVSAbstractAdapter adapterFor: context focusName)
 	 context: context;yourself 
 	
+]
+
+{ #category : #'as yet unclassified' }
+MVSMooseViewPresenter >> mooseModelPresentContextMenu [
+	| menuItemPresenters |
+	menuItemPresenters := self modelAdapter mvsContextMenu.
+	menuItemPresenters isEmpty
+		ifTrue: [ ^ self ].
+	mooseModelPresenter
+		menu: [ MenuPresenter new
+				addGroup:
+						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+				buildWithSpecAsPopup ]
 ]
 
 { #category : #initialization }
