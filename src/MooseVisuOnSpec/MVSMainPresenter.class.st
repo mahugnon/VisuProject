@@ -65,17 +65,6 @@ MVSMainPresenter class >> withElements: aCollection [
 		yourself
 ]
 
-{ #category : #'build items' }
-MVSMainPresenter >> buildContextMenuWith: menuItemPresenters [
-	menuItemPresenters isEmpty
-		ifTrue: [ ^ self ].
-	self
-		menu: [ MenuPresenter new
-				addGroup:
-						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
-				buildWithSpecAsPopup ]
-]
-
 { #category : #initialization }
 MVSMainPresenter >> createErrorReporter [
 	errorReporter := self instantiate: MVSErrorReportPresenter.
