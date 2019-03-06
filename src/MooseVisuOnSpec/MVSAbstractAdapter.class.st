@@ -16,7 +16,7 @@ MVSAbstractAdapter class >> adaptedClass [
 MVSAbstractAdapter class >> adapterFor: aModel [
 	| adapter |
 	adapter := self allSubclasses
-		select: [ :each | each adaptedClass = aModel ].
+		select: [ :each | each adaptedClass = aModel class ].
 	^ adapter isEmpty
 		ifTrue: [ self new ]
 		ifFalse: [ adapter first new ]

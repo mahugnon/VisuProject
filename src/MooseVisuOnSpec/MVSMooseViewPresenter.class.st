@@ -52,9 +52,9 @@ MVSMooseViewPresenter >> initializeWidgets [
 
 { #category : #utilities }
 MVSMooseViewPresenter >> modelAdapter [
-	^( MVSAbstractAdapter adapterFor: context focusName)
-	 context: context;yourself 
-	
+	^ (MVSAbstractAdapter adapterFor: context focus)
+		context: context;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }

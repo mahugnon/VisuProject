@@ -19,13 +19,25 @@ MVSHistory class >> create [
 ]
 
 { #category : #adding }
-MVSHistory >> addToFuture:anObject [
-future push:anObject.
+MVSHistory >> addToFuture: anObject [
+	self flag: #deprecate.
+	future push: anObject
 ]
 
 { #category : #adding }
-MVSHistory >> addToPast:anObject [
-past push: anObject .
+MVSHistory >> addToPast: anObject [
+self flag: #deprecate.
+	past push: anObject
+]
+
+{ #category : #accessing }
+MVSHistory >> context [
+	^ context
+]
+
+{ #category : #accessing }
+MVSHistory >> context: aContext [
+	context := aContext
 ]
 
 { #category : #accessing }
@@ -87,4 +99,14 @@ aContext addListener: self.
 MVSHistory >> unSubscribeToContext [
 	context removeListener: self.
 	context := nil
+]
+
+{ #category : #adding }
+MVSHistory >> updateFuture [
+	future push: context mooseModel
+]
+
+{ #category : #adding }
+MVSHistory >> updatePast [
+	past push: context mooseModel
 ]
