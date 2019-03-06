@@ -13,19 +13,37 @@ MVSFAMIXClassGroupAdapter >> drawers [
 ]
 
 { #category : #action }
+MVSFAMIXClassGroupAdapter >> mvsContextMenu [
+	| col |
+	col := OrderedCollection new.
+	^ col
+		add:
+			(MenuItemPresenter new
+				name: 'Open';
+				action: [ context  isOpenResultNewWindow
+						ifTrue: [ MVSMainPresenter withElements: context focus ]
+						ifFalse: [ context mooseModel: context focus ] ]);
+		add:
+			(MenuItemPresenter new
+				name: 'Visualize';
+				action: [ "aPresenter drawerOptionsOn: self" ]);
+		yourself
+]
+
+{ #category : #action }
 MVSFAMIXClassGroupAdapter >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
-	col
+	^ col
 		add:
 			(MenuItemPresenter new
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: self ]
-						ifFalse: [ aPresenter updateListViewItems: self ] ]);
+						ifTrue: [ MVSMainPresenter withElements: context focus ]
+						ifFalse: [ context mooseModel: context focus ] ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Visualize';
-				action: [ aPresenter drawerOptionsOn: self ]).
-	aPresenter buildContextMenuWith: col
+				action: [ "aPresenter drawerOptionsOn: self" ]);
+		yourself
 ]

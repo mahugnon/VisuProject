@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #action }
+MVSMooseModelAdapter >> mvsContextMenu [
+	| col |
+	col := OrderedCollection new.
+	col
+		add:
+			(MenuItemPresenter new
+				name: 'Open';
+				action: [ context isOpenResultNewWindow
+						ifTrue: [ MVSMainPresenter withElements: context focus runPragmas ]
+						ifFalse: [ context mooseModel: context focus runPragmas ] ]);
+		add:
+			(MenuItemPresenter new
+				name: 'Set root folder';
+				action: [ context focus setRootFolder ]);
+		yourself
+]
+
+{ #category : #action }
 MVSMooseModelAdapter >> mvsDoubleClick: aPresenter [
 	self mvscontextMenuOn: aPresenter.
 	^ aPresenter isOpenResultNewWindow

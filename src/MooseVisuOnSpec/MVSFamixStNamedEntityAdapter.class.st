@@ -5,13 +5,25 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MVSFamixStNamedEntityAdapter >> mvscontextMenuOn: aPresenter [
+MVSFamixStNamedEntityAdapter >> mvsContextMenu: aPresenter [
 	| col |
 	col := OrderedCollection new.
-	col
+	^ col
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ aPresenter itemSourceCode: context  focus ]).
-	aPresenter buildContextMenuWith: col
+				action: [ "aPresenter itemSourceCode: context focus" ]);
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MVSFamixStNamedEntityAdapter >> mvscontextMenuOn: aPresenter [
+	| col |
+	col := OrderedCollection new.
+	^ col
+		add:
+			(MenuItemPresenter new
+				name: 'Source code';
+				action: [ "aPresenter itemSourceCode: context focus" ]);
+		yourself
 ]

@@ -28,15 +28,15 @@ MVSAbstractAdapter >> context: aContext [
 ]
 
 { #category : #action }
+MVSAbstractAdapter >> mvsContextMenu [
+	^ self subclassResponsibility
+]
+
+{ #category : #action }
 MVSAbstractAdapter >> mvsDoubleClickOn: aMooseView [
 	^ context isOpenResultNewWindow
 		ifTrue: [ (MVSMainPresenter withElements: context focus) openWithSpec ]
 		ifFalse: [ context mooseModel: context focus. ]
-]
-
-{ #category : #action }
-MVSAbstractAdapter >> mvscontextMenuOn: aPresenter [
-	^ self subclassResponsibility
 ]
 
 { #category : #processing }
