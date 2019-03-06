@@ -28,11 +28,10 @@ MVSAbstractAdapter >> context: aContext [
 ]
 
 { #category : #action }
-MVSAbstractAdapter >> mvsDoubleClickOn:aMooseView [
-	
-	^ context  isOpenResultNewWindow
-		ifTrue: [( MVSMainPresenter withElements: context focus) openWithSpec  ]
-		ifFalse: [ aMooseView update ]
+MVSAbstractAdapter >> mvsDoubleClickOn: aMooseView [
+	^ context isOpenResultNewWindow
+		ifTrue: [ (MVSMainPresenter withElements: context focus) openWithSpec ]
+		ifFalse: [ context mooseModel: context focus. ]
 ]
 
 { #category : #action }

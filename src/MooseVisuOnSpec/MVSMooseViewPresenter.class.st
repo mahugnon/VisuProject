@@ -1,3 +1,6 @@
+"
+I'm the component responsable of managing the mooseModel
+"
 Class {
 	#name : #MVSMooseViewPresenter,
 	#superclass : #MVSAbstractPresenter,
@@ -62,4 +65,9 @@ MVSMooseViewPresenter >> subscribeToContext: aContext [
 	super subscribeToContext: aContext.
 	self populatePresenterWith: context mooseModel .
 
+]
+
+{ #category : #initialization }
+MVSMooseViewPresenter >> upadate [
+	mooseModelPresenter items: context mooseModel
 ]
