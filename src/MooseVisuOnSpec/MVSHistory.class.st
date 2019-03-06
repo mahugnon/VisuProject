@@ -10,7 +10,7 @@ Class {
 		'future',
 		'context'
 	],
-	#category : #'MooseVisuOnSpec-Utilities'
+	#category : #'MooseVisuOnSpec-Core'
 }
 
 { #category : #'initailize-release' }

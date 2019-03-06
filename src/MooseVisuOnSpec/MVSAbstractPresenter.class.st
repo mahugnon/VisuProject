@@ -30,8 +30,8 @@ MVSAbstractPresenter >> unSubscribeToContext [
 	context := nil
 ]
 
-{ #category : #initialization }
-MVSAbstractPresenter >> upadate [
+{ #category : #'model updates' }
+MVSAbstractPresenter >> update [
 	^self subclassResponsibility 
 
 	

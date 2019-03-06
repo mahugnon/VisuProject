@@ -4,11 +4,6 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
-{ #category : #action }
-MVSFAMIXTypeAdapter >> mvsDoubleClick: aPresenter [
-	
-]
-
 { #category : #'as yet unclassified' }
 MVSFAMIXTypeAdapter >> mvscontextMenuOn: aPresenter [
 	| col |
@@ -18,7 +13,7 @@ MVSFAMIXTypeAdapter >> mvscontextMenuOn: aPresenter [
 			(MenuItemPresenter new
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: focus  ]
-						ifFalse: [ aPresenter updateListViewItems: focus ] ]).
+						ifTrue: [ aPresenter openResultInNewWindow: context focus ]
+						ifFalse: [ aPresenter updateListViewItems: context focus ] ]).
 	aPresenter buildContextMenuWith: col
 ]

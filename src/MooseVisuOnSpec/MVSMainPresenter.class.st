@@ -110,8 +110,7 @@ MVSMainPresenter >> createHistory [
 { #category : #initialization }
 MVSMainPresenter >> createMooseView [
 	mooseView := self instantiate: MVSMooseViewPresenter.
-	mooseView subscribeToContext: context.
-	
+	mooseView subscribeToContext: context
 ]
 
 { #category : #initialization }
@@ -209,7 +208,7 @@ MVSMainPresenter >> importSt [
 { #category : #initialization }
 MVSMainPresenter >> initContextWith: aCollection [
 	self subscribeToContext: MVSContext new.
-	context mooseModel:  aCollection
+	context mooseModel: aCollection
 ]
 
 { #category : #initialization }
@@ -221,14 +220,13 @@ MVSMainPresenter >> initMooseView [
 
 { #category : #initialization }
 MVSMainPresenter >> initializePresenter [
-	self itemSelectedEventOn: listView.
-	self executeTextQueryOnCR.
-"	self openResultNewWindowCheckBoxEvent."
-	listView doubleClickAction: [ :item | listView selectedItem   mvsDoubleClick: self ]
+	self executeTextQueryOnCR
+	"	self openResultNewWindowCheckBoxEvent."
 ]
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
+context :=MVSContext new.
 	self createMooseView.
 	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
@@ -443,21 +441,15 @@ MVSMainPresenter >> title [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> upadate [
-	
+MVSMainPresenter >> update [
+	self updatePastWith: context mooseModel.
+	self updateNavigationButtons.
+	self updateNumberOfModelElement
 ]
 
 { #category : #actions }
 MVSMainPresenter >> updateFutureWith: item [
 	history addToFuture: item
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> updateListViewItems: aCollection [
-	history addToPast: listView listItems.
-	listView items: aCollection.
-	self updateNavigationButtons.
-	self updateNumberOfModelElement
 ]
 
 { #category : #'model - updating' }

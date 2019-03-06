@@ -4,11 +4,6 @@ Class {
 	#category : #'MooseVisuOnSpec-Adapter'
 }
 
-{ #category : #action }
-MVSFamixStNamedEntityAdapter >> mvsDoubleClick: aPresenter [
-	
-]
-
 { #category : #'as yet unclassified' }
 MVSFamixStNamedEntityAdapter >> mvscontextMenuOn: aPresenter [
 	| col |
@@ -17,6 +12,6 @@ MVSFamixStNamedEntityAdapter >> mvscontextMenuOn: aPresenter [
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ aPresenter itemSourceCode: focus ]).
+				action: [ aPresenter itemSourceCode: context  focus ]).
 	aPresenter buildContextMenuWith: col
 ]

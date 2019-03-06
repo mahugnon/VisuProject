@@ -24,6 +24,6 @@ MVSFAMIXStClassAdapter >> mvscontextMenuOn: aPresenter [
 		add:
 			(MenuItemPresenter new
 				name: 'Source code';
-				action: [ aPresenter itemSourceCode: focus ]).
+				action: [ aPresenter itemSourceCode: context focus ]).
 	aPresenter buildContextMenuWith: col
 ]

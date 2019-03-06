@@ -14,7 +14,7 @@ MVSMooseModelAdapter >> mvsDoubleClick: aPresenter [
 
 { #category : #utilities }
 MVSMooseModelAdapter >> mvsGroupEntitycache [
-	^ focus cacheMooseGroups entityCache
+	^ context focus cacheMooseGroups entityCache
 ]
 
 { #category : #action }
@@ -26,11 +26,11 @@ MVSMooseModelAdapter >> mvscontextMenuOn: aPresenter [
 			(MenuItemPresenter new
 				name: 'Open';
 				action: [ aPresenter isOpenResultNewWindow
-						ifTrue: [ aPresenter openResultInNewWindow: focus runPragmas ]
-						ifFalse: [ aPresenter updateListViewItems: focus runPragmas ] ]);
+						ifTrue: [ aPresenter openResultInNewWindow: context focus runPragmas ]
+						ifFalse: [ aPresenter updateListViewItems: context focus runPragmas ] ]);
 		add:
 			(MenuItemPresenter new
 				name: 'Set root folder';
-				action: [ focus setRootFolder ]).
+				action: [ context focus setRootFolder ]).
 	aPresenter buildContextMenuWith: col
 ]

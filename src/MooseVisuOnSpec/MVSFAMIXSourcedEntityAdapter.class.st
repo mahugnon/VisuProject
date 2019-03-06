@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #action }
-MVSFAMIXSourcedEntityAdapter >> mvsDoubleClick: aPresenter [
-	
-]
-
-{ #category : #action }
 MVSFAMIXSourcedEntityAdapter >> mvscontextMenuOn: aPresenter [
 	| col |
 	col := OrderedCollection new.
@@ -17,6 +12,6 @@ MVSFAMIXSourcedEntityAdapter >> mvscontextMenuOn: aPresenter [
 		add:
 			(MenuItemPresenter new
 				name: 'Souce code';
-				action: [ aPresenter itemSourceCode: focus ]).
+				action: [ aPresenter itemSourceCode: context focus ]).
 	aPresenter buildContextMenuWith: col
 ]

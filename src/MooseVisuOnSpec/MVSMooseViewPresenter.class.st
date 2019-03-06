@@ -67,7 +67,7 @@ MVSMooseViewPresenter >> subscribeToContext: aContext [
 
 ]
 
-{ #category : #initialization }
-MVSMooseViewPresenter >> upadate [
+{ #category : #'model updates' }
+MVSMooseViewPresenter >> update [
 	mooseModelPresenter items: context mooseModel
 ]
