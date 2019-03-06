@@ -15,6 +15,13 @@ Class {
 	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
 
+{ #category : #drawing }
+MVSRoassalDrawerPresenter class >> drawOn: aModel [
+	self new
+		selected: aModel;
+		openWithSpec
+]
+
 { #category : #'drawing - helpers' }
 MVSRoassalDrawerPresenter >> drawOnRoassalView: aView [
 	self subclassResponsibility

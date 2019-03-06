@@ -34,16 +34,6 @@ MVSDrawerOptionsPresenter >> buttonOk [
 	^ buttonOk
 ]
 
-{ #category : #accessing }
-MVSDrawerOptionsPresenter >> config [
-	^ config
-]
-
-{ #category : #accessing }
-MVSDrawerOptionsPresenter >> config: anObject [
-	config := anObject
-]
-
 { #category : #api }
 MVSDrawerOptionsPresenter >> drawerList [
 	^ drawerList
@@ -58,16 +48,6 @@ MVSDrawerOptionsPresenter >> drawerList: anObject [
 MVSDrawerOptionsPresenter >> initButtonOk [
 	buttonOk := self newButton.
 	buttonOk label: 'Draw'
-]
-
-{ #category : #initialization }
-MVSDrawerOptionsPresenter >> initConfig [
-	config := self instantiateDrawConfig
-]
-
-{ #category : #initialization }
-MVSDrawerOptionsPresenter >> initConfigWith: aType [
-	config := self instantiateDrawConfigWith: aType
 ]
 
 { #category : #initialization }
@@ -105,16 +85,6 @@ MVSDrawerOptionsPresenter >> initializeWidgets [
 		add: typeLabel;
 		add: drawerList;
 		add: buttonOk
-]
-
-{ #category : #initialization }
-MVSDrawerOptionsPresenter >> instantiateDrawConfig [
-	^ MVSDrawConfig new 
-]
-
-{ #category : #initialization }
-MVSDrawerOptionsPresenter >> instantiateDrawConfigWith: aType [
-	^ MVSDrawConfig new type: aType
 ]
 
 { #category : #accessing }
