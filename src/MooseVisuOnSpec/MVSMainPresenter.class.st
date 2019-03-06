@@ -21,10 +21,10 @@ Class {
 		'queryWidget',
 		'drawerOptions',
 		'history',
-		'labelNumberListElt',
 		'openResultNewWindowCheckBox',
 		'logHolder',
-		'errorReporter'
+		'errorReporter',
+		'modelSizePresenter'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -52,7 +52,7 @@ MVSMainPresenter class >> defaultSpec [
 						newColumn: [ :left | 
 							left
 								add: #menu height: self toolbarHeight;
-								add: #labelNumberListElement height: 30;
+								add: #modelSizePresenter height: 30;
 								add: #queryWidget height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
 								add: #mooseView;
@@ -105,6 +105,12 @@ MVSMainPresenter >> createErrorReporter [
 { #category : #initialization }
 MVSMainPresenter >> createHistory [
 	history := MVSHistory create
+]
+
+{ #category : #accessing }
+MVSMainPresenter >> createModelSizePresenter [
+	modelSizePresenter := MVSSizePresenter new.
+	modelSizePresenter subscribeToContext: context
 ]
 
 { #category : #initialization }
@@ -226,14 +232,14 @@ MVSMainPresenter >> initializePresenter [
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
-context :=MVSContext new.
+	context := MVSContext new.
+	self createModelSizePresenter.
 	self createMooseView.
 	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
 	self createQueryWidget.
 	self createOpenResultNewWindowCheckBox.
 	menu := self menuBarFor: self.
-	labelNumberListElt := self newLabel.
 	self initMooseView.
 	self focusOrder
 		add: menu;
@@ -262,11 +268,6 @@ MVSMainPresenter >> itemSourceCode: anObject [
 	MVSSourceTextPresenter  new
 		sourceCode: anObject sourceText;
 		openWithSpec
-]
-
-{ #category : #accessing }
-MVSMainPresenter >> labelNumberListElement [
-	^ labelNumberListElt
 ]
 
 { #category : #actions }
@@ -329,8 +330,13 @@ MVSMainPresenter >> menuBarFor: aPresenter [
 ]
 
 { #category : #accessing }
+MVSMainPresenter >> modelSizePresenter [
+	^ modelSizePresenter
+]
+
+{ #category : #accessing }
 MVSMainPresenter >> mooseView [
-	^ listView
+	^ mooseView
 ]
 
 { #category : #'model - updating' }
@@ -361,10 +367,9 @@ MVSMainPresenter >> navigationMenuGroup [
 MVSMainPresenter >> next [
 	history hasNext
 		ifFalse: [ ^ self ].
-	self updatePastWith: listView listItems.
-	listView items: self history next.
-	self updateNavigationButtons.
-	self updateNumberOfModelElement
+	self updatePastWith: context mooseModel .
+	context mooseModel:  self history next.
+	
 
 	"
 self history hasFuture ifFalse: [^ self].
@@ -408,10 +413,8 @@ MVSMainPresenter >> performQuery [
 MVSMainPresenter >> prev [
 	history hasPast
 		ifFalse: [ ^ self ].
-	self updateFutureWith: listView listItems.
-	self mooseView items: history previous.
-	self updateNavigationButtons.
-	self updateNumberOfModelElement
+	self updateFutureWith: context mooseModel.
+	context mooseModel: history previous
 ]
 
 { #category : #'menu-accessing' }
@@ -423,11 +426,6 @@ MVSMainPresenter >> previousButton [
 { #category : #accessing }
 MVSMainPresenter >> queryWidget [
 	^ queryWidget
-]
-
-{ #category : #accessing }
-MVSMainPresenter >> selected [
-	^ listView selectedItem
 ]
 
 { #category : #simulating }
@@ -443,8 +441,7 @@ MVSMainPresenter >> title [
 { #category : #initialization }
 MVSMainPresenter >> update [
 	self updatePastWith: context mooseModel.
-	self updateNavigationButtons.
-	self updateNumberOfModelElement
+	self updateNavigationButtons
 ]
 
 { #category : #actions }
@@ -456,13 +453,6 @@ MVSMainPresenter >> updateFutureWith: item [
 MVSMainPresenter >> updateNavigationButtons [
 	self enableNextButton: history hasNext.
 	self enablePreviousButton: history hasPast.
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> updateNumberOfModelElement [
-	labelNumberListElt
-		label: 'Number of items ' , ' :  ' , listView listItems size asString;
-		emphasis: #bold
 ]
 
 { #category : #actions }

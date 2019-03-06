@@ -1,0 +1,31 @@
+Class {
+	#name : #MVSSizePresenter,
+	#superclass : #MVSAbstractPresenter,
+	#instVars : [
+		'sizeLabel'
+	],
+	#category : #'MooseVisuOnSpec-Core'
+}
+
+{ #category : #specs }
+MVSSizePresenter class >> defaultSpec [
+	^ SpecLayout composed 
+	add:#sizeLabel
+]
+
+{ #category : #initialization }
+MVSSizePresenter >> initializeWidgets [
+	sizeLabel := self newLabel
+]
+
+{ #category : #accessing }
+MVSSizePresenter >> sizeLabel [
+	^ sizeLabel
+]
+
+{ #category : #'model updates' }
+MVSSizePresenter >> update [
+	sizeLabel
+		label: 'Number of items ' , ' :  ' , context size asString;
+		emphasis: #bold
+]
