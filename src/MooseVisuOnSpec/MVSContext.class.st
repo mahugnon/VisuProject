@@ -55,7 +55,8 @@ MVSContext >> mooseModel [
 
 { #category : #accessing }
 MVSContext >> mooseModel: aMooseModel [
-	mooseModel := aMooseModel
+	mooseModel := aMooseModel.
+	self notifyAll
 ]
 
 { #category : #'as yet unclassified' }

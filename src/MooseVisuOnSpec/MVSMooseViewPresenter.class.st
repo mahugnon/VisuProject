@@ -2,7 +2,7 @@ Class {
 	#name : #MVSMooseViewPresenter,
 	#superclass : #MVSAbstractPresenter,
 	#instVars : [
-		'presenter'
+		'mooseModelPresenter'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -10,14 +10,14 @@ Class {
 { #category : #specs }
 MVSMooseViewPresenter class >> defaultSpec [
 	^ SpecLayout composed
-		add: #presenter;
+		add: #mooseModelPresenter;
 		yourself
 ]
 
 { #category : #initialization }
 MVSMooseViewPresenter >> createPresenter [
-	presenter := self instantiate: FastTablePresenter.
-	presenter
+	mooseModelPresenter := self instantiate: FastTablePresenter.
+	mooseModelPresenter
 		displayBlock: [ :item | 
 			item class = MooseModel
 				ifTrue: [ item name ]
@@ -27,18 +27,24 @@ MVSMooseViewPresenter >> createPresenter [
 ]
 
 { #category : #initialization }
+MVSMooseViewPresenter >> initializePresenter [ 
+mooseModelPresenter whenSelectedItemChanged: [ :item|
+	context focus: item ]
+]
+
+{ #category : #initialization }
 MVSMooseViewPresenter >> initializeWidgets [
 	self createPresenter
 ]
 
-{ #category : #'as yet unclassified' }
-MVSMooseViewPresenter >> populatePresenterWith: aCollection [
-	^ presenter items: aCollection
+{ #category : #initialization }
+MVSMooseViewPresenter >> mooseModelPresenter [
+	^ mooseModelPresenter
 ]
 
-{ #category : #initialization }
-MVSMooseViewPresenter >> presenter [
-	^ presenter
+{ #category : #'as yet unclassified' }
+MVSMooseViewPresenter >> populatePresenterWith: aCollection [
+	^ mooseModelPresenter items: aCollection
 ]
 
 { #category : #initialization }

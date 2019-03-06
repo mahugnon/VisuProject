@@ -228,7 +228,6 @@ MVSMainPresenter >> initializePresenter [
 
 { #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
-	self initContext.
 	self createMooseView.
 	self createErrorReporter.
 	drawerOptions := MVSDrawerOptionsPresenter new.
@@ -239,7 +238,7 @@ MVSMainPresenter >> initializeWidgets [
 	self initMooseView.
 	self focusOrder
 		add: menu;
-		add: mooseView 
+		add: mooseView
 ]
 
 { #category : #testing }
