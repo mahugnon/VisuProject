@@ -9,7 +9,9 @@ Class {
 
 { #category : #specs }
 MVSErrorReportPresenter class >> defaultSpec [
-	^ SpecLayout composed  add: #logHolder
+	^ SpecLayout composed
+		add: #logHolder;
+		yourself
 ]
 
 { #category : #specs }

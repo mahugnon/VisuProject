@@ -9,7 +9,7 @@ MVSFAMIXTypeAdapter class >> adaptedClass [
 	^ FAMIXType
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSFAMIXTypeAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.

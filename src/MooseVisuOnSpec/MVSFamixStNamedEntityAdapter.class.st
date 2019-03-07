@@ -9,7 +9,7 @@ MVSFamixStNamedEntityAdapter class >> adaptedClass [
 	^ FamixStNamedEntity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSFamixStNamedEntityAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.

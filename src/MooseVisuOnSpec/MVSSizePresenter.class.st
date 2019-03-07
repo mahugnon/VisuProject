@@ -9,8 +9,9 @@ Class {
 
 { #category : #specs }
 MVSSizePresenter class >> defaultSpec [
-	^ SpecLayout composed 
-	add:#sizeLabel
+	^ SpecLayout composed
+		add: #sizeLabel;
+		yourself
 ]
 
 { #category : #initialization }

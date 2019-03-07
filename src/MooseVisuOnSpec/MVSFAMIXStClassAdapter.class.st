@@ -9,7 +9,7 @@ MVSFamixStClassAdapter class >> adaptedClass [
 	^ FamixStClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSFamixStClassAdapter >> drawers [
 	^ OrderedCollection new
 		add: MVSDeprecatedClassRelationWithForceLayoutPresenter;
@@ -17,7 +17,7 @@ MVSFamixStClassAdapter >> drawers [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSFamixStClassAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.

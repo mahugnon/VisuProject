@@ -32,19 +32,19 @@ MVSAbstractAdapter >> context: aContext [
 	context := aContext
 ]
 
-{ #category : #action }
+{ #category : #utilities }
 MVSAbstractAdapter >> mvsContextMenu [
 	^ self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : #utilities }
 MVSAbstractAdapter >> mvsDoubleClickOn: aMooseView [
 	^ context isOpenResultNewWindow
 		ifTrue: [ (MVSMainPresenter withElements: context focus) openWithSpec ]
 		ifFalse: [ context whenDrillDown: context focus ]
 ]
 
-{ #category : #action }
+{ #category : #actions }
 MVSAbstractAdapter >> openAction [
 	^ context isOpenResultNewWindow
 		ifTrue: [ MVSMainPresenter withElements: context focus ]
@@ -57,7 +57,7 @@ MVSAbstractAdapter >> runPragmas [
 		collect: [ :each | each value ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 MVSAbstractAdapter >> viewSourceCodeAction [
 	^ MVSSourceTextPresenter createWithSource: context focusSourceText
 ]
