@@ -90,7 +90,7 @@ MVSFilterTest >> setUp [
 MVSFilterTest >> tearDown [
 	MooseModel resetRoot.
 	MooseModel root addAll: rootCurrent.
-	MVSMainPresenter closeOfSelfWindowOpen.
+	MVSMainPresenter closeOpenWindow.
 	(MCPackage named: 'TestMokePackage') unload.
 	super tearDown
 ]
@@ -98,27 +98,25 @@ MVSFilterTest >> tearDown [
 { #category : #'testing-drilling' }
 MVSFilterTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
 	| presenter list selectedItem |
-	presenter := MVSMainPresenter new.
-	presenter listView items: MooseModel root.
-	list := presenter listView listItems.
+	presenter := MVSMainPresenter withElements: MooseModel root.
+	list := presenter mooseView mooseModels listItems.
 	selectedItem := MooseModel root at: 1.
-	presenter listView setSelectedItem: selectedItem.
+	presenter mooseView mooseModels  setSelectedItem: selectedItem.
 	presenter simulateDoubleClick.
-	self deny: (presenter listView listItems includes: selectedItem)
+	self deny: (presenter mooseView mooseModels  listItems includes: selectedItem)
 ]
 
 { #category : #'testing-drilling' }
 MVSFilterTest >> testDrillInMooseModelShowsPragmas [
 	| presenter list selectedItem |
 	
-	presenter := MVSMainPresenter new.
-	presenter listView items: MooseModel root.
-	list := presenter listView listItems.
+	presenter := MVSMainPresenter withElements:  MooseModel root.
+	list := presenter mooseView mooseModels listItems.
 	
 	selectedItem := MooseModel root at: 1.
-	presenter listView setSelectedItem: selectedItem.
+	presenter mooseView mooseModels setSelectedItem: selectedItem.
 	presenter simulateDoubleClick.
-	self assert: (presenter listView listItems allSatisfy: [ :each | 
+	self assert: (presenter mooseView mooseModels listItems allSatisfy: [ :each | 
 		each mooseModel = selectedItem or: [ each mooseModel isNil ] ])
 ]
 
@@ -145,11 +143,10 @@ MVSFilterTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements:  self modelForTest.
 	presenter queryWidget textField text: 'Object new'.
 	presenter queryWidget type: 13.
-	self assert: presenter listView listItems size equals: self modelForTest size
+	self assert: presenter mooseView mooseModels listItems size equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }

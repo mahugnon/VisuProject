@@ -26,6 +26,14 @@ Class {
 	#category : #'MooseVisuOnSpec-Core'
 }
 
+{ #category : #'testing - interest' }
+MVSMainPresenter class >> closeOpenWindow [
+	^ self
+		allInstancesDo: [ :each | 
+			each window isNotNil
+				ifTrue: [ each window close ] ]
+]
+
 { #category : #specs }
 MVSMainPresenter class >> defaultSpec [
 	^ SpecLayout composed
@@ -162,7 +170,8 @@ MVSMainPresenter >> queryWidget [
 
 { #category : #simulating }
 MVSMainPresenter >> simulateDoubleClick [
-self mooseView doubleClick: self mooseView doubleClickAction
+	self mooseView mooseModels
+		doubleClick: self mooseView mooseModels doubleClickAction
 ]
 
 { #category : #api }
