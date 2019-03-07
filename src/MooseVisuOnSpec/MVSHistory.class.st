@@ -58,6 +58,11 @@ MVSHistory >> next [
 	^ next
 ]
 
+{ #category : #accesing }
+MVSHistory >> past [
+	^ past
+]
+
 { #category : #accessing }
 MVSHistory >> previous [
 	| previous |
