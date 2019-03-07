@@ -41,14 +41,14 @@ MVSAbstractAdapter >> mvsContextMenu [
 MVSAbstractAdapter >> mvsDoubleClickOn: aMooseView [
 	^ context isOpenResultNewWindow
 		ifTrue: [ (MVSMainPresenter withElements: context focus) openWithSpec ]
-		ifFalse: [ context mooseModel: context focus. ]
+		ifFalse: [ context whenDrillDown: context focus ]
 ]
 
 { #category : #action }
 MVSAbstractAdapter >> openAction [
 	^ context isOpenResultNewWindow
 		ifTrue: [ MVSMainPresenter withElements: context focus ]
-		ifFalse: [ context mooseModel: context focus ]
+		ifFalse: [ context whenDrillDown: context focus ]
 ]
 
 { #category : #processing }

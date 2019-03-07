@@ -91,8 +91,8 @@ MVSHistory >> previous [
 
 { #category : #initialization }
 MVSHistory >> subscribeToContext: aContext [
-context :=aContext .
-aContext addListener: self.
+	context := aContext.
+	aContext history: self
 ]
 
 { #category : #initialization }

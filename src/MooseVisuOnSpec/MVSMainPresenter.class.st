@@ -92,7 +92,8 @@ MVSMainPresenter >> createMooseView [
 { #category : #initialization }
 MVSMainPresenter >> createMvsMenuBar [
 	mvsMenuBar := self instantiate: MVSMenuPresenter.
-	mvsMenuBar subscribeToContext: context
+	mvsMenuBar subscribeToContext: context.
+	
 ]
 
 { #category : #initialization }
@@ -185,45 +186,6 @@ MVSMainPresenter >> initializeWidgets [
 		add: mooseView
 ]
 
-{ #category : #initialization }
-MVSMainPresenter >> menuBarFor: aPresenter [
-	| aMenu |
-	aMenu := MenuPresenter new
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Import model from MSE file';
-						icon: MooseIcons mooseImportMse;
-						action: [ 
-							 context importMSE ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Import Smalltalk';
-						icon: MooseIcons mooseImportSmalltalk;
-						action: [ context importSt ] ] ];
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Previous';
-						icon: (self iconNamed: #smallUndoIcon);
-						action: [ self prev ] ].
-			group
-				addItem: [ :item | 
-					item
-						name: nil;
-						description: 'Next';
-						icon: (self iconNamed: #smallRedoIcon);
-						action: [ self next ] ] ].
-	aMenu applyTo: aPresenter.
-	^ aMenu
-]
-
 { #category : #accessing }
 MVSMainPresenter >> modelSizePresenter [
 	^ modelSizePresenter
@@ -237,45 +199,6 @@ MVSMainPresenter >> mooseView [
 { #category : #accessing }
 MVSMainPresenter >> mvsMenuBar [
 	^ mvsMenuBar
-]
-
-{ #category : #'menu-accessing' }
-MVSMainPresenter >> navigationMenuGroup [
-	
-	"Ugly method, but there is no easy way to access a menu group"
-	"menu menuGroups second => Does not work because the spec menu object cannot interact with the real menu, to for example, disable it"
-	"To be able to update the menu dynamically we have to get the morphs.
-	This is bad code, please do not replicate"
-	| dockingBarMorph |
-	
-	"If the widget does not exist, we will modify the spec objects"
-	self widget ifNil: [ | navigationMenuGroup |
-		navigationMenuGroup := mvsMenuBar menuGroups second.
-		^ { navigationMenuGroup menuItems first . navigationMenuGroup menuItems second }
-		 ].
-	
-	dockingBarMorph := self widget widget submorphs first submorphs first submorphs first findA: ToolDockingBarMorph.
-	^ dockingBarMorph submorphs last: 2
-]
-
-{ #category : #navigation }
-MVSMainPresenter >> next [
-	history hasNext
-		ifFalse: [ ^ self ].
-	self updatePastWith: context mooseModel .
-	context mooseModel:  self history next.
-	
-
-	"
-self history hasFuture ifFalse: [^ self].
-self history next.
-self eltList: self history currentList
-"
-]
-
-{ #category : #'menu-accessing' }
-MVSMainPresenter >> nextButton [
-	^ self navigationMenuGroup second
 ]
 
 { #category : #accessing }
@@ -315,26 +238,4 @@ self mooseView doubleClick: self mooseView doubleClickAction
 { #category : #api }
 MVSMainPresenter >> title [ 
 ^'Visualization'.
-]
-
-{ #category : #initialization }
-MVSMainPresenter >> update [
-	self updatePastWith: context mooseModel
-	
-]
-
-{ #category : #actions }
-MVSMainPresenter >> updateFutureWith: item [
-	history addToFuture: item
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> updateNavigationButtons [
-	self enableNextButton: history hasNext.
-	self enablePreviousButton: history hasPast.
-]
-
-{ #category : #actions }
-MVSMainPresenter >> updatePastWith:item [
-	history addToPast: item
 ]

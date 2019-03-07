@@ -31,8 +31,7 @@ MVSMenuPresenter >> enableNavigationButtonAt: anIndex withValue: aBoolean [
 	buttonMorph enabled: aBoolean.
 	self widget
 		ifNotNil: [ | dockingBarMorph |
-			dockingBarMorph := self widget widget submorphs first submorphs
-				first submorphs first findA: ToolDockingBarMorph.
+			dockingBarMorph := self widget widget submorphs first .
 			((dockingBarMorph submorphs last: 2) at: anIndex) enabled: aBoolean ]
 ]
 
@@ -47,10 +46,15 @@ MVSMenuPresenter >> enablePreviousButton: aBoolean [
 ]
 
 { #category : #initialization }
+MVSMenuPresenter >> initialize [
+	super initialize.
+	mvsHistory := MVSHistory new
+]
+
+{ #category : #initialization }
 MVSMenuPresenter >> initializeWidgets [
 	menu := self menuBarFor: self.
-	mvsHistory := MVSHistory new.
-	mvsHistory context: context
+	
 ]
 
 { #category : #accessing }
@@ -117,6 +121,21 @@ MVSMenuPresenter >> navigationMenuGroup [
 	^ dockingBarMorph submorphs last: 2
 ]
 
+{ #category : #accessing }
+MVSMenuPresenter >> next [
+	mvsHistory hasNext
+		ifFalse: [ ^ self ].
+	mvsHistory updatePast.
+	context mooseModel:  mvsHistory  next
+
+
+	"
+self history hasFuture ifFalse: [^ self].
+self history next.
+self eltList: self history currentList
+"
+]
+
 { #category : #'model - updating' }
 MVSMenuPresenter >> nextButton [
 	^ self navigationMenuGroup second
@@ -124,15 +143,22 @@ MVSMenuPresenter >> nextButton [
 
 { #category : #navigation }
 MVSMenuPresenter >> prev [
-	mvsHistory  hasPast
+	mvsHistory hasPast
 		ifFalse: [ ^ self ].
-	self updateFutureWith: context mooseModel.
-	context mooseModel: mvsHistory  previous
+	mvsHistory updateFuture  .
+	context mooseModel: mvsHistory previous
 ]
 
 { #category : #'model - updating' }
 MVSMenuPresenter >> previousButton [
 	^ self navigationMenuGroup first
+]
+
+{ #category : #initialization }
+MVSMenuPresenter >> subscribeToContext: aContext [
+	aContext addListener: self.
+	context := aContext.
+	mvsHistory subscribeToContext: context
 ]
 
 { #category : #'model updates' }

@@ -29,8 +29,9 @@ MVSMooseModelAdapter >> mvsContextMenu [
 { #category : #action }
 MVSMooseModelAdapter >> mvsDoubleClickOn: aMooseView [
 	^ context isOpenResultNewWindow
-		ifTrue: [ (MVSMainPresenter withElements:self mvsGroupEntitycache ) openWithSpec ]
-		ifFalse: [ context mooseModel: self mvsGroupEntitycache  . ]
+		ifTrue: [ (MVSMainPresenter withElements: self mvsGroupEntitycache)
+				openWithSpec ]
+		ifFalse: [ context whenDrillDown: self mvsGroupEntitycache ]
 ]
 
 { #category : #utilities }

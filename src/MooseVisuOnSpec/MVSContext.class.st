@@ -8,7 +8,8 @@ Class {
 		'isOpenResultNewWindow',
 		'errorListener',
 		'mvsError',
-		'drawers'
+		'drawers',
+		'history'
 	],
 	#category : #'MooseVisuOnSpec-Context'
 }
@@ -56,6 +57,16 @@ MVSContext >> focusName [
 { #category : #'as yet unclassified' }
 MVSContext >> focusSourceText [
 	^ focus sourceText
+]
+
+{ #category : #accessing }
+MVSContext >> history [
+	^ history
+]
+
+{ #category : #accessing }
+MVSContext >> history: anObject [
+	history := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -144,4 +155,10 @@ MVSContext >> removeListener: aListener [
 	(listeners includes: aListener)
 		ifTrue: [ listeners remove: aListener ].
 	^ listeners
+]
+
+{ #category : #'as yet unclassified' }
+MVSContext >> whenDrillDown: aModel [
+	history updatePast.
+	^ self mooseModel: aModel
 ]
