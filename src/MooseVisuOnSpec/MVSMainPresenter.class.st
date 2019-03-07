@@ -45,7 +45,7 @@ MVSMainPresenter class >> defaultSpec [
 							left
 								add: #mvsMenuBar height: self toolbarHeight;
 								add: #modelSizePresenter height: 30;
-								add: #queryWidget height: self toolbarHeight;
+								add: #mvsQueryPresenter height: self toolbarHeight;
 								add: #openResultNewWindowCheckBox height: 30;
 								add: #mooseView;
 								add: #errorReporter height: 30 ] ] ];
@@ -159,13 +159,13 @@ MVSMainPresenter >> mvsMenuBar [
 ]
 
 { #category : #accessing }
-MVSMainPresenter >> openResultNewWindowCheckBox [
-	^ openResultNewWindowCheckBox
+MVSMainPresenter >> mvsQueryPresenter [
+	^ mvsQueryPresenter
 ]
 
 { #category : #accessing }
-MVSMainPresenter >> queryWidget [
-	^ mvsQueryPresenter
+MVSMainPresenter >> openResultNewWindowCheckBox [
+	^ openResultNewWindowCheckBox
 ]
 
 { #category : #simulating }

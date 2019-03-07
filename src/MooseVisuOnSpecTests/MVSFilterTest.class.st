@@ -97,13 +97,13 @@ MVSFilterTest >> tearDown [
 
 { #category : #'testing-drilling' }
 MVSFilterTest >> testDrillInMooseModelDoesNotShowClickedModelInList [
-	| presenter list selectedItem |
+	| presenter selectedItem |
 	presenter := MVSMainPresenter withElements: MooseModel root.
-	list := presenter mooseView mooseModels listItems.
 	selectedItem := MooseModel root at: 1.
-	presenter mooseView mooseModels  setSelectedItem: selectedItem.
+	presenter mooseView mooseModels setSelectedItem: selectedItem.
 	presenter simulateDoubleClick.
-	self deny: (presenter mooseView mooseModels  listItems includes: selectedItem)
+	self
+		deny: (presenter mooseView mooseModels listItems includes: selectedItem)
 ]
 
 { #category : #'testing-drilling' }
@@ -144,48 +144,49 @@ MVSFilterTest >> testExecuteFilterWithIncorrectDotDoesNotFilter [
 MVSFilterTest >> testMainPresenterWithArbitraryExpressionDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter withElements:  self modelForTest.
-	presenter queryWidget textField text: 'Object new'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: 'Object new'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter mooseView mooseModels listItems size equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithCorrectFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest .
-	presenter queryWidget textField text: self correctQuery.
-	presenter queryWidget type: 13.
-	self assert: presenter listView listItems size equals: 1
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter textField text: self correctQuery.
+	presenter mvsQueryPresenter type: 13.
+	self assert: presenter mooseView mooseModels listItems size equals: 1
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithCorrectFilterWithFloat [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: self correctQueryWithFloat.
-	presenter queryWidget type: 13.
-	self assert: presenter listView listItems size equals: 1
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter textField
+		text: self correctQueryWithFloat.
+	presenter mvsQueryPresenter type: 13.
+	self assert: presenter mooseView mooseModels listItems size equals: 1
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithEmptyFilterDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
-	presenter queryWidget type: 13.
-	self assert: presenter listView listItems asSet equals: self modelForTest asSet
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter type: 13.
+	self
+		assert: presenter mooseView mooseModels listItems asSet
+		equals: self modelForTest asSet
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: 'Error signal'.
-	presenter queryWidget type: 13.
-	self assert: presenter listView listItems size equals: self modelForTest size
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter textField text: 'Error signal'.
+	presenter mvsQueryPresenter type: 13.
+	self
+		assert: presenter mooseView mooseModels listItems size
+		equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
@@ -193,8 +194,8 @@ MVSFilterTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: 'self error: ''test error'''.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: 'self error: ''test error'''.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter errorReporter message equals: 'Error: test error'
 ]
 
@@ -203,8 +204,8 @@ MVSFilterTest >> testMainPresenterWithFalseFilterWorks [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '1=2'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '1=2'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems isEmpty
 ]
 
@@ -213,8 +214,8 @@ MVSFilterTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '{'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '{'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems size equals: self modelForTest size
 ]
 
@@ -223,8 +224,8 @@ MVSFilterTest >> testMainPresenterWithNonBooleanExpressionShowsError [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: 'Object new'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: 'Object new'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter errorReporter message equals: 'MessageNotUnderstood: Object>>ifTrue:'
 ]
 
@@ -233,8 +234,8 @@ MVSFilterTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '1+3 . false'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '1+3 . false'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems isEmpty
 ]
 
@@ -243,8 +244,8 @@ MVSFilterTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '1+3 . true'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '1+3 . true'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems size equals: self modelForTest size
 ]
 
@@ -253,8 +254,8 @@ MVSFilterTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '}|'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '}|'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter errorReporter message equals: 'SyntaxErrorNotification: '']'' expected'
 ]
 
@@ -263,8 +264,8 @@ MVSFilterTest >> testMainPresenterWithTrueFilterWorks [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: '1=1'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: '1=1'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems size equals: self modelForTest size
 ]
 
@@ -273,8 +274,8 @@ MVSFilterTest >> testMainPresenterWithWrongFilterDoesNotFilter [
 	| presenter |
 	presenter := MVSMainPresenter new.
 	presenter listView items: self modelForTest.
-	presenter queryWidget textField text: 'whatever it doe snot compile'.
-	presenter queryWidget type: 13.
+	presenter mvsQueryPresenter textField text: 'whatever it doe snot compile'.
+	presenter mvsQueryPresenter type: 13.
 	self assert: presenter listView listItems asSet equals: self modelForTest asSet
 ]
 
