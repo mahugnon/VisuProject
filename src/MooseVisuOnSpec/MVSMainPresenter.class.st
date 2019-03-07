@@ -17,7 +17,6 @@ Class {
 	#superclass : #MVSAbstractPresenter,
 	#instVars : [
 		'mooseView',
-		'history',
 		'openResultNewWindowCheckBox',
 		'errorReporter',
 		'modelSizePresenter',
@@ -72,11 +71,6 @@ MVSMainPresenter >> createErrorReporter [
 	
 ]
 
-{ #category : #initialization }
-MVSMainPresenter >> createHistory [
-	history := MVSHistory create
-]
-
 { #category : #accessing }
 MVSMainPresenter >> createModelSizePresenter [
 	modelSizePresenter := MVSSizePresenter new.
@@ -111,32 +105,6 @@ MVSMainPresenter >> createOpenResultNewWindowCheckBox [
 	openResultNewWindowCheckBox subscribeToContext: context
 ]
 
-{ #category : #'model - updating' }
-MVSMainPresenter >> enableNavigationButtonAt: anIndex withValue: aBoolean [
-
-	"If the widget does not exist, we will modify the spec objects"
-	| navigationMenuGroup buttonMorph |
-	navigationMenuGroup := mvsMenuBar menuGroups second.
-	buttonMorph := navigationMenuGroup menuItems at: anIndex.
-	buttonMorph enabled: aBoolean.
-
-	self widget ifNotNil: [	| dockingBarMorph |
-		dockingBarMorph := self widget widget submorphs first submorphs first submorphs first findA: ToolDockingBarMorph.
-		((dockingBarMorph submorphs last: 2) at: anIndex) enabled: aBoolean ]
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> enableNextButton: aBoolean [
-
-	self enableNavigationButtonAt: 2 withValue: aBoolean
-]
-
-{ #category : #'model - updating' }
-MVSMainPresenter >> enablePreviousButton: aBoolean [
-
-	self enableNavigationButtonAt: 1 withValue: aBoolean
-]
-
 { #category : #accessing }
 MVSMainPresenter >> errorReporter [
 	^ errorReporter
@@ -150,11 +118,6 @@ MVSMainPresenter >> executeTextQueryOnCR [
 { #category : #api }
 MVSMainPresenter >> extent [
 	^ 800 @ 650
-]
-
-{ #category : #'accessing model' }
-MVSMainPresenter >> history [
-	^ history
 ]
 
 { #category : #initialization }
@@ -175,7 +138,6 @@ MVSMainPresenter >> initializePresenter [
 MVSMainPresenter >> initializeWidgets [
 	self subscribeToContext: MVSContext new.
 	self createModelSizePresenter.
-	self createHistory.
 	self createMooseView.
 	self createErrorReporter.
 	self createMvsQueryPresenter.
@@ -209,20 +171,6 @@ MVSMainPresenter >> openResultNewWindowCheckBox [
 { #category : #actions }
 MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
 	
-]
-
-{ #category : #navigation }
-MVSMainPresenter >> prev [
-	history hasPast
-		ifFalse: [ ^ self ].
-	self updateFutureWith: context mooseModel.
-	context mooseModel: history previous
-]
-
-{ #category : #'menu-accessing' }
-MVSMainPresenter >> previousButton [
-	
-	^ self navigationMenuGroup first
 ]
 
 { #category : #accessing }
