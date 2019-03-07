@@ -127,14 +127,6 @@ MVSMainPresenter >> initContextWith: aCollection [
 ]
 
 { #category : #initialization }
-MVSMainPresenter >> initializePresenter [
-	"self executeTextQueryOnCR."
-
-	"self updateNavigationButtons"
-	"	self openResultNewWindowCheckBoxEvent."
-]
-
-{ #category : #initialization }
 MVSMainPresenter >> initializeWidgets [
 	self subscribeToContext: MVSContext new.
 	self createModelSizePresenter.
