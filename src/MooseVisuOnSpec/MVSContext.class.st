@@ -29,12 +29,12 @@ MVSContext >> drawers: aCollection [
 	drawers := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MVSContext >> errorListener [
 	^ errorListener
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MVSContext >> errorListener: anObject [
 	errorListener := anObject
 ]
@@ -49,12 +49,7 @@ MVSContext >> focus: aModel [
 	focus := aModel
 ]
 
-{ #category : #'as yet unclassified' }
-MVSContext >> focusName [
-	^ focus className
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSContext >> focusSourceText [
 	^ focus sourceText
 ]
@@ -69,14 +64,14 @@ MVSContext >> history: anObject [
 	history := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSContext >> importMSE [
 	MVSMSELoader importModel.
 	self mooseModel: MooseModel root allModels.
 	
 ]
 
-{ #category : #actions }
+{ #category : #utilities }
 MVSContext >> importSt [
 	MPImportSTCommand new execute.
 	self mooseModel: MooseModel root allModels
@@ -122,7 +117,7 @@ MVSContext >> mooseModel: aMooseModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MVSContext >> mooseModelSize [
 	^ mooseModel size asString
 ]
@@ -132,19 +127,19 @@ MVSContext >> mvsError [
 	^ mvsError
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api-errors' }
 MVSContext >> mvsError: anObject [
 	mvsError := anObject.
 	self notifyError
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 MVSContext >> notifyAll [
 	listeners ifEmpty: [ ^ self ].
 	^ listeners do: [ :listener | listener update ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api-errors' }
 MVSContext >> notifyError [
  errorListener update
 ]
@@ -157,7 +152,7 @@ MVSContext >> removeListener: aListener [
 	^ listeners
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api-events' }
 MVSContext >> whenDrillDown: aModel [
 	history updatePast.
 	^ self mooseModel: aModel

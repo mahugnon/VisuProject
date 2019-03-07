@@ -17,6 +17,19 @@ MVSMooseViewPresenter class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #creation }
+MVSMooseViewPresenter >> contextMenuForMooseModel [
+	| menuItemPresenters |
+	menuItemPresenters := self modelAdapter mvsContextMenu.
+	menuItemPresenters isEmpty
+		ifTrue: [ ^ self ].
+	mooseModelPresenter
+		menu: [ MenuPresenter new
+				addGroup:
+						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
+				buildWithSpecAsPopup ]
+]
+
 { #category : #initialization }
 MVSMooseViewPresenter >> createPresenter [
 	mooseModelPresenter := self instantiate: FastTablePresenter.
@@ -29,7 +42,7 @@ MVSMooseViewPresenter >> createPresenter [
 		sortingBlock: [ :a :b | a asString < b asString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'api-events' }
 MVSMooseViewPresenter >> doubleClickActionOnModel [
 	^ self modelAdapter mvsDoubleClickOn: self
 ]
@@ -40,7 +53,7 @@ MVSMooseViewPresenter >> initializePresenter [
 		handlesDoubleClick: true;
 		autoDeselect: true;
 		whenSelectedItemChanged: [ :item | context focus: item .
-			self mooseModelPresentContextMenu];
+			self contextMenuForMooseModel];
 		doubleClickAction: [ :item | self doubleClickActionOnModel ].
 	
 ]
@@ -57,25 +70,12 @@ MVSMooseViewPresenter >> modelAdapter [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-MVSMooseViewPresenter >> mooseModelPresentContextMenu [
-	| menuItemPresenters |
-	menuItemPresenters := self modelAdapter mvsContextMenu.
-	menuItemPresenters isEmpty
-		ifTrue: [ ^ self ].
-	mooseModelPresenter
-		menu: [ MenuPresenter new
-				addGroup:
-						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
-				buildWithSpecAsPopup ]
-]
-
 { #category : #initialization }
 MVSMooseViewPresenter >> mooseModelPresenter [
 	^ mooseModelPresenter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 MVSMooseViewPresenter >> populatePresenterWith: aCollection [
 	^ mooseModelPresenter items: aCollection
 ]

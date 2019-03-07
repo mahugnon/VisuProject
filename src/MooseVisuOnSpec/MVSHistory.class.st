@@ -18,18 +18,6 @@ MVSHistory class >> create [
 	^ self new
 ]
 
-{ #category : #adding }
-MVSHistory >> addToFuture: anObject [
-	self flag: #deprecate.
-	future push: anObject
-]
-
-{ #category : #adding }
-MVSHistory >> addToPast: anObject [
-self flag: #deprecate.
-	past push: anObject
-]
-
 { #category : #accessing }
 MVSHistory >> context [
 	^ context
