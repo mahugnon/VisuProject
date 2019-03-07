@@ -14,9 +14,8 @@ Class {
 MVSNavigationTest >> testAddingElementsToHistoryEnablesPreviousButton [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-
-	self assert: presenter previousButton enabled
+	presenter context whenDrillDown:  #(0 8 7).
+	self assert: presenter mvsMenuBar  previousButton enabled
 ]
 
 { #category : #testing }
