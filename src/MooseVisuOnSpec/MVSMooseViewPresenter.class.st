@@ -5,7 +5,7 @@ Class {
 	#name : #MVSMooseViewPresenter,
 	#superclass : #MVSAbstractPresenter,
 	#instVars : [
-		'mooseModelPresenter'
+		'mooseModels'
 	],
 	#category : #'MooseVisuOnSpec-Core'
 }
@@ -13,7 +13,7 @@ Class {
 { #category : #specs }
 MVSMooseViewPresenter class >> defaultSpec [
 	^ SpecLayout composed
-		add: #mooseModelPresenter;
+		add: #mooseModels;
 		yourself
 ]
 
@@ -23,7 +23,7 @@ MVSMooseViewPresenter >> contextMenuForMooseModel [
 	menuItemPresenters := self modelAdapter mvsContextMenu.
 	menuItemPresenters isEmpty
 		ifTrue: [ ^ self ].
-	mooseModelPresenter
+	mooseModels
 		menu: [ MenuPresenter new
 				addGroup:
 						[ :group | menuItemPresenters do: [ :each | group addMenuItem: each ] ];
@@ -32,8 +32,8 @@ MVSMooseViewPresenter >> contextMenuForMooseModel [
 
 { #category : #initialization }
 MVSMooseViewPresenter >> createPresenter [
-	mooseModelPresenter := self instantiate: FastTablePresenter.
-	mooseModelPresenter
+	mooseModels := self instantiate: FastTablePresenter.
+	mooseModels
 		displayBlock: [ :item | 
 			item class = MooseModel
 				ifTrue: [ item name ]
@@ -49,7 +49,7 @@ MVSMooseViewPresenter >> doubleClickActionOnModel [
 
 { #category : #initialization }
 MVSMooseViewPresenter >> initializePresenter [
-	mooseModelPresenter
+	mooseModels
 		handlesDoubleClick: true;
 		autoDeselect: true;
 		whenSelectedItemChanged: [ :item | context focus: item .
@@ -71,13 +71,13 @@ MVSMooseViewPresenter >> modelAdapter [
 ]
 
 { #category : #initialization }
-MVSMooseViewPresenter >> mooseModelPresenter [
-	^ mooseModelPresenter
+MVSMooseViewPresenter >> mooseModels [
+	^ mooseModels
 ]
 
 { #category : #action }
 MVSMooseViewPresenter >> populatePresenterWith: aCollection [
-	^ mooseModelPresenter items: aCollection
+	^ mooseModels items: aCollection
 ]
 
 { #category : #initialization }
@@ -89,5 +89,5 @@ MVSMooseViewPresenter >> subscribeToContext: aContext [
 
 { #category : #'model updates' }
 MVSMooseViewPresenter >> update [
-	mooseModelPresenter items: context mooseModel
+	mooseModels items: context mooseModel
 ]

@@ -31,10 +31,7 @@ MVSNavigationTest >> testMainPresenterListViewIsEmptyWhenNoModel [
 	| mainPresenter |
 	MooseModel resetRoot.
 	mainPresenter := MVSMainPresenter new.
-	self
-		assert:
-			mainPresenter mooseView mooseModelPresenter listItems
-				isEmpty 
+	self assert: mainPresenter mooseView mooseModels listItems isEmpty
 ]
 
 { #category : #testing }
@@ -49,7 +46,7 @@ MVSNavigationTest >> testNavigationWhenFutureIsPress [
 		assert: presenter mvsMenuBar mvsHistory past top
 		equals: #(0 1 2 3 4) sorted.
 	self
-		assert: presenter mooseView mooseModelPresenter listItems sorted
+		assert: presenter mooseView mooseModels listItems sorted
 		equals: #(0 8 7) sorted
 ]
 
@@ -59,7 +56,7 @@ MVSNavigationTest >> testNavigationWhenListViewItemsNotUpdatedAnPreviousIsPress 
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
 	presenter mvsMenuBar prev.
 	self
-		assert: presenter mooseView mooseModelPresenter listItems
+		assert: presenter mooseView mooseModels listItems
 		equals: #(0 1 2 3 4).
 	self assert: presenter context history hasPast equals: false.
 	self assert: presenter context history hasPast equals: false
@@ -76,7 +73,7 @@ MVSNavigationTest >> testNavigationWhenPreviousIsPress [
 		assert: presenter context history future top sorted
 		equals: #(0 8 7) sorted.
 	self
-		assert: presenter mooseView mooseModelPresenter listItems sorted
+		assert: presenter mooseView mooseModels listItems sorted
 		equals: #(0 1 2 3 4) sorted
 ]
 
@@ -84,44 +81,46 @@ MVSNavigationTest >> testNavigationWhenPreviousIsPress [
 MVSNavigationTest >> testNextNavigationwhenUpdateListViewItems [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	self assert: presenter history hasNext  equals: false
+	presenter context whenDrillDown: #(0 8 7).
+	self assert: presenter context history hasNext equals: false
 ]
 
 { #category : #testing }
 MVSNavigationTest >> testPastNavigationwhenUpdateListViewItems [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	presenter updateListViewItems: #(0 8 7).
-	self assert: presenter history hasPast equals: true.
+	presenter context whenDrillDown: #(0 8 7).
+	self assert: presenter context history hasPast equals: true
 ]
 
 { #category : #tests }
 MVSNavigationTest >> testUpdateListView [
 	| mainPresenter |
 	mainPresenter := MVSMainPresenter new.
-	mainPresenter updateListViewItems: #(1 2 3).
-	self assert: mainPresenter listView listItems equals: #(1 2 3)
+	mainPresenter context whenDrillDown: #(1 2 3).
+	self
+		assert: mainPresenter mooseView mooseModels  listItems sorted
+		equals: #(1 2 3)
 ]
 
 { #category : #tests }
 MVSNavigationTest >> testWhenUpdateMainPresenterListViewWithEmptyIsEmpty [
 	| mainPresenter |
 	mainPresenter := MVSMainPresenter new.
-	mainPresenter updateListViewItems: #().
-	self assert: mainPresenter listView listItems equals: #()
+	mainPresenter context whenDrillDown: #().
+	self assert: mainPresenter mooseView mooseModels listItems isEmpty
 ]
 
 { #category : #testing }
 MVSNavigationTest >> testWithEmptyHistoryHasNextButtonDisabled [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	self deny: presenter nextButton enabled
+	self deny: presenter mvsMenuBar nextButton enabled
 ]
 
 { #category : #testing }
 MVSNavigationTest >> testWithEmptyHistoryHasPreviousButtonDisabled [
 	| presenter |
 	presenter := MVSMainPresenter withElements: #(0 1 2 3 4).
-	self deny: presenter previousButton enabled
+	self deny: presenter mvsMenuBar previousButton enabled
 ]
