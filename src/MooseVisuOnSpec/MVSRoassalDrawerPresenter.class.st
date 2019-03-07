@@ -9,8 +9,7 @@ Class {
 	#superclass : #RoassalModel,
 	#instVars : [
 		'elements',
-		'selected',
-		'name'
+		'selected'
 	],
 	#category : #'MooseVisuOnSpec-VisualPresenters'
 }
@@ -42,7 +41,7 @@ MVSRoassalDrawerPresenter >> extent [
 	^ 800 @ 800
 ]
 
-{ #category : #api }
+{ #category : #initialization }
 MVSRoassalDrawerPresenter >> initialize [
 	super initialize.
 	self script: [ :view :canvas | self drawOnRoassalView: view ]

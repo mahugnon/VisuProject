@@ -36,7 +36,7 @@ MVSSourceTextPresenter >> sourceText [
 	^ sourceText
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 MVSSourceTextPresenter >> title [
 ^'Source text'
 ]

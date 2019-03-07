@@ -28,11 +28,6 @@ MVSHistory >> context: aContext [
 	context := aContext
 ]
 
-{ #category : #accessing }
-MVSHistory >> future [
-	^ future
-]
-
 { #category : #'action - testing' }
 MVSHistory >> hasNext [
 	^ future isNotEmpty 
@@ -61,11 +56,6 @@ MVSHistory >> next [
 	next := future top.
 	future pop.
 	^ next
-]
-
-{ #category : #accessing }
-MVSHistory >> past [
-	^ past
 ]
 
 { #category : #accessing }

@@ -52,11 +52,6 @@ MVSDrawerOptionsPresenter >> drawerList [
 	^ drawerList
 ]
 
-{ #category : #accessing }
-MVSDrawerOptionsPresenter >> drawerList: anObject [
-	drawerList := anObject
-]
-
 { #category : #initialization }
 MVSDrawerOptionsPresenter >> initButtonOk [
 	buttonOk := self newButton.
@@ -95,11 +90,6 @@ MVSDrawerOptionsPresenter >> initializeWidgets [
 		add: buttonOk
 ]
 
-{ #category : #accessing }
-MVSDrawerOptionsPresenter >> selectedDrawer [
-	^ selectedDrawer
-]
-
 { #category : #api }
 MVSDrawerOptionsPresenter >> title [ 
 ^'Drawing options'
@@ -108,9 +98,4 @@ MVSDrawerOptionsPresenter >> title [
 { #category : #accessing }
 MVSDrawerOptionsPresenter >> typeLabel [
 	^ typeLabel
-]
-
-{ #category : #accessing }
-MVSDrawerOptionsPresenter >> typeLabel: anObject [
-	typeLabel := anObject
 ]

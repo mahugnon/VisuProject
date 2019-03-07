@@ -30,11 +30,6 @@ MVSContext >> drawers: aCollection [
 ]
 
 { #category : #accessing }
-MVSContext >> errorListener [
-	^ errorListener
-]
-
-{ #category : #accessing }
 MVSContext >> errorListener: anObject [
 	errorListener := anObject
 ]

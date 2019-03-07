@@ -53,7 +53,7 @@ MVSErrorReportPresenter >> subscribeTo: aContext [
 	context := aContext
 ]
 
-{ #category : #subscription }
+{ #category : #'model updates' }
 MVSErrorReportPresenter >> update [
 	self logError: context mvsError
 ]

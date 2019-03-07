@@ -100,11 +100,6 @@ MVSMenuPresenter >> menuBarFor: aPresenter [
 	^ aMenu
 ]
 
-{ #category : #accessing }
-MVSMenuPresenter >> mvsHistory [
-	^ mvsHistory
-]
-
 { #category : #'model - updating' }
 MVSMenuPresenter >> navigationMenuGroup [
 	"Ugly method, but there is no easy way to access a menu group"

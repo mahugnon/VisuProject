@@ -110,11 +110,6 @@ MVSMainPresenter >> errorReporter [
 	^ errorReporter
 ]
 
-{ #category : #actions }
-MVSMainPresenter >> executeTextQueryOnCR [
-	self queryWidget whenFilterAccepted: [ self performQuery ]
-]
-
 { #category : #api }
 MVSMainPresenter >> extent [
 	^ 800 @ 650
@@ -158,11 +153,6 @@ MVSMainPresenter >> mvsMenuBar [
 { #category : #accessing }
 MVSMainPresenter >> openResultNewWindowCheckBox [
 	^ openResultNewWindowCheckBox
-]
-
-{ #category : #actions }
-MVSMainPresenter >> openResultNewWindowCheckBoxEvent [
-	
 ]
 
 { #category : #accessing }

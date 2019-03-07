@@ -16,7 +16,7 @@ MVSFAMIXClassAdapter >> drawers [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : #utilities }
 MVSFAMIXClassAdapter >> mvsContextMenu [
 	| col |
 	col := OrderedCollection new.
