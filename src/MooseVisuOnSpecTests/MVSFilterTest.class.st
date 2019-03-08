@@ -211,28 +211,27 @@ MVSFilterTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithFalseFilterWorks [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '1=2'.
 	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems isEmpty
+	self assert: presenter mooseView mooseModels  listItems isEmpty
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithIncorrectSyntaxFilterDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '{'.
 	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems size equals: self modelForTest size
+	self
+		assert: presenter mooseView mooseModels listItems size
+		equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithNonBooleanExpressionShowsError [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements:  self modelForTest.
 	presenter mvsQueryPresenter textField text: 'Object new'.
 	presenter mvsQueryPresenter type: 13.
 	self assert: presenter errorReporter message equals: 'MessageNotUnderstood: Object>>ifTrue:'
@@ -241,60 +240,63 @@ MVSFilterTest >> testMainPresenterWithNonBooleanExpressionShowsError [
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithSequenceEndingWithFalseIsEmpty [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '1+3 . false'.
-	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems isEmpty
+	presenter mvsQueryPresenter type: Character cr.
+	self assert: presenter mooseView mooseModels listItems isEmpty
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithSequenceEndingWithTrueDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '1+3 . true'.
-	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems size equals: self modelForTest size
+	presenter mvsQueryPresenter type: Character cr.
+	self
+		assert: presenter mooseView mooseModels listItems size
+		equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithSyntaxShowsErrorInErrorReporter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '}|'.
-	presenter mvsQueryPresenter type: 13.
-	self assert: presenter errorReporter message equals: 'SyntaxErrorNotification: '']'' expected'
+	presenter mvsQueryPresenter type: Character cr.
+	self
+		assert: presenter errorReporter message
+		equals: 'SyntaxErrorNotification: '']'' expected'
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithTrueFilterWorks [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
+	presenter := MVSMainPresenter withElements: self modelForTest.
 	presenter mvsQueryPresenter textField text: '1=1'.
-	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems size equals: self modelForTest size
+	presenter mvsQueryPresenter type: Character cr.
+	self
+		assert: presenter mooseView mooseModels listItems size
+		equals: self modelForTest size
 ]
 
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithWrongFilterDoesNotFilter [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
-	presenter mvsQueryPresenter textField text: 'whatever it doe snot compile'.
-	presenter mvsQueryPresenter type: 13.
-	self assert: presenter listView listItems asSet equals: self modelForTest asSet
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter textField
+		text: 'whatever it doe snot compile'.
+	presenter mvsQueryPresenter type: Character cr.
+	self
+		assert: presenter mooseView mooseModels listItems asSet
+		equals: self modelForTest asSet
 ]
 
 { #category : #tests }
 MVSFilterTest >> testOpenInNewWindowWhenOptionIsChecked [
 	| presenter numberOfOpenMainPresenterWindow|
-	presenter := MVSMainPresenter new.
+	presenter := MVSMainPresenter withElements:MooseModel root .
 	presenter openResultNewWindowCheckBox state: true.
-	presenter listView items: MooseModel root.
-	presenter listView setSelectedItem: (MooseModel root at: 1).
+	presenter mooseView mooseModels setSelectedItem: (MooseModel root at: 1).
 	numberOfOpenMainPresenterWindow := MVSMainPresenter countNumberOfSelfWindowOpen .
 	presenter simulateDoubleClick.
 	self assert: (numberOfOpenMainPresenterWindow <MVSMainPresenter countNumberOfSelfWindowOpen )

@@ -26,14 +26,6 @@ Class {
 	#category : #'MooseVisuOnSpec-Core'
 }
 
-{ #category : #'testing - interest' }
-MVSMainPresenter class >> closeOpenWindow [
-	^ self
-		allInstancesDo: [ :each | 
-			each window isNotNil
-				ifTrue: [ each window close ] ]
-]
-
 { #category : #specs }
 MVSMainPresenter class >> defaultSpec [
 	^ SpecLayout composed
