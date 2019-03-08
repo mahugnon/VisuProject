@@ -12,3 +12,9 @@ MVSMainPresenter class >> closeOpenWindow [
 MVSMainPresenter class >> countNumberOfSelfWindowOpen [
 	^ (self allInstances select: [ :each | each window notNil ]) size
 ]
+
+{ #category : #'*MooseVisuOnSpecTests' }
+MVSMainPresenter >> simulateDoubleClick [
+	self mooseView mooseModels
+		doubleClick: self mooseView mooseModels doubleClickAction
+]
