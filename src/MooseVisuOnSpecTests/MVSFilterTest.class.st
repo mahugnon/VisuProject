@@ -5,7 +5,8 @@ Class {
 	#name : #MVSFilterTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'rootCurrent'
+		'rootCurrent',
+		'testModel'
 	],
 	#category : #MooseVisuOnSpecTests
 }
@@ -21,54 +22,60 @@ MVSFilterTest >> correctQueryWithFloat [
 ]
 
 { #category : #'testing-utilities' }
-MVSFilterTest >> createTestingMSE [
-	| model importer package |
-	model := MooseModel new.
-	importer := MoosePharoImporterTask new model: model.
-	importer factory: SmalltalkCompatibilityMetamodelFactory.
-	importer
-		importingContext:
-			(MooseImportingContext new
-				mergeClassAndMetaclass;
-				importClass;
-				importPackage;
-				importInheritance;
-				yourself).
-	package := MCPackage named: 'TestMokePackage'.
-	importer addFromPackageNamed: package name;
-	 run.
-	model name: 'TestMokePackage'.
-	^ model
+MVSFilterTest >> createFamix: aClass named: aString owner: ownerBlock [
+	| fmx |
+	fmx := aClass new
+		name: aString;
+		isStub: false;
+		mooseModel: testModel;
+		yourself.
+	ownerBlock value: fmx.
+	^ fmx
 ]
 
 { #category : #'testing-utilities' }
 MVSFilterTest >> createTestingModel [
-	| maClass |
-	#('ModelClass1' 'ModelClass2' 'ModelClass3' 'ModelClass7' 'ModelClass4' 'ModelClass5' 'ModelClass6')
+	| pckg clazz mth |
+	testModel := MooseModel new
+		name: ' testmodel';
+		yourself.
+	pckg := self
+		createFamix: FAMIXPackage
+		named: 'TestMokePackage'
+		owner: [ :x |  ].
+	clazz := self
+		createFamix: FAMIXClass
+		named: 'TestClass1'
+		owner: [ :c | c parentPackage: pckg ].
+	clazz hierarchyNestingLevel: 2.
+	#('TestClass2' 'TestClass3' 'ModelClass4' 'TestClass4' 'TestClass6' 'TestClass7' 'TestClass8' 'TestClass9')
 		do: [ :each | 
-			Object
-				subclass: each
-				instanceVariableNames: ''
-				classVariableNames: ''
-				package: 'TestMokePackage' ].
-	maClass := Object
-		subclass: 'MVSTestingClass'
-		instanceVariableNames: 'inst1 inst2'
-		classVariableNames: ''
-		package: 'TestMokePackage'.
-	(RBCreateAccessorsForVariableRefactoring
-		variable: 'inst1'
-		class: maClass
-		classVariable: false) execute.
-	(RBCreateAccessorsForVariableRefactoring
-		variable: 'inst2'
-		class: maClass
-		classVariable: false) execute.
-	maClass
-		subclass: 'MVSSubTestingClass'
-		instanceVariableNames: 'inst3 inst4'
-		classVariableNames: ''
-		package: 'TestMokePackage'
+			| sub |
+			sub := self
+				createFamix: FAMIXClass
+				named: each
+				owner: [ :c | c parentPackage: pckg ].
+			self inherit: sub from: clazz ].
+	mth := self
+		createFamix: FAMIXMethod
+		named: 'testMthd1_1'
+		owner: [ :m | m parentType: clazz ].
+	clazz := testModel entityNamed: 'TestClass3'.
+	mth := self
+		createFamix: FAMIXMethod
+		named: 'testMthd3_1'
+		owner: [ :m | m parentType: clazz ].
+	MooseModel root add: testModel
+]
+
+{ #category : #'testing-utilities' }
+MVSFilterTest >> inherit: sub from: supr [
+	| inh |
+	inh := FAMIXInheritance new
+		mooseModel: testModel ;
+		yourself.
+	sub addSuperInheritance: inh.
+	supr addSubInheritance: inh
 ]
 
 { #category : #testing }
@@ -78,20 +85,18 @@ MVSFilterTest >> modelForTest [
 
 { #category : #running }
 MVSFilterTest >> setUp [
-	
 	super setUp.
-	self createTestingModel.
 	rootCurrent := MooseModel root.
-	MooseModel resetRoot.
-	MooseModel root add: self createTestingMSE
+	MooseModel resetRoot .
+	self createTestingModel
+	"MooseModel root add: rootCurrent"
 ]
 
-{ #category : #running }
+{ #category : #'testing-utilities' }
 MVSFilterTest >> tearDown [
 	MooseModel resetRoot.
 	MooseModel root addAll: rootCurrent.
 	MVSMainPresenter closeOpenWindow.
-	(MCPackage named: 'TestMokePackage') unload.
 	super tearDown
 ]
 
@@ -124,10 +129,12 @@ MVSFilterTest >> testDrillInMooseModelShowsPragmas [
 MVSFilterTest >> testExecuteCorrectFilterTextReturnsFilteredCollection [
 	"Je permet de test filtre d'une liste "
 
-	| testModel filterManager |
+	| testingModel filterManager |
 	filterManager := MVSFilterManager new.
-	testModel := self modelForTest.
-	self assert: (filterManager executeQueryWith: self correctQuery on: testModel) size equals: 1
+	testingModel := self modelForTest.
+	self
+		assert: (filterManager executeQueryWith: self correctQuery on: testingModel ) size
+		equals: 1
 ]
 
 { #category : #'testing-queryExecution' }
@@ -192,11 +199,13 @@ MVSFilterTest >> testMainPresenterWithExceptionExpressionDoesNotFilter [
 { #category : #'testing-filter-interaction' }
 MVSFilterTest >> testMainPresenterWithExceptionExpressionErrorReporterShowsError [
 	| presenter |
-	presenter := MVSMainPresenter new.
-	presenter listView items: self modelForTest.
-	presenter mvsQueryPresenter textField text: 'self error: ''test error'''.
+	presenter := MVSMainPresenter withElements: self modelForTest.
+	presenter mvsQueryPresenter textField
+		text: 'self error: ''test error'''.
 	presenter mvsQueryPresenter type: 13.
-	self assert: presenter errorReporter message equals: 'Error: test error'
+	self
+		assert: presenter errorReporter message
+		equals: 'Error: test error'
 ]
 
 { #category : #'testing-filter-interaction' }

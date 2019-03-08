@@ -46,7 +46,7 @@ MVSErrorReportPresenter >> logHolder [
 
 { #category : #accessing }
 MVSErrorReportPresenter >> message [
-	^ logHolder text
+	^ logHolder label
 ]
 
 { #category : #subscription }
