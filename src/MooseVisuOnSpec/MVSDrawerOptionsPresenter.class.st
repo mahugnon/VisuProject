@@ -32,7 +32,7 @@ MVSDrawerOptionsPresenter class >> openInContext: aContext [
 
 { #category : #specs }
 MVSDrawerOptionsPresenter class >> runMe [
-<script>
+<example>
 MVSDrawerOptionsPresenter new openWithSpec 
 ]
 

@@ -46,7 +46,7 @@ MVSMainPresenter class >> defaultSpec [
 
 { #category : #example }
 MVSMainPresenter class >> runMeWithClass [
-	<script>
+	<example>
 	| col |
 	col := OrderedCollection new.
 	col add: #put.
