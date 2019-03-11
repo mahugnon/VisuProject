@@ -51,13 +51,13 @@ MVSMooseViewPresenter >> doubleClickActionOnModel [
 MVSMooseViewPresenter >> initializePresenter [
 	mooseModels
 		handlesDoubleClick: true;
-		autoDeselect: true;
-		whenSelectedItemChanged: [ :item | 
+		"autoDeselect: true;"
+			whenSelectedItemChanged: [ :item | 
 			item isNotNil
 				ifTrue: [ context focus: item.
 					self contextMenuForMooseModel ] ];
 		doubleClickAction: [ :item | 
-		 context focus:(mooseModels listElementAt: mooseModels selectedIndex) . 
+			context focus: (mooseModels listElementAt: mooseModels selectedIndex).
 			self doubleClickActionOnModel ]
 ]
 
