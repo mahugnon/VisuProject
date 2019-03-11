@@ -17,7 +17,7 @@ MVSMenuPresenter class >> defaultSpec [
 
 { #category : #specs }
 MVSMenuPresenter class >> runMe [ 
-<script>
+<example>
 self new openWithSpec 
 ]
 

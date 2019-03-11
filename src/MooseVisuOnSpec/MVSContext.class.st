@@ -62,8 +62,7 @@ MVSContext >> history: anObject [
 { #category : #utilities }
 MVSContext >> importMSE [
 	MVSMSELoader importModel.
-	self mooseModel: MooseModel root allModels.
-	
+	^ self mooseModel: MooseModel root allModels
 ]
 
 { #category : #utilities }

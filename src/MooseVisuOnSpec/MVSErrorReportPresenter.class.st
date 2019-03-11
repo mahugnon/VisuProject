@@ -16,7 +16,7 @@ MVSErrorReportPresenter class >> defaultSpec [
 
 { #category : #specs }
 MVSErrorReportPresenter class >> show [
-	<script>
+	<example>
 	self new openWithSpec
 ]
 
