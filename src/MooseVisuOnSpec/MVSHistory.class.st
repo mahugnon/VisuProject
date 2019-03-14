@@ -83,12 +83,6 @@ MVSHistory >> subscribeToContext: aContext [
 	aContext history: self
 ]
 
-{ #category : #initialization }
-MVSHistory >> unSubscribeToContext [
-	context removeListener: self.
-	context := nil
-]
-
 { #category : #adding }
 MVSHistory >> updateFuture [
 	future push: context mooseModel

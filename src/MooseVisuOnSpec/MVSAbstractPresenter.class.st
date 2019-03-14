@@ -23,12 +23,6 @@ MVSAbstractPresenter >> subscribeToContext: aContext [
 context := aContext.
 ]
 
-{ #category : #initialization }
-MVSAbstractPresenter >> unSubscribeToContext [
-	context removeListener: self.
-	context := nil
-]
-
 { #category : #'model updates' }
 MVSAbstractPresenter >> update [
 	
