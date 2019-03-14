@@ -10,7 +10,7 @@ Class {
 		'future',
 		'context'
 	],
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-MenuBar'
 }
 
 { #category : #'initailize-release' }
