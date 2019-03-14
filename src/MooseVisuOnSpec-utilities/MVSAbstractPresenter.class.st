@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'context'
 	],
-	#category : #'MooseVisuOnSpec-MenuBar'
+	#category : #'MooseVisuOnSpec-utilities'
 }
 
 { #category : #accessing }

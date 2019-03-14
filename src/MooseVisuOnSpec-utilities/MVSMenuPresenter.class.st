@@ -5,7 +5,7 @@ Class {
 		'menu',
 		'mvsHistory'
 	],
-	#category : #'MooseVisuOnSpec-MenuBar'
+	#category : #'MooseVisuOnSpec-utilities'
 }
 
 { #category : #specs }

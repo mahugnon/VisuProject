@@ -25,16 +25,16 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 			spec
 				package: 'MooseVisuOnSpecTests';
 				package: 'MooseVisuOnSpecModelLoader';
-				package: 'MooseVisuOnSpec-MenuBar';
+				package: 'MooseVisuOnSpec-utilities';
 				package: 'MooseVisuOnSpec'
 					with: [ spec
 						requires:
-							#('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-MenuBar')	"'Moose'" ] ].
+							#('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-utilities')	"'Moose'" ] ].
 	"Groups"
 	spec
 		group: 'default' with: #('MooseVisuOnSpec');
 		group: 'mvsLoader' with: #('MooseVisuOnSpecModelLoader');
-		group: 'menuAndHistory' with: #('MooseVisuOnSpec-MenuBar')
+		group: 'MooseVisuOnSpec-utilities' with: #('MooseVisuOnSpec-utilities')
 ]
 
 { #category : #baselines }
