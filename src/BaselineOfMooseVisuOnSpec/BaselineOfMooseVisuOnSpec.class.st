@@ -34,7 +34,7 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 	spec
 		group: 'default' with: #('MooseVisuOnSpec');
 		group: 'mvsLoader' with: #('MooseVisuOnSpecModelLoader');
-		group: 'MooseVisuOnSpec-utilities' with: #('MooseVisuOnSpec-utilities')
+		group: 'utilities' with: #('MooseVisuOnSpec-utilities')
 ]
 
 { #category : #baselines }
