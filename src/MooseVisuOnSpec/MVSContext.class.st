@@ -138,14 +138,6 @@ MVSContext >> notifyError [
  errorListener update
 ]
 
-{ #category : #adding }
-MVSContext >> removeListener: aListener [
-	listeners ifEmpty: [ ^ self ].
-	(listeners includes: aListener)
-		ifTrue: [ listeners remove: aListener ].
-	^ listeners
-]
-
 { #category : #'api-events' }
 MVSContext >> whenDrillDown: aModel [
 	history updatePast.

@@ -10,7 +10,7 @@ Class {
 		'future',
 		'context'
 	],
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-utilities'
 }
 
 { #category : #'initailize-release' }
@@ -81,12 +81,6 @@ MVSHistory >> previous [
 MVSHistory >> subscribeToContext: aContext [
 	context := aContext.
 	aContext history: self
-]
-
-{ #category : #initialization }
-MVSHistory >> unSubscribeToContext [
-	context removeListener: self.
-	context := nil
 ]
 
 { #category : #adding }

@@ -5,7 +5,7 @@ Class {
 		'menu',
 		'mvsHistory'
 	],
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-utilities'
 }
 
 { #category : #specs }
@@ -26,12 +26,12 @@ MVSMenuPresenter >> enableNavigationButtonAt: anIndex withValue: aBoolean [
 	"If the widget does not exist, we will modify the spec objects"
 
 	| navigationMenuGroup buttonMorph |
-	navigationMenuGroup := menu menuGroups second.
+	navigationMenuGroup := self getNavButtons .
 	buttonMorph := navigationMenuGroup menuItems at: anIndex.
 	buttonMorph enabled: aBoolean.
 	self widget
 		ifNotNil: [ | dockingBarMorph |
-			dockingBarMorph := self widget widget submorphs first .
+			dockingBarMorph := self widget widget submorphs first.
 			((dockingBarMorph submorphs last: 2) at: anIndex) enabled: aBoolean ]
 ]
 
@@ -43,6 +43,11 @@ MVSMenuPresenter >> enableNextButton: aBoolean [
 { #category : #'model - updating' }
 MVSMenuPresenter >> enablePreviousButton: aBoolean [
 	self enableNavigationButtonAt: 1 withValue: aBoolean
+]
+
+{ #category : #initialization }
+MVSMenuPresenter >> getNavButtons [
+	^ menu menuGroups second
 ]
 
 { #category : #initialization }
@@ -173,6 +178,6 @@ self updateNavigationButtons
 
 { #category : #'model - updating' }
 MVSMenuPresenter >> updateNavigationButtons [
-	self enableNextButton: mvsHistory  hasNext.
-	self enablePreviousButton: mvsHistory  hasPast
+	self enableNextButton: mvsHistory hasNext.
+	self enablePreviousButton: mvsHistory hasPast
 ]

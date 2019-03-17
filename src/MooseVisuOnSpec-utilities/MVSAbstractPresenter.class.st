@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'context'
 	],
-	#category : #'MooseVisuOnSpec-Core'
+	#category : #'MooseVisuOnSpec-utilities'
 }
 
 { #category : #accessing }
@@ -21,12 +21,6 @@ MVSAbstractPresenter >> context: anObject [
 MVSAbstractPresenter >> subscribeToContext: aContext [
 	aContext addListener: self.
 context := aContext.
-]
-
-{ #category : #initialization }
-MVSAbstractPresenter >> unSubscribeToContext [
-	context removeListener: self.
-	context := nil
 ]
 
 { #category : #'model updates' }
