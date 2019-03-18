@@ -25,9 +25,8 @@ self new openWithSpec
 MVSMenuPresenter >> enableNavigationButtonAt: anIndex withValue: aBoolean [
 	"If the widget does not exist, we will modify the spec objects"
 
-	| navigationMenuGroup buttonMorph |
-	navigationMenuGroup := self getNavButtons .
-	buttonMorph := navigationMenuGroup menuItems at: anIndex.
+	| buttonMorph |
+	buttonMorph := self getNavButtons menuItems at: anIndex.
 	buttonMorph enabled: aBoolean.
 	self widget
 		ifNotNil: [ | dockingBarMorph |
