@@ -64,7 +64,9 @@ BaselineOfMooseVisuOnSpec >> baselineForRoassal2Spec: spec [
 
 { #category : #accessing }
 BaselineOfMooseVisuOnSpec >> customProjectAttributes [
-    self class environment at: #MooseEntity ifAbsent: [ ^ #(#WithoutMoose) ]
+	^ self class environment
+		at: #MooseEntity
+		ifAbsent: [ #(#WithoutMoose) ]
 ]
 
 { #category : #baselines }
