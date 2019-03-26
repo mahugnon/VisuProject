@@ -18,8 +18,6 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 			spec postLoadDoIt: #postload:package:.
 			"Dependencies"
 			self baselineForRoassal2Spec: spec.
-			"self baselineForMoose: spec."
-
 
 			"Packages "
 			spec
@@ -28,8 +26,17 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 				package: 'MooseVisuOnSpec-utilities';
 				package: 'MooseVisuOnSpec'
 					with: [ spec
+						requires: #('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-utilities') ] ].
+	spec
+		for: #WithoutMoose
+		do: [ "Dependencies"
+			self baselineForMoose: spec.
+			"Packages "
+			spec
+				package: 'MooseVisuOnSpec'
+				with: [ spec
 						requires:
-							#('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-utilities')	"'Moose'" ] ].
+							#('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-utilities' 'Moose') ] ].
 	"Groups"
 	spec
 		group: 'default' with: #('MooseVisuOnSpec');
@@ -53,6 +60,11 @@ BaselineOfMooseVisuOnSpec >> baselineForRoassal2Spec: spec [
 				versionString: '1.21-baseline';
 				loads: #('NoGlamour');
 				repository: 'http://smalltalkhub.com/mc/ObjectProfile/Roassal2/main/' ]
+]
+
+{ #category : #accessing }
+BaselineOfMooseVisuOnSpec >> customProjectAttributes [
+    self class environment at: #MooseEntity ifAbsent: [ ^ #(#WithoutMoose) ]
 ]
 
 { #category : #baselines }
