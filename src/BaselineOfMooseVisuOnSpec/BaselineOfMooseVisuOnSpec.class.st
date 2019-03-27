@@ -21,10 +21,11 @@ BaselineOfMooseVisuOnSpec >> baseline: spec [
 
 			"Packages "
 			spec
-				package: 'MooseVisuOnSpecTests';
+				
 				package: 'MooseVisuOnSpecModelLoader';
 				package: 'MooseVisuOnSpec-utilities';
-				package: 'MooseVisuOnSpec'
+				package: 'MooseVisuOnSpec';
+				package: 'MooseVisuOnSpecTests'
 					with: [ spec
 						requires: #('Roassal2' 'MooseVisuOnSpecModelLoader' 'MooseVisuOnSpec-utilities') ] ].
 	spec
