@@ -26,6 +26,19 @@ Class {
 	#category : #'MooseVisuOnSpec-Core'
 }
 
+{ #category : #'testing-utilities' }
+MVSMainPresenter class >> closeOpenWindow [
+	^ self
+		allInstancesDo: [ :each | 
+			each window isNotNil
+				ifTrue: [ each window close ] ]
+]
+
+{ #category : #'testing-utilities' }
+MVSMainPresenter class >> countNumberOfSelfWindowOpen [
+	^ (self allInstances select: [ :each | each window notNil ]) size
+]
+
 { #category : #specs }
 MVSMainPresenter class >> defaultSpec [
 	^ SpecLayout composed
