@@ -3,8 +3,7 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'MooseVisuOnSpec',
-      #directory : 'src',
-      #platforms : [ #pharo ]
+      #directory : 'src'
     }
   ],
   #testing : {
