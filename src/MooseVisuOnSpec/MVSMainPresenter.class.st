@@ -173,6 +173,12 @@ MVSMainPresenter >> openResultNewWindowCheckBox [
 	^ openResultNewWindowCheckBox
 ]
 
+{ #category : #'as yet unclassified' }
+MVSMainPresenter >> simulateDoubleClick [
+	self mooseView mooseModels
+		doubleClick: self mooseView mooseModels doubleClickAction
+]
+
 { #category : #api }
 MVSMainPresenter >> title [ 
 ^'Visualization'.
