@@ -44,3 +44,8 @@ MVSOpenInNewWindowOptionPresenter >> option [
 MVSOpenInNewWindowOptionPresenter >> state [
 	^ option state
 ]
+
+{ #category : #'as yet unclassified' }
+MVSOpenInNewWindowOptionPresenter >> state: aBoolean [
+	option state: aBoolean
+]
