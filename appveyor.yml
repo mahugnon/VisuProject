@@ -7,8 +7,6 @@ environment:
   SCI_RUN: /cygdrive/c/smalltalkCI-master/run.sh
   matrix:
     - SMALLTALK: Pharo-7.0
-    - SMALLTALK: Pharo-6.1
-
 branches:
   only:
     - never-build-branch-automatically    
