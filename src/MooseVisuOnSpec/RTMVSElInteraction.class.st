@@ -1,5 +1,8 @@
 "
-I define the interaction when mouse click on a drawePresenter element
+I define the interaction when mouse click on a drawePresenter element.
+
+Example:
+When clicked on a Famix Class I display all its properties
 "
 Class {
 	#name : #RTMVSElInteraction,
